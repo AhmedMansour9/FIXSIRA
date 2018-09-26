@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">فكسيرا</string>
+    <string name="chooserservice">أختار الخدمة</string>
+
+    <string name="signup">انشاء حساب</string>
+    <string name="fullname">الاسم كامل</string>
+    <string name="email">البريد الالكتروني </string>
+    <string name="password">الرقم السري</string>
+    <string name="create">انشاء حسابك </string>
+    <string name="signin">تسجيل دخول </string>
+    <string name="welcome">مرحبا</string>
+    <string name="chooselanguage">اختار اللغة </string>
+    <string name="textsignin">استمر الي تسجيل دخول</string>
+    <string name="arabic">عربي </string>
+    <string name="english">انجليزي</string>
+    <string name="Profile">الصفحة الشخصية</string>
+    <string name="menu">لقائمة</string>
+    <string name="cart">التسوق</string>
+    <string name="setting">الضبط</string>
+    <string name="internet">رجاء الاتصال بالانترنت</string>
+    <string name="invalidemail">البريد الالكتروني خطأ</string>
+    <string name="insertemail">ادخل البريد الالكتروني </string>
+    <string name="insertpassword">ادخل الرقم السري </string>
+</resources>

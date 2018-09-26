@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Fixera</string>
+    <string name="chooserservice">CHOOSE SERVICE</string>
+
+    <string name="signup">SIGN UP</string>
+    <string name="signin">SIGN IN</string>
+    <string name="chooselanguage">CHOOSE LANGUAGE </string>
+    <string name="fullname"> Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="welcome">WELCOME</string>
+    <string name="textsignin">SIGN IN TO CONTINUE</string>
+    <string name="create">CREATE NEW ACCOUNT</string>
+    <string name="arabic">ARABIC</string>
+    <string name="english">ENGLISH</string>
+    <string name="Profile">Profile</string>
+    <string name="menu">Home</string>
+    <string name="cart">Cart</string>
+    <string name="setting">Setting</string>
+    <string name="internet">Turn on Internet</string>
+    <string name="invalidemail">Invalid Email</string>
+    <string name="insertemail">please insert Mail</string>
+    <string name="insertpassword">please insert Password</string>
+</resources>
