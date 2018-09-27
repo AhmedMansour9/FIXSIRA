@@ -22,4 +22,25 @@
     <string name="invalidemail">البريد الالكتروني خطأ</string>
     <string name="insertemail">ادخل البريد الالكتروني </string>
     <string name="insertpassword">ادخل الرقم السري </string>
+    <string name="firstname">الاسم الاول</string>
+    <string name="lastname">الاسم الاخير</string>
+    <string name="Phone">رقم التليفون</string>
+    <string name="insertfirstname">ادخل الاسم الاول</string>
+    <string name="insertlastname">ادخل الاسم الاخير</string>
+    <string name="insertphone">ادخل رقم الموبايل</string>
+    <string name="Successfull">تم تسجيل الدخول بنجاح </string>
+    <string name="emailfailed">المستخدم موجود بالفعل</string>
+    <string name="arrival">وقت الوصول</string>
+    <string name="price">السعر </string>
+    <string name="CallDriver">اطلب السائق</string>
+    <string name="sendmessage">ارسل رسالة </string>
+    <string name="callnow">اطلب الان</string>
+    <string name="details">التفاصيل </string>
+    <string name="openplace">موعد البداية</string>
+    <string name="closeplace">موعد الغلق </string>
+    <string name="callPlace">اطلب المكان</string>
+    <string name="Booknow">احجز الان</string>
+    <string name="aboutus">من نحن </string>
+    <string name="service">خدمات</string>
+
 </resources>

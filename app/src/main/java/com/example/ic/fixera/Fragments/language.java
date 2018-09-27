@@ -34,36 +34,34 @@ public class language extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflater.inflate(R.layout.fragment_language, container, false);
+        view=inflater.inflate(R.layout.fragment_language, container, false);
+        shared=getActivity().getSharedPreferences("Language",MODE_PRIVATE);
         String Lan=shared.getString("Lann",null);
         share=getActivity().getSharedPreferences("Language",MODE_PRIVATE).edit();
         if(Lan!=null){
-            startActivity(new Intent(getActivity(),MainActivity.class));
-            getActivity().finish();
+            getFragmentManager().beginTransaction().replace(R.id.flContent,new Login()).commit();
         }
-        btn_Arabic.findViewById(R.id.btn_Arabic);
+        btn_Arabic=view.findViewById(R.id.btn_Arabic);
         btn_English=view.findViewById(R.id.btn_English);
 
         btn_Arabic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent y=new Intent(getActivity(),MainActivity.class);
+
                 share.putString("Lann","ar");
                 share.commit();
-                startActivity(y);
-                getActivity().finish();
+                getFragmentManager().beginTransaction().replace(R.id.flContent,new Login()).commit();
+
             }
         });
 
         btn_English.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent y=new Intent(getActivity(),MainActivity.class);
+
                 share.putString("Lann","en");
                 share.commit();
-                startActivity(y);
-                getActivity().finish();
-
+                getFragmentManager().beginTransaction().replace(R.id.flContent,new Login()).commit();
             }
         });
 

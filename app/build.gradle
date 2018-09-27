@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation 'com.hendiware.utils:futils:1.6.91'
-
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile 'com.android.support:support-annotations:27.1.1'
@@ -35,4 +35,11 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
     implementation files('libs/SharedPrefsManager.jar')
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.google.android.gms:play-services-maps:11.8.0'
+    compile 'com.google.android.gms:play-services-location:11.8.0'
+
+
 }

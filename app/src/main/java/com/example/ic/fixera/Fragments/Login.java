@@ -14,8 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ic.fixera.Presenter.LoginPresenter;
 import com.example.ic.fixera.R;
 import com.example.ic.fixera.Model.UserRegister;
+import com.example.ic.fixera.View.LoginView;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -24,7 +26,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Login extends Fragment {
+public class Login extends Fragment implements LoginView {
 
 
     public Login() {
@@ -38,12 +40,14 @@ public class Login extends Fragment {
     NetworikConntection Network;
     ProgressBar progressBar;
     String email;
+    LoginPresenter logiin;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_login, container, false);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE).edit();
+        logiin=new LoginPresenter(getActivity(),this);
         progressBar=view.findViewById(R.id.progressBarlogin);
         Network=new NetworikConntection(getContext());
         Sign_IN=view.findViewById(R.id.Sign_IN);
@@ -75,7 +79,7 @@ public class Login extends Fragment {
                         user.setPassword(E_Password.getText().toString());
                         progressBar.setVisibility(View.VISIBLE);
                         email=E_Email.getText().toString();
-//                        logiin.Login(user);
+                        logiin.Login(user);
                     }
                 }else {
                     Toast.makeText(getContext(),getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
@@ -110,5 +114,17 @@ public class Login extends Fragment {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    @Override
+    public void openMain(String a) {
+        Shared.putString("logggin",a);
+        Shared.apply();
+        progressBar.setVisibility(View.GONE);
+        getFragmentManager().beginTransaction().replace(R.id.flContent,new TabsLayouts()).commit();
+    }
+
+    @Override
+    public void showError(String error) {
+        progressBar.setVisibility(View.GONE);
+    }
 }
 

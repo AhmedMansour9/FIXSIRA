@@ -5,8 +5,10 @@
     <string name="signup">SIGN UP</string>
     <string name="signin">SIGN IN</string>
     <string name="chooselanguage">CHOOSE LANGUAGE </string>
-    <string name="fullname"> Name</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
     <string name="email">Email</string>
+    <string name="Phone">Mobile Number</string>
     <string name="password">Password</string>
     <string name="welcome">WELCOME</string>
     <string name="textsignin">SIGN IN TO CONTINUE</string>
@@ -21,4 +23,23 @@
     <string name="invalidemail">Invalid Email</string>
     <string name="insertemail">please insert Mail</string>
     <string name="insertpassword">please insert Password</string>
+    <string name="insertfirstname">please insert First Name</string>
+    <string name="insertlastname">please insert Last Name</string>
+    <string name="insertphone">please insert Phone</string>
+    <string name="Successfull">Registered Successfully</string>
+    <string name="emailfailed">Email is Used</string>
+    <string name="arrival">Arrival Time</string>
+    <string name="price">Price</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="CallDriver">Call Driver</string>
+    <string name="sendmessage">Send Message</string>
+    <string name="callnow">Call Now</string>
+    <string name="callPlace">Call Place</string>
+    <string name="details">Details</string>
+    <string name="openplace">Open Time</string>
+    <string name="closeplace">Close Time</string>
+    <string name="Booknow">Book Now</string>
+    <string name="aboutus">About Us</string>
+    <string name="service">Services</string>
 </resources>
