@@ -31,12 +31,12 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <ImageView
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_90sdp"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_70sdp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/toolbar"
         android:id="@+id/logo"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:src="@drawable/logo"
         />
     <TextView
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="@string/welcome"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/_20sdp"
+        android:textSize="@dimen/_18sdp"
         android:textColor="#fff"
         android:id="@+id/textwelcome"
         android:layout_below="@+id/logo"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="@string/textsignin"
         android:layout_centerInParent="true"
-        android:textSize="@dimen/_16sdp"
+        android:textSize="@dimen/_14sdp"
         android:textColor="#fff"
         android:id="@+id/textsignin"
         android:layout_below="@+id/textwelcome"
@@ -64,7 +64,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
         android:layout_below="@+id/textsignin"
@@ -93,7 +93,35 @@
         android:textSize="@dimen/_20sdp"
         android:id="@+id/Sign_IN"
         />
-
+    <RelativeLayout
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Sign_IN"
+        android:id="@+id/Relat"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_20sdp">
+    <ImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/facebook"
+        android:id="@+id/loginfac"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/Or"
+        android:textSize="@dimen/_20sdp"
+        />
+    <ImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/google"
+        android:id="@+id/google"
+        android:layout_alignParentRight="true"
+        />
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +130,7 @@
         android:textSize="@dimen/_13sdp"
         android:textColor="#fff"
         android:id="@+id/textsignup"
-        android:layout_below="@+id/Sign_IN"
+        android:layout_below="@+id/Relat"
         android:layout_marginTop="@dimen/_10sdp"
         />
 </RelativeLayout>

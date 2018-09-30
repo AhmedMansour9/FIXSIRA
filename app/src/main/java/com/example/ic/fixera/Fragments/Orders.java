@@ -12,10 +12,10 @@ import com.example.ic.fixera.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Setting extends Fragment {
+public class Orders extends Fragment {
 
 
-    public Setting() {
+    public Orders() {
         // Required empty public constructor
     }
 

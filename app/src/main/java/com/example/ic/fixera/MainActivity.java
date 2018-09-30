@@ -2,6 +2,7 @@ package com.example.ic.fixera;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -24,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new language()).commit();
         }
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+        fragment.onActivityResult(requestCode, resultCode, data);
 
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

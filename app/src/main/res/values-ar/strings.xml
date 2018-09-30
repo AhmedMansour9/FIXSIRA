@@ -42,5 +42,10 @@
     <string name="Booknow">احجز الان</string>
     <string name="aboutus">من نحن </string>
     <string name="service">خدمات</string>
+    <string name="Or">أو</string>
+    <string name="reserve">أحجز</string>
+    <string name="search">النوع</string>
+    <string name="Add">أضافة </string>
+    <string name="searchmodel">موديل</string>
 
 </resources>

@@ -89,7 +89,7 @@ public class TabsLayouts extends Fragment {
 
             adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
             adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
-            adapter.addFrag(new Setting(), getResources().getString(R.string.setting));
+            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
 
 
 
@@ -99,7 +99,7 @@ public class TabsLayouts extends Fragment {
             adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
             adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
             adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
-            adapter.addFrag(new Setting(), getResources().getString(R.string.setting));
+            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
 
         }
         viewPager.setAdapter(adapter);

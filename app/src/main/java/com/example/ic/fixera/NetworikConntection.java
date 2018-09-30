@@ -1,4 +1,4 @@
-package com.example.ic.fixera.Fragments;
+package com.example.ic.fixera;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

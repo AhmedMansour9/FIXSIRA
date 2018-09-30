@@ -30,6 +30,11 @@
     <string name="emailfailed">Email is Used</string>
     <string name="arrival">Arrival Time</string>
     <string name="price">Price</string>
+    <string name="Or">OR</string>
+    <string name="Add">Add</string>
+    <string name="reserve">Reserve</string>
+    <string name="search"> Tybe</string>
+    <string name="searchmodel">Model</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="CallDriver">Call Driver</string>
