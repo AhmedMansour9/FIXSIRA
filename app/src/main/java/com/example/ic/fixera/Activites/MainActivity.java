@@ -1,4 +1,4 @@
-package com.example.ic.fixera;
+package com.example.ic.fixera.Activites;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.ic.fixera.Fragments.Login;
 import com.example.ic.fixera.Fragments.TabsLayouts;
 import com.example.ic.fixera.Fragments.language;
+import com.example.ic.fixera.R;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sha;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/splash"
     android:layout_height="match_parent"
-    tools:context="com.example.ic.fixera.Splash">
+    tools:context="com.example.ic.fixera.Activites.Splash">
 
     <ImageView
         android:layout_width="@dimen/_120sdp"

@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e6e6e6">
+    <fragment
+        android:id="@+id/MAP"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        />
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"

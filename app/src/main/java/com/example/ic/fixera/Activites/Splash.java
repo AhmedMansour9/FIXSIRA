@@ -1,13 +1,11 @@
-package com.example.ic.fixera;
+package com.example.ic.fixera.Activites;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.example.ic.fixera.Fragments.language;
+import com.example.ic.fixera.R;
 
 public class Splash extends AppCompatActivity {
 
