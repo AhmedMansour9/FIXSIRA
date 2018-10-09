@@ -44,9 +44,9 @@
     <string name="service">خدمات</string>
     <string name="Or">أو</string>
     <string name="reserve">أحجز</string>
-    <string name="search">النوع</string>
+    <string name="search">ابحث </string>
     <string name="Add">أضافة </string>
     <string name="searchmodel">موديل</string>
     <string name="facebook_app_id">299057070917866</string>
-
+    <string name="spare">قطع غيار </string>
 </resources>

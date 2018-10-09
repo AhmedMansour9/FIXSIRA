@@ -24,6 +24,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ic.fixera.Language;
@@ -64,16 +66,19 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
     GoogleApiClient mGoogleApiClient;
     Location lastlocation;
     LocationRequest locationReques;
+    public static TextView T_Service;
     public TabsLayouts() {
         // Required empty public constructor
     }
 
     View view;
-
+    public static ImageView banner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tabs_layouts, container, false);
+        T_Service=view.findViewById(R.id.T_Service);
+        banner=view.findViewById(R.id.banner);
         // Inflate the layout for this fragment
         toolbar = view.findViewById(R.id.toolbar);
         viewPager = view.findViewById(R.id.viewpager);
@@ -183,7 +188,6 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
         switch (requestCode) {
             case REQUEST_LOCATION_CODE:
                 switch (resultCode) {

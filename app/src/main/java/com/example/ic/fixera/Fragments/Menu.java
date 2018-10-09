@@ -27,7 +27,8 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_menu, container, false);
         Image_Sparts=view.findViewById(R.id.Image_Sparts);
-      Open_Sparts();
+        TabsLayouts.T_Service.setText(getResources().getString(R.string.chooserservice));
+        Open_Sparts();
 
 
         return view;
@@ -37,7 +38,7 @@ public class Menu extends Fragment {
         Image_Sparts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.flContent,new SparParts()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.MenuFrame,new SparParts()).addToBackStack(null).commit();
             }
         });
     }

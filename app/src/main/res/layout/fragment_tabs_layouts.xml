@@ -27,6 +27,7 @@
                 android:text="@string/chooserservice"
                 android:layout_centerInParent="true"
                 android:textStyle="bold"
+                android:id="@+id/T_Service"
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
