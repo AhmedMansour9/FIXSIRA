@@ -1,4 +1,4 @@
-package com.example.ic.fixera.Fragments;
+package com.example.ic.fixera.Activites;
 
 
 import android.Manifest;
@@ -20,44 +20,41 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.ic.fixera.Fragments.Cart;
+import com.example.ic.fixera.Fragments.Menu;
+import com.example.ic.fixera.Fragments.Orders;
+import com.example.ic.fixera.Fragments.Profile;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
-    double latitude, longitude;
+    public static double latitude, longitude=0;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -67,25 +64,28 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
     Location lastlocation;
     LocationRequest locationReques;
     public static TextView T_Service;
+    TextView textcounter;
     public TabsLayouts() {
         // Required empty public constructor
     }
 
     View view;
     public static ImageView banner;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tabs_layouts, container, false);
-        T_Service=view.findViewById(R.id.T_Service);
-        banner=view.findViewById(R.id.banner);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_tabs_layouts);
+        T_Service=findViewById(R.id.T_Service);
+        banner=findViewById(R.id.banner);
         // Inflate the layout for this fragment
-        toolbar = view.findViewById(R.id.toolbar);
-        viewPager = view.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        toolbar = findViewById(R.id.toolbar);
+        viewPager =findViewById(R.id.viewpager);
+        tabLayout =findViewById(R.id.tabs);
+//        textcounter=view.findViewById(R.id.T_Cartshop);
+
+       setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
-        setupTabIcons();
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -94,12 +94,12 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
         }
 
         checkLocationPermission();
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.MAP);
         mapFragment.getMapAsync(this);
 
         checkLocationPermission();
-
+        setupTabIcons();
         if(Language.isRTL()){
             tabLayout.getTabAt(2).select();
         }else {
@@ -108,31 +108,28 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
-
-
-
-        return view;
     }
+
     public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                new android.app.AlertDialog.Builder(getActivity())
+                new android.app.AlertDialog.Builder(this)
                         .setTitle("info")
                         .setMessage("Enable gbs")
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
+                                ActivityCompat.requestPermissions(TabsLayouts.this,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         REQUEST_LOCATION_CODE);
                             }
@@ -143,7 +140,7 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
 
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
+                ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_LOCATION_CODE);
             }
@@ -170,12 +167,13 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
         }
     }
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(Language.isRTL()){
-            adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
             adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
             adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
             adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
+            adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
+
         }else {
             adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
             adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
@@ -193,7 +191,7 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         buildGoogleapiclint();
-                        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
                         googleMap.setMyLocationEnabled(true);
@@ -214,20 +212,20 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
         locationReques.setSmallestDisplacement(10);
         locationReques.setFastestInterval(10000);
         locationReques.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationReques, this);
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                     .addLocationRequest(locationReques);
-            SettingsClient client = LocationServices.getSettingsClient(getActivity());
+            SettingsClient client = LocationServices.getSettingsClient(this);
             Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-            task.addOnFailureListener(getActivity(), new OnFailureListener() {
+            task.addOnFailureListener(this, new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     if (e instanceof ResolvableApiException) {
                         try {
                             ResolvableApiException resolvable = (ResolvableApiException) e;
-                            resolvable.startResolutionForResult(getActivity(),
+                            resolvable.startResolutionForResult(TabsLayouts.this,
                                     REQUEST_LOCATION_CODE);
                         } catch (IntentSender.SendIntentException sendEx) {
                         }
@@ -235,7 +233,7 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
                 }
             });
         }
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
 
     }
@@ -250,7 +248,7 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
 
     }
     private synchronized void buildGoogleapiclint() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -267,7 +265,7 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
     @Override
     public void onMapReady(GoogleMap googleMaps) {
         googleMap = googleMaps;
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         buildGoogleapiclint();
@@ -323,6 +321,19 @@ public class TabsLayouts extends Fragment implements OnMapReadyCallback, com.goo
             }
 
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        finish();
+
     }
 }
 

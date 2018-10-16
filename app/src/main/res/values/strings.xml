@@ -7,7 +7,7 @@
     <string name="chooselanguage">CHOOSE LANGUAGE </string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
-    <string name="email">Email</string>
+    <string name="email">Email : </string>
     <string name="Phone">Mobile Number</string>
     <string name="password">Password</string>
     <string name="welcome">WELCOME</string>
@@ -18,7 +18,7 @@
     <string name="Profile">Profile</string>
     <string name="menu">Home</string>
     <string name="cart">Cart</string>
-    <string name="setting">Setting</string>
+    <string name="setting">Order</string>
     <string name="internet">Turn on Internet</string>
     <string name="invalidemail">Invalid Email</string>
     <string name="insertemail">please insert Mail</string>
@@ -49,4 +49,22 @@
     <string name="service">Services</string>
     <string name="facebook_app_id">299057070917866</string>
     <string name="spare">Spare Part</string>
+    <string name="Descrption">Discrption</string>
+    <string name="addcart">Add to Cart</string>
+    <string name="cartsuccesfull">The product has been added To Cart</string>
+    <string name="reservee">Reserve</string>
+    <string name="servicerequest">Order Now</string>
+    <string name="carName">Car Name</string>
+    <string name="carmodel">Car Model</string>
+    <string name="year">Car Year</string>
+    <string name="date">Date</string>
+    <string name="thanks">Thanks For Your Order</string>
+    <string name="orderid">Order id</string>
+    <string name="skip">Skip</string>
+    <string name="turnon">Turn On Your Gbs</string>
+    <string name="name">Name : </string>
+    <string name="products">Products</string>
+    <string name="submit">Review</string>
+    <string name="carname">Car Name</string>
+     <string name="status">Status</string>
 </resources>

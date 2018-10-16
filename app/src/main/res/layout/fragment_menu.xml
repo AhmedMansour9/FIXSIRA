@@ -1,10 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e1e1e1"
-    android:id="@+id/MenuFrame"
     tools:context="com.example.ic.fixera.Fragments.Menu">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/MenuFrame"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,13 +40,14 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_weight="1"
+            android:id="@+id/Pull_Car"
             android:src="@drawable/pullcar" />
         <ImageView
             android:layout_width="0dp"
             android:src="@drawable/carwashing"
             android:layout_height="@dimen/_130sdp"
             android:layout_marginRight="@dimen/_20sdp"
-
+           android:id="@+id/CarWashing"
             android:layout_weight="1"
 
             />
@@ -61,6 +67,7 @@
             android:layout_height="@dimen/_130sdp"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/_20sdp"
+            android:id="@+id/carmaintaince"
             android:layout_marginRight="@dimen/_20sdp"
             android:src="@drawable/carmaintaince"
             />
@@ -76,4 +83,6 @@
     </LinearLayout>
 
     </RelativeLayout>
-</FrameLayout>
+
+    </FrameLayout>
+</RelativeLayout>

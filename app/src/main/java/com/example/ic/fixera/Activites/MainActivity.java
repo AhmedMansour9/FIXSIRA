@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.ic.fixera.Fragments.Login;
-import com.example.ic.fixera.Fragments.TabsLayouts;
 import com.example.ic.fixera.Fragments.language;
 import com.example.ic.fixera.R;
 
@@ -21,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         String logi=sha.getString("logggin",null);
         if(logi!=null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new TabsLayouts()).commit();
+            startActivity(new Intent(MainActivity.this,TabsLayouts.class));
+            finish();
         }else {
             getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new language()).commit();
         }
@@ -34,5 +33,11 @@ public class MainActivity extends AppCompatActivity {
         fragment.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 }

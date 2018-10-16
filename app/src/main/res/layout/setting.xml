@@ -8,7 +8,7 @@
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_30sdp"
         android:id="@+id/setting"
-        android:src="@drawable/setting"
+        android:src="@drawable/myorder"
         android:layout_gravity="center_horizontal" />
     <TextView
         android:layout_width="wrap_content"

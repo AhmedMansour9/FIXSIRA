@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.LoginPresenter;
 import com.example.ic.fixera.Presenter.RegisterFace_Presenter;
@@ -263,7 +264,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
             public void onClick(View view) {
                 if (Network.isNetworkAvailable(getActivity())) {
 
-                    LoginManager.getInstance().logInWithReadPermissions(Login.this, Arrays.asList("email", "public_profile"));
+                    LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("email", "public_profile"));
 
                     LoginManager.getInstance().registerCallback(mCallbackManager,
                             new FacebookCallback<LoginResult>() {
@@ -281,11 +282,11 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
 
                                 @Override
                                 public void onError(FacebookException exception) {
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
                                 }
                             });
                 }else {
-                    Toast.makeText(getActivity(),getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -344,7 +345,8 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         Shared.putString("logggin",a);
         Shared.apply();
         progressBar.setVisibility(View.GONE);
-        getFragmentManager().beginTransaction().replace(R.id.flContent,new TabsLayouts()).commit();
+        startActivity(new Intent(getContext(),TabsLayouts.class));
+        getActivity().finish();
     }
 
     @Override
@@ -358,7 +360,8 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         Shared.putString("logggin",a);
         Shared.apply();
         progressBar.setVisibility(View.GONE);
-        getFragmentManager().beginTransaction().replace(R.id.flContent,new TabsLayouts()).commit();
+        startActivity(new Intent(getContext(),TabsLayouts.class));
+        getActivity().finish();
 
     }
 
@@ -373,7 +376,8 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         Shared.putString("logggin",y);
         Shared.apply();
         progressBar.setVisibility(View.GONE);
-        getFragmentManager().beginTransaction().replace(R.id.flContent,new TabsLayouts()).commit();
+        startActivity(new Intent(getContext(),TabsLayouts.class));
+        getActivity().finish();
 
     }
 
