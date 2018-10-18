@@ -60,11 +60,22 @@
     <string name="reservee">احجز</string>
     <string name="thanks">شكرا لطلبك </string>
     <string name="orderid">رقم الطلب</string>
-    <string name="skip">تخطي</string>
+    <string name="skip">انهاء</string>
     <string name="turnon">قم بفتح موقعك الجغرافي </string>
     <string name="name">الاسم:</string>
     <string name="products">المنتجات</string>
     <string name="submit">تقييم</string>
     <string name="carname">اسم السيارة</string>
     <string name="status">الحالة</string>
+    <string name="address">العنوان</string>
+    <string name="country">البلد </string>
+    <string name="city">المدينة</string>
+    <string name="company">الشركة</string>
+    <string name="fax">فاكس</string>
+    <string name="postcode">الرمز البريدي</string>
+    <string name="fullinformation">املئ البيانات </string>
+    <string name="note">ملحوظة</string>
+    <string name="curency">العملة</string>
+    <string name="revieworder">تقييم الطلب</string>
+    <string name="reviewproduct">تقييم المنتج</string>
 </resources>

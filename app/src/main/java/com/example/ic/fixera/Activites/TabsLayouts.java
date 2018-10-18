@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -25,13 +26,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ic.fixera.Fragments.Cart;
 import com.example.ic.fixera.Fragments.Menu;
 import com.example.ic.fixera.Fragments.Orders;
 import com.example.ic.fixera.Fragments.Profile;
 import com.example.ic.fixera.Language;
+import com.example.ic.fixera.Model.Couter;
+import com.example.ic.fixera.Presenter.Get_Counter_Presenter;
 import com.example.ic.fixera.R;
+import com.example.ic.fixera.View.Count_View;
+import com.example.ic.fixera.View.Counter_View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -52,7 +58,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static double latitude, longitude=0;
     private Toolbar toolbar;
@@ -65,12 +71,15 @@ public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback
     LocationRequest locationReques;
     public static TextView T_Service;
     TextView textcounter;
+    Get_Counter_Presenter counter_presenter;
     public TabsLayouts() {
         // Required empty public constructor
     }
 
     View view;
     public static ImageView banner;
+    SharedPreferences Shared;
+    String user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +91,11 @@ public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback
         toolbar = findViewById(R.id.toolbar);
         viewPager =findViewById(R.id.viewpager);
         tabLayout =findViewById(R.id.tabs);
-//        textcounter=view.findViewById(R.id.T_Cartshop);
+        View view1 = getLayoutInflater().inflate(R.layout.carticon, null);
+
+        counter_presenter=new Get_Counter_Presenter(getApplicationContext(),this);
+        Shared=getSharedPreferences("login",MODE_PRIVATE);
+        user=Shared.getString("logggin",null);
 
        setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -101,8 +114,10 @@ public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback
         checkLocationPermission();
         setupTabIcons();
         if(Language.isRTL()){
+            counter_presenter.GetCounter(user,"ar");
             tabLayout.getTabAt(2).select();
         }else {
+            counter_presenter.GetCounter(user,"en");
             tabLayout.getTabAt(1).select();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -269,6 +284,15 @@ public class TabsLayouts extends AppCompatActivity implements OnMapReadyCallback
             return;
         }
         buildGoogleapiclint();
+
+    }
+
+    @Override
+    public void Counter(String counter) {
+    }
+
+    @Override
+    public void Error() {
 
     }
 

@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.R;
@@ -65,12 +64,12 @@ public class Orders extends Fragment {
 
         if (Language.isRTL()) {
             // The view has RTL layout
-            adapter.addFragment(new MyOrders_Maintenence(), getResources().getString(R.string.service));
+            adapter.addFragment(new MyOrders_Services(), getResources().getString(R.string.service));
             adapter.addFragment(new MyOrders_Products(),getResources().getString(R.string.products));
         } else {
             // The view has LTR layout
             adapter.addFragment(new MyOrders_Products(),getResources().getString(R.string.products));
-            adapter.addFragment(new MyOrders_Maintenence(), getResources().getString(R.string.service));
+            adapter.addFragment(new MyOrders_Services(), getResources().getString(R.string.service));
 
         }
 

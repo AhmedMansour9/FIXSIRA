@@ -60,11 +60,23 @@
     <string name="date">Date</string>
     <string name="thanks">Thanks For Your Order</string>
     <string name="orderid">Order id</string>
-    <string name="skip">Skip</string>
+    <string name="skip">Finish</string>
     <string name="turnon">Turn On Your Gbs</string>
     <string name="name">Name : </string>
     <string name="products">Products</string>
     <string name="submit">Review</string>
     <string name="carname">Car Name</string>
-     <string name="status">Status</string>
+    <string name="status">Status</string>
+    <string name="address">Address</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="company">Company</string>
+    <string name="fax">Fax</string>
+    <string name="postcode">Post Code</string>
+    <string name="fullinformation">Full Information</string>
+    <string name="note">Note</string>
+    <string name="curency">Currency</string>
+    <string name="revieworder">Review Order</string>
+    <string name="reviewproduct">Review Product</string>
+
 </resources>

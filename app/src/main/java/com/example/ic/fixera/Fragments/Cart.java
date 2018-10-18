@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Adapter.Cart_Adapter;
@@ -27,6 +28,7 @@ import com.example.ic.fixera.View.Cart_View;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.ShowCart_View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -52,6 +54,10 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     AddCart_Presenter addCart;
     TextView T_Price;
     Button order;
+    Button requestorder;
+    String Price;
+    String id;
+    List<com.example.ic.fixera.Model.Cart> listss;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +65,8 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         view=inflater.inflate(R.layout.fragment_cart, container, false);
         showCart_presenter=new ShowCart_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+        listss=new ArrayList<>();
+        requestorder=view.findViewById(R.id.requestorder);
         user=Shared.getString("logggin",null);
         T_Price=view.findViewById(R.id.T_Price);
         addCart=new AddCart_Presenter(getContext(),this);
@@ -66,8 +74,29 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         order=view.findViewById(R.id.servicerequest);
         Recyclview();
         SwipRefresh();
-
+       RequestOrder();
         return view;
+    }
+    public void RequestOrder(){
+        requestorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(listss!=null) {
+                Order_Cart fragmen = new Order_Cart();
+                Bundle args = new Bundle();
+                args.putString("price", Price);
+
+                fragmen.setArguments(args);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.cartframe, fragmen)
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
+            }else {
+                Toast.makeText(getContext(), "No Products", Toast.LENGTH_SHORT).show();
+            }
+
+            }
+        });
     }
     public void Recyclview(){
         recyclerView = view.findViewById(R.id.recycler_Cart);
@@ -99,6 +128,8 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     }
     @Override
     public void ShowCart(List<com.example.ic.fixera.Model.Cart> list) {
+//            id=String.valueOf(list.get(0).getId());
+        listss=list;
         if(list!=null) {
             cart_adapter = new Cart_Adapter(list, getContext());
             cart_adapter.count(this);
@@ -110,13 +141,17 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
             mSwipeRefreshLayout.setRefreshing(false);
         }
         mSwipeRefreshLayout.setRefreshing(false);
+        requestorder.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void ShowTotalprice(String price) {
+        if(price!=null) {
+            T_Price.setVisibility(View.VISIBLE);
+            Price = price;
             T_Price.setText(price + "LE");
-            order.setVisibility(View.VISIBLE);
-
+            requestorder.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

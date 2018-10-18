@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cartframe"
     android:background="#e1e1e1"
     tools:context="com.example.ic.fixera.Fragments.PullCar">
 
@@ -28,8 +29,9 @@
          android:layout_marginLeft="@dimen/_50sdp"
          android:background="#ededed"
          android:textColor="#000"
+         android:visibility="invisible"
          android:gravity="center"
-         android:layout_above="@+id/servicerequest"
+         android:layout_above="@+id/requestorder"
          android:id="@+id/T_Price"
          />
     <Button
@@ -37,10 +39,11 @@
         android:layout_height="@dimen/_50sdp"
         android:layout_centerHorizontal="true"
         android:background="#fffd38"
-        android:id="@+id/servicerequest"
+        android:id="@+id/requestorder"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/servicerequest"
         android:textSize="@dimen/_18sdp"
+        android:visibility="invisible"
         android:textAllCaps="false"
         android:textColor="#000"
         android:layout_marginBottom="@dimen/_10sdp"
