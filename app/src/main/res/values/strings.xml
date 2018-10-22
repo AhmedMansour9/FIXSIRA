@@ -76,7 +76,10 @@
     <string name="fullinformation">Full Information</string>
     <string name="note">Note</string>
     <string name="curency">Currency</string>
-    <string name="revieworder">Review Order</string>
+    <string name="revieworder">Review Vendor</string>
     <string name="reviewproduct">Review Product</string>
-
+    <string name="language">Language</string>
+    <string name="logout">Log out</string>
+    <string name="cartybe">Car Tybe</string>
+    <string name="maintenencetybe">Service Tybe</string>
 </resources>

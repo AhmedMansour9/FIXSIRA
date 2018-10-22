@@ -76,6 +76,10 @@
     <string name="fullinformation">املئ البيانات </string>
     <string name="note">ملحوظة</string>
     <string name="curency">العملة</string>
-    <string name="revieworder">تقييم الطلب</string>
+    <string name="revieworder">تقييم البائع</string>
     <string name="reviewproduct">تقييم المنتج</string>
+    <string name="language">اللغة </string>
+    <string name="logout">تسجل خروج</string>
+    <string name="cartybe">نوع العربية </string>
+    <string name="maintenencetybe">نوع الخدمة</string>
 </resources>

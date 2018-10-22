@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cartframe"
-    android:background="#e1e1e1"
+    android:background="#f2f2f2"
     tools:context="com.example.ic.fixera.Fragments.PullCar">
 
    <RelativeLayout
@@ -12,6 +12,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Cart"
         android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/_80sdp"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
@@ -23,11 +24,10 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
      <TextView
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/_40sdp"
-         android:layout_marginRight="@dimen/_50sdp"
-         android:layout_marginLeft="@dimen/_50sdp"
+         android:layout_width="@dimen/_80sdp"
+         android:layout_height="@dimen/_30sdp"
          android:background="#ededed"
+         android:layout_centerHorizontal="true"
          android:textColor="#000"
          android:visibility="invisible"
          android:gravity="center"
@@ -35,12 +35,12 @@
          android:id="@+id/T_Price"
          />
     <Button
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_centerHorizontal="true"
         android:background="#fffd38"
         android:id="@+id/requestorder"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="@string/servicerequest"
         android:textSize="@dimen/_18sdp"
         android:visibility="invisible"

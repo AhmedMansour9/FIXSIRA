@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#e1e1e1"
     tools:context="com.example.ic.fixera.Fragments.Orders">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tas"
@@ -24,7 +22,6 @@
             android:layout_below="@+id/tas"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
-    </RelativeLayout>
 
 
-</FrameLayout>
+</RelativeLayout>

@@ -2,12 +2,15 @@ package com.example.ic.fixera.Activites;
 
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,11 +23,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +59,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,10 +86,20 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     public static ImageView banner;
     SharedPreferences Shared;
     String user;
-
+    SharedPreferences shared;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shared=getSharedPreferences("Language",MODE_PRIVATE);
+        String Lan=shared.getString("Lann",null);
+        if(Lan!=null) {
+            Locale locale = new Locale(Lan);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
         setContentView(R.layout.fragment_tabs_layouts);
         T_Service=findViewById(R.id.T_Service);
         banner=findViewById(R.id.banner);
@@ -123,8 +139,33 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
-    }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+//                switch(tab.getPosition()) {
+                    viewPager.setCurrentItem(tab.getPosition());
 
+
+                    if (tab.getPosition() == 0) {
+
+                        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getBaseContext());
+                        Intent i = new Intent("TAG_REFRESH");
+                        lbm.sendBroadcast(i);
+
+                    }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -164,6 +205,8 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
             return true;
         }
     }
+
+
     private void setupTabIcons() {
         View view1 = getLayoutInflater().inflate(R.layout.iconprofile, null);
         View view2 = getLayoutInflater().inflate(R.layout.menuicon, null);
@@ -184,9 +227,9 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(Language.isRTL()){
+            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
             adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
             adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
-            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
             adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
 
         }else {
@@ -350,7 +393,7 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     @Override
     public void onStop() {
         super.onStop();
-        finish();
+//        finish();
     }
 
     @Override

@@ -1,12 +1,16 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.ic.fixera.Activites.TabsLayouts;
@@ -23,6 +27,7 @@ public class Menu extends Fragment {
     }
     View view;
     ImageView Image_Sparts,CarWashing,carmaintaince,Pull_Car;
+    MyReceiver r;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +45,13 @@ public class Menu extends Fragment {
       Open_PullCar();
         return view;
     }
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+    }
     public void Open_Sparts(){
         Image_Sparts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +64,16 @@ public class Menu extends Fragment {
         CarWashing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.MenuFrame,new Carwash()).addToBackStack(null).commitAllowingStateLoss();
+                DropDown fragmen = new DropDown();
+                Bundle args = new Bundle();
+
+                args.putString("tybe","car_washing");
+
+                fragmen.setArguments(args);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.MenuFrame, fragmen )
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
             }
         });
     }
@@ -61,7 +81,19 @@ public class Menu extends Fragment {
         carmaintaince.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.MenuFrame,new CarMaintenence()).addToBackStack(null).commitAllowingStateLoss();
+
+                DropDown fragmen = new DropDown();
+                Bundle args = new Bundle();
+
+                args.putString("tybe","car_maintenance");
+
+                fragmen.setArguments(args);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.MenuFrame, fragmen )
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
+
+
             }
         });
     }
@@ -72,5 +104,28 @@ public class Menu extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.MenuFrame,new PullCar()).addToBackStack(null).commitAllowingStateLoss();
             }
         });
+    }
+    public void refresh() {
+        //yout code in refresh.
+
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Menu.this.refresh();
+        }
     }
 }

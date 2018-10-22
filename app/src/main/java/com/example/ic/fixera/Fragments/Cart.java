@@ -1,9 +1,15 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +27,7 @@ import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Adapter.Cart_Adapter;
 import com.example.ic.fixera.Adapter.Categories_Sparts_Adapter;
 import com.example.ic.fixera.Language;
+import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.AddCart_Presenter;
 import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.Presenter.ShowCart_Presenter;
@@ -57,6 +65,9 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     Button requestorder;
     String Price;
     String id;
+    MyReceiver r;
+    FrameLayout cartframe;
+    NetworikConntection networikConntection;
     List<com.example.ic.fixera.Model.Cart> listss;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +77,8 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         showCart_presenter=new ShowCart_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
         listss=new ArrayList<>();
+        cartframe=view.findViewById(R.id.cartframe);
+        networikConntection=new NetworikConntection(getApplicationContext());
         requestorder=view.findViewById(R.id.requestorder);
         user=Shared.getString("logggin",null);
         T_Price=view.findViewById(R.id.T_Price);
@@ -81,20 +94,23 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         requestorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if(listss!=null) {
-                Order_Cart fragmen = new Order_Cart();
-                Bundle args = new Bundle();
-                args.putString("price", Price);
+                if(networikConntection.isNetworkAvailable(getContext())) {
+                    if (listss != null) {
+                        Order_Cart fragmen = new Order_Cart();
+                        Bundle args = new Bundle();
+                        args.putString("price", Price);
 
-                fragmen.setArguments(args);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.cartframe, fragmen)
-                        .addToBackStack(null)
-                        .commitAllowingStateLoss();
-            }else {
-                Toast.makeText(getContext(), "No Products", Toast.LENGTH_SHORT).show();
-            }
-
+                        fragmen.setArguments(args);
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.cartframe, fragmen)
+                                .addToBackStack(null)
+                                .commitAllowingStateLoss();
+                    } else {
+                        Toast.makeText(getContext(), "No Products", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+                }
             }
         });
     }
@@ -113,16 +129,20 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (user != null) {
-                    if (Language.isRTL()) {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                        showCart_presenter.ShowCart("ar", user);
-                    } else {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                        showCart_presenter.ShowCart("en", user);
+                if (networikConntection.isNetworkAvailable(getContext())) {
+                    if (user != null) {
+                        if (Language.isRTL()) {
+                            mSwipeRefreshLayout.setRefreshing(true);
+                            showCart_presenter.ShowCart("ar", user);
+                        } else {
+                            mSwipeRefreshLayout.setRefreshing(true);
+                            showCart_presenter.ShowCart("en", user);
+                        }
+                    }else {
+                        Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
                     }
                 }
-            }
+                }
 
         });
     }
@@ -161,6 +181,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
+        if(networikConntection.isNetworkAvailable(getApplicationContext())){
         if (user != null) {
             if (Language.isRTL()) {
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -170,42 +191,77 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
                 showCart_presenter.ShowCart("en", user);
             }
         }
+        else {
+            Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+        }
+        }
     }
     @Override
     public void count_plus(String id) {
-        mSwipeRefreshLayout.setRefreshing(true);
-        if(Language.isRTL()){
-            addCart.Add_toCart("ar",user,id);
+        if(networikConntection.isNetworkAvailable(getApplicationContext())) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            if (Language.isRTL()) {
+                addCart.Add_toCart("ar", user, id);
+            } else {
+                addCart.Add_toCart("en", user, id);
+            }
         }else {
-            addCart.Add_toCart("en",user,id);
+            Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
         }
     }
 
     @Override
     public void count_minus(String id) {
-
-        mSwipeRefreshLayout.setRefreshing(true);
-        if(Language.isRTL()){
-            addCart.Delete_toCart("ar",user,id);
-        }else {
-            addCart.Delete_toCart("en",user,id);
-        }
+       if(networikConntection.isNetworkAvailable(getApplicationContext())) {
+           mSwipeRefreshLayout.setRefreshing(true);
+           if (Language.isRTL()) {
+               addCart.Delete_toCart("ar", user, id);
+           } else {
+               addCart.Delete_toCart("en", user, id);
+           }
+       }else {
+           Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+       }
     }
 
     @Override
     public void Success() {
-
-        if(Language.isRTL()){
-            mSwipeRefreshLayout.setRefreshing(true);
-            showCart_presenter.ShowCart("ar",user);
-        }else {
-            mSwipeRefreshLayout.setRefreshing(true);
-            showCart_presenter.ShowCart("en",user);
-        }
+      if(networikConntection.isNetworkAvailable(getApplicationContext())) {
+          if (Language.isRTL()) {
+              mSwipeRefreshLayout.setRefreshing(true);
+              showCart_presenter.ShowCart("ar", user);
+          } else {
+              mSwipeRefreshLayout.setRefreshing(true);
+              showCart_presenter.ShowCart("en", user);
+          }
+      }else {
+          Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+      }
     }
 
     @Override
     public void Failed() {
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+    public void refresh() {
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Cart.this.refresh();
+        }
     }
 }

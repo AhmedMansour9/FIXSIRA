@@ -1,6 +1,10 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,6 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +37,7 @@ public class Orders extends Fragment {
     View view;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    MyReceiver r;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +65,14 @@ public class Orders extends Fragment {
 
         return view;
     }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+//        }
+//    }
+////
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getFragmentManager());
 
@@ -73,7 +87,7 @@ public class Orders extends Fragment {
 
         }
 
-//        viewPager.setCurrentItem(adapter.getCount() - 1);
+        viewPager.setCurrentItem(adapter.getCount() - 1);
         viewPager.setAdapter(adapter);
     }
     static  class Adapter extends FragmentStatePagerAdapter {
@@ -104,6 +118,29 @@ public class Orders extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+    }
+    public void refresh() {
+        //yout code in refresh.
+
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Orders.this.refresh();
         }
     }
 }
