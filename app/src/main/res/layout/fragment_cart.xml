@@ -9,6 +9,15 @@
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent">
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:text="@string/noproducts"
+           android:textColor="#000"
+           android:textSize="@dimen/_20sdp"
+
+           />
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Cart"
         android:layout_width="match_parent"
@@ -22,14 +31,25 @@
             android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
+       <TextView
+           android:layout_width="@dimen/_80sdp"
+           android:layout_height="@dimen/_30sdp"
+           android:layout_toLeftOf="@+id/T_Price"
+           android:textColor="#000"
+           android:text="@string/totalprice"
+           android:visibility="visible"
+           android:gravity="center"
+           android:layout_above="@+id/requestorder"
+           android:id="@+id/Price"
+           />
      <TextView
          android:layout_width="@dimen/_80sdp"
          android:layout_height="@dimen/_30sdp"
          android:background="#ededed"
          android:layout_centerHorizontal="true"
          android:textColor="#000"
-         android:visibility="invisible"
+         android:text="ahmedm"
+         android:visibility="visible"
          android:gravity="center"
          android:layout_above="@+id/requestorder"
          android:id="@+id/T_Price"

@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ic.fixera.Language;
-import com.example.ic.fixera.R;
+import com.fixe.fixera.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class Orders extends Fragment {
 //    }
 ////
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getFragmentManager());
+        Adapter adapter = new Adapter(getChildFragmentManager());
 
         if (Language.isRTL()) {
             // The view has RTL layout

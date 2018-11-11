@@ -31,10 +31,10 @@ import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.AddCart_Presenter;
 import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.Presenter.ShowCart_Presenter;
-import com.example.ic.fixera.R;
 import com.example.ic.fixera.View.Cart_View;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.ShowCart_View;
+import com.fixe.fixera.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     SharedPreferences Shared;
     String user;
     AddCart_Presenter addCart;
-    TextView T_Price;
+    TextView T_Price,TotalPrice;
     Button order;
     Button requestorder;
     String Price;
@@ -82,6 +82,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         requestorder=view.findViewById(R.id.requestorder);
         user=Shared.getString("logggin",null);
         T_Price=view.findViewById(R.id.T_Price);
+        TotalPrice=view.findViewById(R.id.Price);
         addCart=new AddCart_Presenter(getContext(),this);
         TabsLayouts.banner.setVisibility(View.GONE);
         order=view.findViewById(R.id.servicerequest);
@@ -106,7 +107,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
                                 .addToBackStack(null)
                                 .commitAllowingStateLoss();
                     } else {
-                        Toast.makeText(getContext(), "No Products", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),getResources().getString(R.string.noproducts), Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
@@ -159,19 +160,20 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(cart_adapter);
             mSwipeRefreshLayout.setRefreshing(false);
+
         }
         mSwipeRefreshLayout.setRefreshing(false);
-        requestorder.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void ShowTotalprice(String price) {
-        if(price!=null) {
+         TotalPrice.setVisibility(View.VISIBLE);
             T_Price.setVisibility(View.VISIBLE);
             Price = price;
             T_Price.setText(price + "LE");
             requestorder.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override

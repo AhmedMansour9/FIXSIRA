@@ -82,4 +82,24 @@
     <string name="logout">تسجل خروج</string>
     <string name="cartybe">نوع العربية </string>
     <string name="maintenencetybe">نوع الخدمة</string>
+    <string name="mob">زيارة</string>
+    <string name="onside">الصيانة في المكان</string>
+
+    <string name="selectservice">اختار الخدمة</string>
+    <string name="mobileservice">زيارة</string>
+    <string name="outside">الصيانة في المكان</string>
+    <string name="showservices">عرض الخدمات</string>
+    <string name="showtime">ايام العمل </string>
+    <string name="showproducts">عرض المنتجات</string>
+    <string name="day">اليوم : </string>
+    <string name="on">فتح : </string>
+    <string name="of">غلق :</string>
+    <string name="pullcar">الونش</string>
+    <string name="washingcar">غسيل السيارات</string>
+    <string name="maintaince">الصيانة</string>
+    <string name="spartpart">قطع الغيار</string>
+    <string name="norate">لا يوجد تقييم</string>
+    <string name="noproducts">No Products</string>
+    <string name="look">ماذا تبحث عن ؟</string>
+    <string name="totalprice">السعر الكلي</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ic.fixera">
+    package="com.fixe.fixera">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -10,21 +10,21 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/iconfixera"
         android:label="@string/app_name"
-        android:name=".App"
+        android:name="com.example.ic.fixera.App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Activites.Splash">
+        <activity android:name="com.example.ic.fixera.Activites.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activites.MainActivity"></activity>
-        <activity android:name=".Activites.TabsLayouts"/>
+        <activity android:name="com.example.ic.fixera.Activites.MainActivity"></activity>
+        <activity android:name="com.example.ic.fixera.Activites.TabsLayouts"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
@@ -47,6 +47,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBXb1fnY5_z2jRw2uPh0eBpJCbs7Q8hDXo" />
 
+        <activity
+            android:name="com.example.ic.fixera.Activites.MyServices_vendor"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
+            android:name="com.example.ic.fixera.Activites.MyProducts_Vendor"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name="com.example.ic.fixera.Activites.Hours_Vendor"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
     </application>
 
 

@@ -84,13 +84,13 @@
         android:id="@+id/language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:text="@string/language"
-        android:textSize="18sp"
+        android:layout_alignLeft="@+id/Email"
+        android:layout_alignStart="@+id/Email"
         android:layout_below="@+id/view"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
-        />
+        android:layout_marginTop="14dp"
+        android:text="@string/language"
+        android:textColor="#000"
+        android:textSize="18sp" />
     <Button
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"

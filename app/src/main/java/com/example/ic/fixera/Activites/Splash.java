@@ -5,7 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.example.ic.fixera.R;
+import com.fixe.fixera.R;
+
 
 public class Splash extends AppCompatActivity {
 

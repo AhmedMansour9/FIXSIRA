@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.example.ic.fixera.Model.UserRegister;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Register_Presenter;
-import com.example.ic.fixera.R;
 import com.example.ic.fixera.View.RegisterView;
+import com.fixe.fixera.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 

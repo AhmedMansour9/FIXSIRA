@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.ic.fixera.Activites.TabsLayouts;
-import com.example.ic.fixera.R;
+import com.fixe.fixera.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,9 +40,9 @@ public class Menu extends Fragment {
         carmaintaince=view.findViewById(R.id.carmaintaince);
         TabsLayouts.T_Service.setText(getResources().getString(R.string.chooserservice));
         Open_Sparts();
-      Open_CarWashing();
-      Open_Maintenence();
-      Open_PullCar();
+        Open_CarWashing();
+        Open_Maintenence();
+        Open_PullCar();
         return view;
     }
     @Override
@@ -66,9 +66,7 @@ public class Menu extends Fragment {
             public void onClick(View v) {
                 DropDown fragmen = new DropDown();
                 Bundle args = new Bundle();
-
                 args.putString("tybe","car_washing");
-
                 fragmen.setArguments(args);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.MenuFrame, fragmen )
@@ -81,19 +79,14 @@ public class Menu extends Fragment {
         carmaintaince.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DropDown fragmen = new DropDown();
                 Bundle args = new Bundle();
-
                 args.putString("tybe","car_maintenance");
-
                 fragmen.setArguments(args);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.MenuFrame, fragmen )
                         .addToBackStack(null)
                         .commitAllowingStateLoss();
-
-
             }
         });
     }
@@ -106,8 +99,6 @@ public class Menu extends Fragment {
         });
     }
     public void refresh() {
-        //yout code in refresh.
-
     }
 
     public void onPause() {

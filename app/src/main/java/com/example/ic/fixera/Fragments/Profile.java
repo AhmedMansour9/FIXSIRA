@@ -22,8 +22,8 @@ import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Profilee;
 import com.example.ic.fixera.Presenter.Profile_Presenter;
-import com.example.ic.fixera.R;
 import com.example.ic.fixera.View.Profile_View;
+import com.fixe.fixera.R;
 
 import java.util.List;
 

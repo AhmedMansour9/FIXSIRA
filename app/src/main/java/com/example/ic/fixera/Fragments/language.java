@@ -10,7 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.ic.fixera.R;
+
+import com.fixe.fixera.R;
 
 import java.util.Locale;
 

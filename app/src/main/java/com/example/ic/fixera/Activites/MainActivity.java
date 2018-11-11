@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ic.fixera.Fragments.language;
-import com.example.ic.fixera.R;
+import com.fixe.fixera.R;
 
 import java.util.Locale;
 

@@ -35,8 +35,6 @@
     <string name="reserve">Reserve</string>
     <string name="search"> Search</string>
     <string name="searchmodel">Model</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="CallDriver">Call Driver</string>
     <string name="sendmessage">Send Message</string>
     <string name="callnow">Call Now</string>
@@ -82,4 +80,25 @@
     <string name="logout">Log out</string>
     <string name="cartybe">Car Tybe</string>
     <string name="maintenencetybe">Service Tybe</string>
+    <string name="fullname">Full Name</string>
+    <string name="mob">Mobile Service</string>
+    <string name="onside">On site</string>
+    <string name="selectservice">Select Service</string>
+    <string name="mobileservice">Mobile Service</string>
+    <string name="outside">On Site</string>
+    <string name="showservices">Show Services</string>
+    <string name="showproducts">Show Products</string>
+    <string name="showtime">Works Day</string>
+    <string name="day">Day</string>
+    <string name="on">Open Time: </string>
+    <string name="of">Close Time</string>
+    <string name="pullcar">Pull Car</string>
+    <string name="washingcar">Washing Car</string>
+    <string name="maintaince">Maintenance</string>
+    <string name="spartpart">Spar Part</string>
+    <string name="norate">No Rate</string>
+    <string name="noproducts">No Products</string>
+    <string name="look">What You Are looking for ?</string>
+    <string name="totalprice">Total Price</string>
+
 </resources>

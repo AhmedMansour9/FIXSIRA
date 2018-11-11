@@ -40,9 +40,9 @@ import com.example.ic.fixera.Fragments.Profile;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Couter;
 import com.example.ic.fixera.Presenter.Get_Counter_Presenter;
-import com.example.ic.fixera.R;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.Counter_View;
+import com.fixe.fixera.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -147,7 +147,6 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
 
 
                     if (tab.getPosition() == 0) {
-
                         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getBaseContext());
                         Intent i = new Intent("TAG_REFRESH");
                         lbm.sendBroadcast(i);
@@ -252,7 +251,7 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
                         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
-                        googleMap.setMyLocationEnabled(true);
+
                         break;
                     case Activity.RESULT_CANCELED:
                         break;
