@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_120sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:padding="@dimen/_10sdp"
+    app:cardBackgroundColor="@android:color/white"
+    card_view:cardElevation="10dp"
+    card_view:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/person_image"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/userphoto"
+            android:visibility="visible"
+            />
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:textColor="#706a6a"
+            android:layout_toRightOf="@+id/person_image"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:id="@+id/vendorName"
+            android:maxLines="1"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:textColor="#706a6a"
+            android:layout_toRightOf="@+id/person_image"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/vendorName"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:id="@+id/Discrption"
+            android:maxLines="1"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:textColor="#838282"
+            android:layout_toRightOf="@+id/person_image"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_below="@+id/Discrption"
+            android:id="@+id/T_Price"
+            android:maxLines="1"
+            />
+
+
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/star"
+            android:layout_below="@+id/T_Price"
+            android:layout_toRightOf="@+id/person_image"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:id="@+id/Starone"
+            android:visibility="visible"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#838282"
+            android:layout_toRightOf="@+id/Starone"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_below="@+id/T_Price"
+            android:id="@+id/textRate"
+            />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "867033786524",
+    "firebase_url": "https://fixira-218109.firebaseio.com",
+    "project_id": "fixira-218109",
+    "storage_bucket": "fixira-218109.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867033786524:android:028352a84a958b3f",
+        "android_client_info": {
+          "package_name": "com.fixe.fixera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867033786524-0v1et9rlh09eparmn8vccn47ieprj2jn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fixe.fixera",
+            "certificate_hash": "2aaee980c44d411fbba02b5493cc1e7b3a8b1c57"
+          }
+        },
+        {
+          "client_id": "867033786524-3c7aqibm8u4610k0ejsdu0mjip72qns5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXb1fnY5_z2jRw2uPh0eBpJCbs7Q8hDXo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867033786524-3c7aqibm8u4610k0ejsdu0mjip72qns5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

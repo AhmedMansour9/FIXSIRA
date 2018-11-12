@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e1e1e1"
+    android:id="@+id/Sparts_Products"
+    tools:context="com.example.ic.fixera.Fragments.PullCar">
+
+    <EditText
+        android:id="@+id/searchh"
+        android:layout_width="@dimen/_210sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:hint="@string/search"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:textColor="#706a6a"
+        android:background="@drawable/bsearch"
+        android:singleLine="true"
+        android:paddingRight="20dp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:textColorHint="#706a6a"
+        android:textStyle="italic"
+        />
+
+    <Button
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="#f58020"
+        android:layout_toRightOf="@+id/searchh"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:textAllCaps="false"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/search"
+        android:textSize="@dimen/_18sdp"
+        android:id="@+id/Btn_Search"
+        />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_Sparts"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_SparParts"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

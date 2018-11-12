@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:id="@+id/dialog_view"
+    android:layout_height="@dimen/_200sdp">
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/yellow"
+        android:progressTint="@color/yellow"
+        android:layout_below="@+id/status"
+        android:layout_marginTop="15dp"
+        android:stepSize="1.0"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:secondaryProgressTint="@color/yellow"
+        android:rating="1" />
+    <EditText
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@+id/ratingBar"
+        android:textColor="#000"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingLeft="@dimen/_5sdp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/comment"
+        android:background="@drawable/bcwdittext"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+
+    <Button
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/comment"
+        android:background="#f58020"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textAllCaps="false"
+        android:text="@string/submit"
+        android:textSize="@dimen/_20sdp"
+        android:id="@+id/Review"
+        android:layout_marginBottom="@dimen/_20sdp"
+        />
+    <ProgressBar
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:id="@+id/progrossRating"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        />
+
+</RelativeLayout>

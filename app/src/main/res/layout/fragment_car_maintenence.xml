@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e1e1e1"
+    android:clickable="true"
+    android:id="@+id/carRelative"
+    tools:context="com.example.ic.fixera.Fragments.PullCar">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_Maintenence"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_maintnence"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

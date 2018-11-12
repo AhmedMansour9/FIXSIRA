@@ -1,0 +1,112 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e1e1e1"
+    android:id="@+id/dropFrame"
+    android:clickable="true"
+    tools:context="com.example.ic.fixera.Fragments.DropDown">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_Dropdown"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_height="match_parent">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#a09e9e"
+           android:id="@+id/selectservice"
+           android:textStyle="bold"
+           android:layout_gravity="center"
+           android:textSize="@dimen/_16sdp"
+           android:text="@string/selectservice"
+           />
+
+       <Spinner
+           android:id="@+id/Spin_SelectService"
+           android:layout_width="@dimen/_200sdp"
+           android:layout_height="@dimen/_40sdp"
+           android:layout_marginTop="14dp"
+           android:layout_gravity="center"
+           android:paddingRight="@dimen/_10sdp"
+           android:background="@drawable/bcdropdown"
+           android:paddingLeft="@dimen/_10sdp" />
+
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/carmodel"
+           android:textColor="#a09e9e"
+           android:id="@+id/selectcartybe"
+           android:textStyle="bold"
+           android:layout_marginTop="@dimen/_20sdp"
+           android:layout_gravity="center"
+           android:textSize="@dimen/_16sdp"
+           />
+
+       <Spinner
+           android:id="@+id/Spin_Cartybe"
+           android:layout_width="@dimen/_200sdp"
+           android:layout_height="@dimen/_40sdp"
+           android:layout_marginTop="14dp"
+           android:layout_gravity="center"
+           android:paddingRight="@dimen/_10sdp"
+           android:background="@drawable/bcdropdown"
+           android:paddingLeft="@dimen/_10sdp"
+           android:textColor="#000" />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/maintenencetybe"
+           android:textColor="#a09e9e"
+           android:id="@+id/selectphone"
+           android:textStyle="bold"
+           android:layout_marginTop="@dimen/_20sdp"
+           android:layout_gravity="center"
+           android:textSize="@dimen/_16sdp"
+           />
+
+       <Spinner
+           android:id="@+id/Spin_Maintenencetybe"
+           android:layout_width="@dimen/_200sdp"
+           android:layout_height="@dimen/_40sdp"
+           android:layout_marginTop="14dp"
+           android:paddingRight="@dimen/_10sdp"
+           android:layout_gravity="center"
+           android:background="@drawable/bcdropdown"
+           android:paddingLeft="@dimen/_10sdp"
+           android:textColor="#000" />
+
+       <Button
+           android:layout_width="@dimen/_120sdp"
+           android:layout_height="@dimen/_40sdp"
+           android:background="#f58020"
+           android:layout_toRightOf="@+id/searchh"
+           android:layout_marginLeft="@dimen/_10sdp"
+           android:textAllCaps="false"
+           android:layout_marginTop="@dimen/_40sdp"
+           android:text="@string/search"
+           android:textSize="@dimen/_18sdp"
+           android:layout_gravity="center"
+           android:id="@+id/Btn_Search"
+           />
+   </LinearLayout>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
+
+
+</FrameLayout>
