@@ -9,9 +9,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Sparts_AnotherDetails {
     private String id;
-    private Integer authorId;
+    private String  authorId;
     private String content;
+    private String contentar;
+
     private String title;
+    private String titlear;
     private String slug;
     private Integer status;
     private String sku;
@@ -25,8 +28,33 @@ public class Sparts_AnotherDetails {
     private String createdAt;
     private String updatedAt;
     private String vendorname;
-    private String average;
+    private Integer average;
     private  String average_total;
+    private String Vendor_Phone;
+
+    public String getContentar() {
+        return contentar;
+    }
+
+    public void setContentar(String contentar) {
+        this.contentar = contentar;
+    }
+
+    public String getTitlear() {
+        return titlear;
+    }
+
+    public void setTitlear(String titlear) {
+        this.titlear = titlear;
+    }
+
+    public String getVendor_Phone() {
+        return Vendor_Phone;
+    }
+
+    public void setVendor_Phone(String vendor_Phone) {
+        Vendor_Phone = vendor_Phone;
+    }
 
     public String getVendorname() {
         return vendorname;
@@ -36,11 +64,11 @@ public class Sparts_AnotherDetails {
         this.vendorname = vendorname;
     }
 
-    public String getAverage() {
+    public Integer getAverage() {
         return average;
     }
 
-    public void setAverage(String average) {
+    public void setAverage(Integer average) {
         this.average = average;
     }
 
@@ -64,11 +92,11 @@ public class Sparts_AnotherDetails {
         this.id = id;
     }
 
-    public Integer getAuthorId() {
+    public String  getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(String  authorId) {
         this.authorId = authorId;
     }
 

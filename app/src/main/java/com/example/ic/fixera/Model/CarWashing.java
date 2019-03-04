@@ -9,37 +9,37 @@ import com.google.gson.annotations.SerializedName;
 
 public class CarWashing {
 
-    @SerializedName("id")
+    @SerializedName("centerId")
     @Expose
     private Integer id;
-    @SerializedName("vendor_id")
+    @SerializedName("vendorId")
     @Expose
     private String vendorId;
-    @SerializedName("vendor_name")
+    @SerializedName("vendorName")
     @Expose
     private String vendorName;
-    @SerializedName("user_photo_url")
+    @SerializedName("image")
     @Expose
     private String userPhotoUrl;
-    @SerializedName("name")
+    @SerializedName("centerName")
     @Expose
     private String name;
-    @SerializedName("address")
+    @SerializedName("centerAddress")
     @Expose
     private String address;
-    @SerializedName("description")
+    @SerializedName("centerDescription")
     @Expose
     private String description;
-    @SerializedName("phone")
+    @SerializedName("centerPhone")
     @Expose
     private String phone;
-    @SerializedName("telephone")
+    @SerializedName("centerTelephone")
     @Expose
     private String telephone;
-    @SerializedName("lat")
+    @SerializedName("centerLat")
     @Expose
     private String lat;
-    @SerializedName("lng")
+    @SerializedName("centerLng")
     @Expose
     private String lng;
     @SerializedName("price")
@@ -51,12 +51,21 @@ public class CarWashing {
     @SerializedName("totalPrice")
     @Expose
     private String totalPrice;
-    @SerializedName("rate_total")
+    @SerializedName("total")
     @Expose
     private Integer rateTotal;
-    @SerializedName("rate_average")
+    @SerializedName("rating")
     @Expose
     private Integer rateAverage;
+
+    @SerializedName("servicesId")
+    @Expose
+    private String servicesId;
+
+    @SerializedName("pullImage")
+    @Expose
+    private String pullImage;
+
 
     public Integer getId() {
         return id;
@@ -185,4 +194,21 @@ public class CarWashing {
     public void setRateAverage(Integer rateAverage) {
         this.rateAverage = rateAverage;
     }
+
+    public String getServicesId() {
+        return servicesId;
+    }
+
+    public void setServicesId(String servicesId) {
+        this.servicesId = servicesId;
+    }
+
+    public String getPullImage() {
+        return pullImage;
+    }
+
+    public void setPullImage(String pullImage) {
+        this.pullImage = pullImage;
+    }
+
 }

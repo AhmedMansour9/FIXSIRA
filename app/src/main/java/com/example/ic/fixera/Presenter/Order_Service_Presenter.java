@@ -30,9 +30,10 @@ public class Order_Service_Presenter {
     }
 
 
-    public void Order_Service(String lang,String user,String Service_id,String Service_type,String Phone,String Car_Name,String Car_Model
-             ,String year,String Date,String lat,String lon,String modelid,String tybeid,String Services) {
+    public void Order_Service(String services_id,String lang,String user,String Service_id,String Service_type,String Phone,String Car_Name,String Car_Model
+             ,String year,String Date,String lat,String lon,String modelid,String tybeid,String Services,String address) {
         Map<String, String> queryMap = new HashMap<>();
+        queryMap.put("services_id", services_id);
         queryMap.put("lang", lang);
         queryMap.put("api_token", "100");
         queryMap.put("user_token", user);
@@ -45,9 +46,24 @@ public class Order_Service_Presenter {
         queryMap.put("schedule_date", Date);
         queryMap.put("lat", lat);
         queryMap.put("lng", lon);
-        queryMap.put("car_model_id",modelid);
-        queryMap.put("type_id", tybeid);
-        queryMap.put("type_services",Services);
+        if(modelid!=null) {
+            queryMap.put("car_model_id", modelid);
+        }else {
+            queryMap.put("car_model_id", "a");
+        }
+        if(tybeid!=null) {
+            queryMap.put("type_id", tybeid);
+        }else {
+            queryMap.put("type_id", "A");
+        }
+        if(Services!=null) {
+            queryMap.put("type_services", Services);
+        }else {
+            queryMap.put("type_services", "a");
+        }
+        if(address!=null){
+            queryMap.put("address", address);
+        }
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);
 
         Call<com.example.ic.fixera.Model.Order_Service_Response> call = apiInterface.Order_Service(queryMap);

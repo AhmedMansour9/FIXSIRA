@@ -16,8 +16,10 @@
             android:text="@string/noproducts"
             android:textColor="#000"
             android:textSize="@dimen/_20sdp"
-
+            android:visibility="gone"
+            android:id="@+id/noproduct"
             />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_Cart"
             android:layout_width="match_parent"

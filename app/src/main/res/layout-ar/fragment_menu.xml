@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e1e1e1"
+    android:background="#F7F4F4"
     android:clickable="true"
     tools:context="com.example.ic.fixera.Fragments.Menu">
 
@@ -11,143 +11,167 @@
         android:layout_height="match_parent"
         android:id="@+id/MenuFrame"
         >
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="#939292"
-                android:id="@+id/textservice"
-                android:textSize="@dimen/_20sdp"
-                android:text="@string/chooserservice"
-                android:textStyle="bold"
-                />
-
-            <LinearLayout
+            android:layout_height="wrap_content">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_below="@+id/textservice"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:weightSum="2"
-                android:orientation="horizontal"
-                android:layout_height="@dimen/_130sdp">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_weight="1"
-                    android:id="@+id/Pull_Car"
-                    android:src="@drawable/pullcar" />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:src="@drawable/carwashing"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:id="@+id/CarWashing"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_below="@+id/textservice"
-                android:layout_marginTop="@dimen/_125sdp"
-                android:weightSum="2"
-
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_banner2"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_weight="1"
-                    android:textColor="#000"
-                    android:gravity="center"
-                    android:text="@string/pullcar"
-                    android:id="@+id/T_Pull_Car"
-                    android:src="@drawable/pullcar" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:src="@drawable/carwashing"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:gravity="center"
-                    android:text="@string/washingcar"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:id="@+id/T_CarWashing"
-                    android:layout_weight="1"
-
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_below="@+id/recycler_banner2"
+                    android:textColor="#6F6E6E"
+                    android:id="@+id/textservice"
+                    android:textSize="@dimen/_20sdp"
+                    android:text="@string/chooserservice"
+                    android:textStyle="bold"
                     />
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_below="@+id/textservice"
-                android:layout_marginTop="@dimen/_140sdp"
-                android:weightSum="2"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:layout_height="@dimen/_130sdp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/textservice"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_height="@dimen/_150sdp">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:id="@+id/carmaintaince"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:src="@drawable/carmaintaince"
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:id="@+id/Pull_Car"
+                        android:src="@drawable/pullcar" />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:src="@drawable/carwashing"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:id="@+id/CarWashing"
+                        android:layout_weight="1"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/textservice"
+                    android:layout_marginTop="@dimen/_125sdp"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:text="@string/pullcar"
+                        android:id="@+id/T_Pull_Car"
+                        android:src="@drawable/pullcar" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:src="@drawable/carwashing"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:text="@string/washingcar"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:id="@+id/T_CarWashing"
+                        android:layout_weight="1"
+
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/textservice"
+                    android:layout_marginTop="@dimen/_135sdp"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:layout_height="@dimen/_150sdp">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:id="@+id/carmaintaince"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:src="@drawable/carmaintaince"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:src="@drawable/sparparts"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:id="@+id/Image_Sparts"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/textservice"
+                    android:layout_marginTop="@dimen/_260sdp"
+                    android:weightSum="2"
+                    android:id="@+id/lineartwo"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_weight="1"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:text="@string/maintaince"
+                        android:id="@+id/T_Maintennce"
+                        android:src="@drawable/pullcar" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:src="@drawable/carwashing"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:text="@string/spare"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:id="@+id/T_spar"
+                        android:layout_weight="1"
+
+                        />
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_below="@+id/lineartwo"
+                    android:textAllCaps="false"
+                    android:background="@drawable/bgbuttons"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:textSize="@dimen/_18sdp"
+                    android:id="@+id/Btn_Offer"
+                    android:text="@string/offer"
                     />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:src="@drawable/sparparts"
-                    android:layout_height="@dimen/_130sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_weight="1"
-                    android:id="@+id/Image_Sparts"
-                    />
+            </RelativeLayout>
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_below="@+id/textservice"
-                android:layout_marginTop="@dimen/_260sdp"
-                android:weightSum="2"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_weight="1"
-                    android:textColor="#000"
-                    android:gravity="center"
-                    android:text="@string/maintaince"
-                    android:id="@+id/T_Maintennce"
-                    android:src="@drawable/pullcar" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:src="@drawable/carwashing"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:gravity="center"
-                    android:text="@string/spare"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:id="@+id/T_spar"
-                    android:layout_weight="1"
-
-                    />
-
-            </LinearLayout>
-        </RelativeLayout>
+        </ScrollView>
 
     </FrameLayout>
 </RelativeLayout>

@@ -16,7 +16,7 @@ import com.example.ic.fixera.Model.MyOrders_Service;
 import com.example.ic.fixera.Model.My_Order_Services;
 import com.example.ic.fixera.View.Category_id;
 import com.example.ic.fixera.View.MyOrdersService;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

@@ -22,7 +22,7 @@ import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.View.Caetgories_Sparts_View;
 import com.example.ic.fixera.View.Category_id;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
         categories=new Caetgoris_Sparts_Presenter(getContext(),this);
         Btn_Search=view.findViewById(R.id.Btn_Search);
         E_Search=view.findViewById(R.id.searchh);
-        TabsLayouts.banner.setVisibility(View.GONE);
+//        TabsLayouts.banner.setVisibility(View.GONE);
         Categories=view.findViewById(R.id.Categories);
        networikConntection=new NetworikConntection(getApplicationContext());
         Recyclview();
@@ -126,7 +126,7 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
                 categories.GetCategoriesSpart("en");
             }
         }else {
-            Snackbar.make(Categories,getResources().getString(R.string.internet),1500).show();
+//            Snackbar.make(Categories,getResources().getString(R.string.internet),1500).show();
         }
                     }
 
@@ -152,6 +152,7 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
         SparParts_Products fragmentB = new SparParts_Products ();
         Bundle args = new Bundle();
         args.putString("id",a);
+        args.putString("offer",null);
         fragmentB .setArguments(args);
         getFragmentManager().beginTransaction()
                 .replace(R.id.MenuFrame, fragmentB )

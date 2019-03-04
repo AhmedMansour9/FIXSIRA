@@ -33,7 +33,11 @@ public class RegisterFace_Presenter {
     public void RegisterFace(UserRegister user) {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("name", user.getFirstName());
-        queryMap.put("email", user.getEmail());
+        if(user.getEmail()!=null) {
+            queryMap.put("email", user.getEmail());
+        }else {
+            queryMap.put("email", "");
+        }
         queryMap.put("fb_id", user.getId());
         queryMap.put("api_token", "100");
 

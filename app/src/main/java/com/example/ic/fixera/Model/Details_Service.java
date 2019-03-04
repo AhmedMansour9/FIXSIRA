@@ -5,7 +5,7 @@ package com.example.ic.fixera.Model;
  */
 
 public class Details_Service {
-    private Integer id;
+    private String id;
     private String vendorName;
     private String userPhotoUrl;
     private String name;
@@ -15,13 +15,23 @@ public class Details_Service {
     private String telephone;
     private String lat;
     private String lng;
-    private Double rate;
+    private String rate;
     private double distance;
     private String tybe;
     private String Price;
     private String evragerate;
     private String Total_rate;
     private String vendor_id;
+   private String services_id;
+
+
+    public String getServices_id() {
+        return services_id;
+    }
+
+    public void setServices_id(String services_id) {
+        this.services_id = services_id;
+    }
 
     public String getVendor_id() {
         return vendor_id;
@@ -55,11 +65,11 @@ public class Details_Service {
         Price = price;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String  id) {
         this.id = id;
     }
 
@@ -135,11 +145,11 @@ public class Details_Service {
         this.lng = lng;
     }
 
-    public Double getRate() {
+    public String getRate() {
         return rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(String rate) {
         this.rate = rate;
     }
 

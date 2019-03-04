@@ -1,6 +1,8 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Adapter.SparParts_Adapter;
@@ -21,10 +26,11 @@ import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Spart_Detailss;
 import com.example.ic.fixera.Model.Sparts_AnotherDetails;
 import com.example.ic.fixera.Model.Sparts_Details;
-import com.example.ic.fixera.Presenter.Sparts_Prsenter;
+import com.example.ic.fixera.Presenter.SpartsProducts_Prsenter;
 import com.example.ic.fixera.View.Details_Sparts;
 import com.example.ic.fixera.View.Sparts_View;
-import com.fixe.fixera.R;
+import com.example.ic.fixera.View.phone_view;
+import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +38,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SparParts_Products extends Fragment implements Details_Sparts,Sparts_View,SwipeRefreshLayout.OnRefreshListener{
+public class SparParts_Products extends Fragment implements phone_view,Details_Sparts,Sparts_View,SwipeRefreshLayout.OnRefreshListener{
 
 
     public SparParts_Products() {
@@ -42,7 +48,7 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
    GridLayoutManager gridLayoutManager;
-   Sparts_Prsenter sparts_prsenter;
+   SpartsProducts_Prsenter sparts_prsenter;
     View view;
     SwipeRefreshLayout mSwipeRefreshLayout;
    SparParts_Adapter adapter;
@@ -54,28 +60,36 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
      Button Btn_Search;
      Boolean Bolean_Search=true;
      String id,Search;
-
+     String offer;
+     ImageView noproduct;
+     TextView noproducts;
+     Boolean recycle=true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_spar_parts, container, false);
         recyclerView = view.findViewById(R.id.recycler_SparParts);
+        noproducts=view.findViewById(R.id.noproducts);
         listSparts=new ArrayList<>();
         E_Search=view.findViewById(R.id.searchh);
         Btn_Search=view.findViewById(R.id.Btn_Search);
         sparts_anotherDetails=new Sparts_AnotherDetails();
-        sparts_prsenter=new Sparts_Prsenter(getContext(),this);
+        sparts_prsenter=new SpartsProducts_Prsenter(getContext(),this);
         adapter=new SparParts_Adapter(listSparts,getContext());
-        adapter.setClickListener(this);
+        adapter.setClickListener(this,this );
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-       TabsLayouts.banner.setVisibility(View.GONE);
         Bundle args = getArguments();
         if (args != null) {
+            offer=args.getString("offer");
+            if(offer!=null){
+                Btn_Search.setVisibility(View.GONE);
+                E_Search.setVisibility(View.GONE);
+            }
             id=args.getString("id");
             Search=args.getString("search");
         }
@@ -114,15 +128,17 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
        recyclerView.setLayoutManager(linearLayoutManager);
 
 
-       TabsLayouts.T_Service.setText(getResources().getString(R.string.spare));
+//       TabsLayouts.T_Service.setText(getResources().getString(R.string.spare));
        // Adds the scroll listener to RecyclerView
        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
            @Override
            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                if(Bolean_Search) {
+                   recycle=false;
                    mSwipeRefreshLayout.setRefreshing(true);
                    PAGE++;
                    sparts_prsenter.GetSparts("ar", String.valueOf(PAGE),id);
+
                }
            }
        });
@@ -135,6 +151,7 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
         for (int i=0;i<list.size();i++){
             sparts_anotherDetails=new Sparts_AnotherDetails();
             sparts_anotherDetails.setContent(list.get(i).getContent());
+            sparts_anotherDetails.setAuthorId(list.get(i).getAuthorId());
             sparts_anotherDetails.setImageUrl(list.get(i).getImageUrl());
             sparts_anotherDetails.setId(list.get(i).getId());
             sparts_anotherDetails.setSalePrice(list.get(i).getSalePrice());
@@ -143,10 +160,13 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
             sparts_anotherDetails.setSlug(list.get(i).getSlug());
             sparts_anotherDetails.setStockQty(list.get(i).getStockQty());
             sparts_anotherDetails.setStockAvailability(list.get(i).getStockAvailability());
-            sparts_anotherDetails.setAverage(String.valueOf(list.get(i).getRateAverage()));
+            sparts_anotherDetails.setAverage(list.get(i).getRateAverage());
             sparts_anotherDetails.setAverage_total(String.valueOf(list.get(i).getRateTotal()));
             sparts_anotherDetails.setVendorname(String.valueOf(list.get(i).getAuthorName()));
             sparts_anotherDetails.setStockAvailability(list.get(i).getStockAvailability());
+            sparts_anotherDetails.setVendor_Phone(list.get(i).getAuthorPhone());
+            sparts_anotherDetails.setContentar(list.get(i).getContentAr());
+            sparts_anotherDetails.setTitlear(list.get(i).getTitleAr());
             listSparts.add(sparts_anotherDetails);
         }
         adapter.notifyItemRangeInserted(adapter.getItemCount(), listSparts.size() - 1);
@@ -160,6 +180,15 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
     public void ErrorSparts() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public void EmptySparts() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        if(recycle) {
+            noproducts.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void SwipRefresh(){
         mSwipeRefreshLayout =  view.findViewById(R.id.swipe_Sparts);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -172,13 +201,24 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if(Search!=null){
-                    sparts_prsenter.GetSearchSparts("ar", Search);
+                if (offer != null) {
+                    if(Language.isRTL()) {
+                        PAGE = 1;
+                        sparts_prsenter.GetOffers("ar", String.valueOf(PAGE));
+                    }else {
+                        PAGE = 1;
+                        sparts_prsenter.GetOffers("en", String.valueOf(PAGE));
+                    }
                 }else {
-                    listSparts.clear();
-                    adapter.notifyDataSetChanged();
-                    PAGE = 1;
-                    sparts_prsenter.GetSparts("ar", String.valueOf(PAGE), id);
+                    if (Search != null) {
+                        E_Search.setText(Search);
+                        sparts_prsenter.GetSearchSparts("ar", Search);
+                    } else {
+                        listSparts.clear();
+                        adapter.notifyDataSetChanged();
+                        PAGE = 1;
+                        sparts_prsenter.GetSparts("ar", String.valueOf(PAGE), id);
+                    }
                 }
             }
         });
@@ -186,6 +226,7 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
 
     @Override
     public void onRefresh() {
+        recycle=true;
         listSparts.clear();
         adapter.notifyDataSetChanged();
         PAGE=1;
@@ -198,6 +239,7 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
         Spart_Details fragmen = new Spart_Details();
         Bundle args = new Bundle();
         args.putString("id",list.getId());
+        args.putString("vendor_id",list.getAuthor_id());
         args.putString("title",list.getTitle());
         args.putString("price",list.getPrice());
         args.putString("stock",list.getStock());
@@ -210,6 +252,14 @@ public class SparParts_Products extends Fragment implements Details_Sparts,Spart
                 .replace(R.id.MenuFrame, fragmen )
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void phone(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL,
+                Uri.fromParts("tel",phone, null));
+        startActivity(intent);
+
 
     }
 }

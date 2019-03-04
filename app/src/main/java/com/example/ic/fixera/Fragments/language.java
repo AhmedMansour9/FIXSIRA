@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.Locale;
 

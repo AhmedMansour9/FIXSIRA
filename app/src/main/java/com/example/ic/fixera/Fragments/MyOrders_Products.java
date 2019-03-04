@@ -34,7 +34,7 @@ import com.example.ic.fixera.Presenter.Review_Presenter;
 import com.example.ic.fixera.View.MyOrdersService;
 import com.example.ic.fixera.View.MyOrders_Products_View;
 import com.example.ic.fixera.View.Review_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 import java.util.List;
@@ -122,7 +122,13 @@ public class MyOrders_Products extends Fragment implements Review_View,SwipeRefr
             }
         });
     }
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+    }
     @Override
     public void onRefresh() {
         if(networikConntection.isNetworkAvailable(getActivity())) {
@@ -161,6 +167,21 @@ public class MyOrders_Products extends Fragment implements Review_View,SwipeRefr
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false );
+    }
+
+    @Override
+    public void reviewProduct() {
+
+    }
+
+    @Override
+    public void reviewed() {
+
+    }
+
+    @Override
+    public void ErrorProduct() {
+
     }
 
     @Override
@@ -207,6 +228,11 @@ public class MyOrders_Products extends Fragment implements Review_View,SwipeRefr
         });
       dialogFragment.show();
 
+
+    }
+
+    @Override
+    public void ChangeStatue(My_Order_Services my_order_services) {
 
     }
 }

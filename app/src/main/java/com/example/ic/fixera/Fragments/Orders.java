@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ic.fixera.Language;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,10 @@ public class Orders extends Fragment {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
-
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            // TODO Auto-generated method stub
+        }
 
         @Override
         public CharSequence getPageTitle(int position) {

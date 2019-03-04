@@ -33,7 +33,11 @@ public class Servicetybe_Presenter {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("lang", lang);
         queryMap.put("api_token", "100");
-        queryMap.put("user_token", user);
+//        if(user!=null) {
+//            queryMap.put("user_token", user);
+//        }else {
+//            queryMap.put("user_token", "");
+//        }
         queryMap.put("type", tybe);
         queryMap.put("car_id", Cart_id);
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);

@@ -16,7 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiCLint {
 
 //    public static final String BASE_URL="http://192.168.1.22:8080/ikon/api/";
-public static final String BASE_URL="http://fixsira.com/api/";
+public static final String BASE_URL="https://fixsira.com/api/";
+//  public static final String BASE_URL="http://emarketingbakers.com/api/";
 //    public static final String BASE_URL="http://localhost:83/api_Marrage/";
 
     private static Retrofit retrofit = null;

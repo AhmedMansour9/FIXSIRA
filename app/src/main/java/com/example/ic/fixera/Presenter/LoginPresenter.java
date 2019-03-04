@@ -44,10 +44,22 @@ public class LoginPresenter {
             public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
 
                 if (response.isSuccessful()) {
-                     loginvieew.openMain(response.body().getData().getUserToken());
-                } else {
-                    loginvieew.showError("");
+
+
+                    if(response.body().getData().getMessage().equals("login success")){
+                        if(response.body().getData().getRoleId()!=null) {
+                            loginvieew.OpenRole(response.body().getData().getUserToken());
+
+                        }
+                        else {
+                            loginvieew.openMain(response.body().getData().getUserToken());
+                        }
+                    } else {
+                        loginvieew.Invalidemail("");
+                    }
+
                 }
+
             }
 
 

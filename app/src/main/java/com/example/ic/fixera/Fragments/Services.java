@@ -23,7 +23,8 @@ import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Service_Presenter;
 import com.example.ic.fixera.View.Details_Service;
 import com.example.ic.fixera.View.Service_View;
-import com.fixe.fixera.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -55,11 +56,13 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     ImageView imgphone;
     NetworikConntection networikConntection;
     FrameLayout ServiceFrame;
+    private ShimmerFrameLayout mShimmerViewContainer;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_services, container, false);
+        mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
         service_presenter=new Service_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
         user=Shared.getString("logggin",null);
@@ -89,11 +92,13 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
             @Override
             public void run() {
                 if (networikConntection.isNetworkAvailable(getContext())) {
+                    mShimmerViewContainer.startShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
                     if (Language.isRTL()) {
-                        mSwipeRefreshLayout.setRefreshing(true);
+//                        mSwipeRefreshLayout.setRefreshing(true);
                         service_presenter.GetService("ar", tybe, id, user);
                     } else {
-                        mSwipeRefreshLayout.setRefreshing(true);
+//                        mSwipeRefreshLayout.setRefreshing(true);
                         service_presenter.GetService("en", tybe, id, user);
                     }
 
@@ -129,6 +134,7 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 
     @Override
     public void GetService(List<Service> list) {
+
         service_adapter = new Service_Adapter(list,getContext());
         service_adapter.setClickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -140,13 +146,19 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 //        recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(service_adapter);
-        mSwipeRefreshLayout.setRefreshing(false);
+//        mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
 
     }
 
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -154,6 +166,7 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         Details_Services_fragment fragmen = new Details_Services_fragment();
         Bundle args = new Bundle();
         args.putString("id",String.valueOf(list.getId()));
+        args.putString("services_id",String.valueOf(list.getServices_id()));
         args.putString("tybe",tybe);
         args.putString("phone",phone);
         args.putString("discription",list.getDescription());

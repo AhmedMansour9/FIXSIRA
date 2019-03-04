@@ -9,10 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Service {
 
-
-    @SerializedName("id")
+    @SerializedName("serviceId")
     @Expose
-    private Integer id;
+    private String serviceId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -25,16 +24,22 @@ public class Service {
     @SerializedName("img")
     @Expose
     private String img;
+    @SerializedName("locationId")
+    @Expose
+    private String locationId;
     @SerializedName("rate")
     @Expose
-    private String rate;
+    private Integer rate;
+    @SerializedName("averageRate")
+    @Expose
+    private Integer averageRate;
 
-    public Integer getId() {
-        return id;
+    public String getServiceId() {
+        return serviceId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     public String getName() {
@@ -69,11 +74,29 @@ public class Service {
         this.img = img;
     }
 
-    public String getRate() {
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public Integer getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(Integer rate) {
         this.rate = rate;
     }
+
+    public Integer getAverageRate() {
+        return averageRate;
+    }
+
+    public void setAverageRate(Integer averageRate) {
+        this.averageRate = averageRate;
+    }
+
+
 }

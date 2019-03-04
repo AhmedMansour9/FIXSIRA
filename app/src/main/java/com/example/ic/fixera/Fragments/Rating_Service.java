@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Presenter.Review_Presenter;
 import com.example.ic.fixera.View.Review_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -61,11 +61,6 @@ public class Rating_Service extends Fragment implements Review_View{
         progrossRating=view.findViewById(R.id.progrossRating);
         views=view.findViewById(R.id.view);
         user=Shared.getString("logggin",null);
-        if(Language.isRTL()){
-            lan="ar";
-        }else {
-            lan="en";
-        }
 
         img_Service=view.findViewById(R.id.img_Service);
         T_Name=view.findViewById(R.id.T_Name);
@@ -76,7 +71,14 @@ public class Rating_Service extends Fragment implements Review_View{
         Review=view.findViewById(R.id.Review);
         Review=view.findViewById(R.id.Review);
         review_presenter=new Review_Presenter(getContext(),this);
-      getData();
+        if(Language.isRTL()){
+            lan="ar";
+        }else {
+            lan="en";
+        }
+
+
+        getData();
       SendReview();
 
         return view;
@@ -113,9 +115,13 @@ public class Rating_Service extends Fragment implements Review_View{
             T_Name.setText(carname);
             T_Price.setText(price);
             T_status.setText(status);
-
+            if(status.equals("pending")){
+                Review.setVisibility(View.INVISIBLE);
+                ratingBar.setVisibility(View.INVISIBLE);
+                commnt.setVisibility(View.INVISIBLE);
+            }
             Picasso.with(getApplicationContext())
-                    .load("http://fixsira.com/site/"+img)
+                    .load("http://fixsira.com/"+img)
                     .into(img_Service, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -125,6 +131,8 @@ public class Rating_Service extends Fragment implements Review_View{
                         public void onError() {
                         }
                     });
+
+
         }
 
     }
@@ -139,5 +147,20 @@ public class Rating_Service extends Fragment implements Review_View{
     public void Error() {
 
         progrossRating.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void reviewProduct() {
+
+    }
+
+    @Override
+    public void reviewed() {
+        Snackbar.make(views,getResources().getString(R.string.reviewed),1500).show();
+    }
+
+    @Override
+    public void ErrorProduct() {
+
     }
 }

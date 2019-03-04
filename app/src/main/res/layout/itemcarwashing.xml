@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_150sdp"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
@@ -16,10 +16,10 @@
         android:layout_height="match_parent">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/person_image"
             android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_70sdp"
+            android:layout_height="@dimen/_100sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_centerVertical="true"
             android:src="@drawable/userphoto"
@@ -37,9 +37,10 @@
             android:textStyle="bold"
             />
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#706a6a"
+            android:layout_marginRight="@dimen/_10sdp"
             android:layout_toRightOf="@+id/person_image"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_below="@+id/vendorName"
@@ -49,7 +50,7 @@
             android:textStyle="bold"
             />
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#838282"
             android:layout_toRightOf="@+id/person_image"
@@ -57,10 +58,12 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_below="@+id/placeName"
             android:id="@+id/Address"
-            android:maxLines="1"
+            android:maxLines="2"
+            android:layout_marginRight="@dimen/_10sdp"
             />
+
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#838282"
             android:layout_toRightOf="@+id/person_image"
@@ -69,10 +72,11 @@
             android:layout_below="@+id/Address"
             android:id="@+id/T_Price"
             android:maxLines="1"
+            android:layout_marginRight="@dimen/_10sdp"
             />
 
         <TextView
-            android:layout_width="@dimen/_120sdp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#838282"
             android:layout_toRightOf="@+id/person_image"
@@ -80,6 +84,7 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_below="@+id/T_Price"
             android:id="@+id/Distance"
+            android:layout_marginRight="@dimen/_10sdp"
             android:maxLines="1"
             />
 
@@ -92,68 +97,128 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_below="@+id/Distance"
             android:id="@+id/T_Rates"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:maxLines="1"
             />
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/star"
-            android:layout_below="@+id/Distance"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_toRightOf="@+id/T_Rates"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:id="@+id/Starone"
-            android:visibility="gone"
-            />
-
-
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/star"
             android:layout_below="@+id/Distance"
-            android:layout_toRightOf="@+id/Starone"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:id="@+id/Startwo"
-            android:visibility="gone"
-            />
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/star"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/star"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:id="@+id/Starone"
+                android:visibility="gone"
+                />
+
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/star"
+                android:layout_toRightOf="@+id/Starone"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/Startwo"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/star"
+                android:layout_toRightOf="@+id/Startwo"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/Starthree"
+                android:visibility="gone"
+
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/star"
+                android:layout_toRightOf="@+id/Starthree"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/StarFour"
+                android:visibility="gone"
+
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/star"
+                android:layout_toRightOf="@+id/StarFour"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/StarFive"
+                android:visibility="gone"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/T_Rates"
             android:layout_below="@+id/Distance"
-            android:layout_toRightOf="@+id/Startwo"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:id="@+id/Starthree"
+            android:id="@+id/relaa"
             android:visibility="gone"
-
-            />
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/star"
-            android:layout_below="@+id/Distance"
-            android:layout_toRightOf="@+id/Starthree"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:id="@+id/StarFour"
-            android:visibility="gone"
-
-            />
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
-            android:src="@drawable/star"
-            android:layout_below="@+id/Distance"
-            android:layout_toRightOf="@+id/StarFour"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:id="@+id/StarFive"
-            android:visibility="gone"
-            />
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/emptystart"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:id="@+id/Staron"
+                />
 
 
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/emptystart"
+                android:layout_toRightOf="@+id/Staron"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/Startw"
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/emptystart"
+                android:layout_toRightOf="@+id/Startw"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/Starthre"
+
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/emptystart"
+                android:layout_toRightOf="@+id/Starthre"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/StarFou"
+
+                />
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:src="@drawable/emptystart"
+                android:layout_toRightOf="@+id/StarFou"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:id="@+id/StarFiv"
+                />
+
+
+        </RelativeLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

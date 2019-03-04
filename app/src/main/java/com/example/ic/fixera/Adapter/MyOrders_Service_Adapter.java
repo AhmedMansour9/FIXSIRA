@@ -16,7 +16,7 @@ import com.example.ic.fixera.Model.My_Order_Services;
 import com.example.ic.fixera.Model.Sparts_Category;
 import com.example.ic.fixera.View.Category_id;
 import com.example.ic.fixera.View.MyOrdersService;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -107,6 +107,7 @@ public class MyOrders_Service_Adapter extends RecyclerView.Adapter<MyOrders_Serv
                 myorders.setImg(filteredList.get(position).getImg());
                 myorders.setDate(filteredList.get(position).getScheduleDate());
                 myorders.setStatus(filteredList.get(position).getStatus());
+
                myOrdersService.OrdersService(myorders);
             }
         });

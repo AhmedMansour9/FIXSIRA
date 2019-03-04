@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ic.fixera.Fragments.CarMaintenence;
 import com.example.ic.fixera.Fragments.Carwash;
 import com.example.ic.fixera.Model.CarWashing;
 import com.example.ic.fixera.Model.Filter_Places;
 import com.example.ic.fixera.View.Details_Service;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -30,16 +32,16 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyViewHolder>{
 
-        private List<Filter_Places> filteredList=new ArrayList<>();
-
+    public static List<Filter_Places> filteredList=new ArrayList<>();
     View itemView;
     Context con;
     Details_Service  details_service;
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView VendorName,placeName,Address,Phone,telephone,textRate,Destance,T_rates,T_Price;
         private Button Callnow,Details;
         private ImageView person_image,Starone,Startwo,StarThree,StarFour,StarFive;
+        RelativeLayout relaa;
+
         public MyViewHolder(View view) {
             super(view);
             Callnow = view.findViewById(R.id.callnow);
@@ -56,6 +58,7 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
             Destance=view.findViewById(R.id.Distance);
             T_rates=view.findViewById(R.id.T_Rates);
             T_Price=view.findViewById(R.id.T_Price);
+            relaa=view.findViewById(R.id.relaa);
         }
     }
 
@@ -84,20 +87,35 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
             String str =String.valueOf(filteredList.get(position).getDistance());
             String kept = str.substring( 0, str.indexOf("."));
             holder.Destance.setText(kept + "M");
+        }if(distance==0){
+            holder.Destance.setVisibility(View.GONE);
         }
         if(Integer.parseInt(filteredList.get(position).getTotal_Rates())!=0) {
             holder.T_rates.setText(filteredList.get(position).getTotal_Rates() + "");
         }else {
-            holder.T_rates.setText(con.getResources().getString(R.string.norate) + "");
+            holder.relaa.setVisibility(View.VISIBLE);
         }
-
+        if(filteredList.get(position).getRate()==0){
+            holder.relaa.setVisibility(View.VISIBLE);
+        }
 
         if(Carwash.Service == "Mobile Service") {
-            holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
+            if(filteredList.get(position).getTotal_Price()!=null) {
+                if (filteredList.get(position).getTotal_Price().equals("0")) {
+                    holder.T_Price.setVisibility(View.GONE);
+                } else {
+                    holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
+                }
+            }
         }else {
-            holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
+            if(filteredList.get(position).getTotal_Price()!=null) {
+                if (filteredList.get(position).getTotal_Price().equals("0")) {
+                    holder.T_Price.setVisibility(View.GONE);
+                } else {
+                    holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
+                }
+            }
         }
-
         if(filteredList.get(position).getRate()==1){
             holder.Starone.setVisibility(View.VISIBLE);
         }else if(filteredList.get(position).getRate()==2){
@@ -121,12 +139,12 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
         }
         holder.placeName.setText(filteredList.get(position).getName());
         holder.Address.setText(filteredList.get(position).getAddress());
-
+    if(filteredList.get(position).getUserPhotoUrl()!=null) {
         String i = filteredList.get(position).getUserPhotoUrl();
         Uri u = Uri.parse(i);
 //        holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(getApplicationContext())
-                .load("http://fixsira.com/"+u)
+                .load("http://fixsira.com/" + u)
                 .placeholder(R.drawable.profile)
                 .fit()
                 .centerCrop()
@@ -141,19 +159,19 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
 //                        holder.progressBar.setVisibility(View.GONE);
                     }
                 });
-
+    }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 com.example.ic.fixera.Model.Details_Service filter_places=new com.example.ic.fixera.Model.Details_Service();
                 filter_places.setAddress(filteredList.get(position).getAddress());
-                filter_places.setId(filteredList.get(position).getId());
+                filter_places.setId(String.valueOf(filteredList.get(position).getId()));
                 filter_places.setVendorName(filteredList.get(position).getVendorName());
                 filter_places.setDescription(filteredList.get(position).getDescription());
                 filter_places.setUserPhotoUrl(filteredList.get(position).getUserPhotoUrl());
                 filter_places.setPhone(filteredList.get(position).getPhone());
-                filter_places.setRate(filteredList.get(position).getRate());
+                filter_places.setRate(String.valueOf(filteredList.get(position).getRate()));
                 filter_places.setLat(filteredList.get(position).getLat());
                 filter_places.setLng(filteredList.get(position).getLng());
                 filter_places.setTelephone(filteredList.get(position).getTelephone());
@@ -161,6 +179,12 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
                 filter_places.setVendor_id(filteredList.get(position).getVendor_id());
                 filter_places.setEvragerate(String.valueOf(filteredList.get(position).getRate()));
                 filter_places.setTotal_rate(filteredList.get(position).getTotal_Rates());
+                filter_places.setServices_id(filteredList.get(position).getService_id());
+                if(Carwash.Service == "Mobile Service") {
+                    filter_places.setPrice(filteredList.get(position).getTotal_Price());
+                }else {
+                    filter_places.setPrice(filteredList.get(position).getPrice());
+                }
                 filter_places.setTybe("car_washing");
                 details_service.listsevice(filter_places);
 

@@ -37,6 +37,8 @@ public class Register_Presenter {
         queryMap.put("password", user.getPassword());
         queryMap.put("email", user.getEmail());
         queryMap.put("phone", user.getPhone());
+        queryMap.put("car_model", user.getCarmodel());
+        queryMap.put("car_year", user.getCaryear());
 
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);
         Call<RegisterResponse> call = apiInterface.register(queryMap);

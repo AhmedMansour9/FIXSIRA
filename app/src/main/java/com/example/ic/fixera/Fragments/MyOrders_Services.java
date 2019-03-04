@@ -25,7 +25,7 @@ import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.Presenter.MyOrdersService_Presenter;
 import com.example.ic.fixera.View.MyOrdersService;
 import com.example.ic.fixera.View.MyOrdersService_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.List;
 
@@ -167,6 +167,11 @@ public class MyOrders_Services extends Fragment implements MyOrdersService_View,
 
     @Override
     public void ReviewOrders(My_Order_Services my_order_services) {
+
+    }
+
+    @Override
+    public void ChangeStatue(My_Order_Services my_order_services) {
 
     }
 }

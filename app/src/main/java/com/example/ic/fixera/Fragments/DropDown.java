@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.CarModel;
+import com.example.ic.fixera.Model.Car_Details;
 import com.example.ic.fixera.Model.ServicesType;
 import com.example.ic.fixera.Model.Spinner_CarModel;
 import com.example.ic.fixera.NetworikConntection;
@@ -27,7 +28,8 @@ import com.example.ic.fixera.Presenter.Get_CarModels_Presenter;
 import com.example.ic.fixera.Presenter.Servicetybe_Presenter;
 import com.example.ic.fixera.View.CarModels_View;
 import com.example.ic.fixera.View.Spinner_Service_tybe_View;
-import com.fixe.fixera.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     public DropDown() {
         // Required empty public constructor
     }
-    ArrayAdapter<CarModel> ListCarModel;
+    ArrayAdapter<Car_Details> ListCarModel;
     ArrayAdapter<ServicesType> listcarmaintencnce;
     Get_CarModels_Presenter carsmodel;
     View view;
@@ -62,11 +64,15 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     FrameLayout dropFrame;
      String Car_id,Tybe_id;
      String service;
+    private ShimmerFrameLayout mShimmerViewContainer;
+     List<Car_Details> list_Car=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_drop_down__car_maintenence, container, false);
+        mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
 
         init();
         SwipRefresh();
@@ -86,7 +92,10 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
             public void onClick(View view) {
                 if(networikConntection.isNetworkAvailable(getContext())){
 
-                if(CarModel!=null&&Service!=null)
+                if(!service.equals("Select")&&!service.equals("اختار")&&
+                        CarModel!=null&&
+                        !CarModel.equals("اختار")&&Service!=null&&
+                        !CarModel.equals("Select"))
                 if(tybe.equals("car_washing")) {
                     Carwash fragmen = new Carwash();
                     Bundle args = new Bundle();
@@ -125,6 +134,7 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         });
         return view;
     }
+
       public void init(){
           carsmodel=new Get_CarModels_Presenter(getContext(),this);
           Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
@@ -142,8 +152,14 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     public void Spin_Service(){
 
         List<String> categories = new ArrayList<String>();
-        categories.add(getResources().getString(R.string.mobileservice));
-        categories.add(getResources().getString(R.string.outside));
+        categories.add(getResources().getString(R.string.select));
+        if(tybe.equals("car_washing")) {
+            categories.add(getResources().getString(R.string.visitwashing));
+            categories.add(getResources().getString(R.string.mobileservice));
+        }else {
+            categories.add(getResources().getString(R.string.mobileservice));
+            categories.add(getResources().getString(R.string.onside));
+        }
         ListServices = new ArrayAdapter<String>(getApplicationContext(), R.layout.textcolorspinner, categories) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -159,15 +175,27 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(SelectService.getSelectedItem().toString().equals("زيارة")){
-                    service="MobileService";
-                }else if(SelectService.getSelectedItem().toString().equals("الصيانة في المكان")){
+                if(SelectService.getSelectedItem().toString().equals("زيارة للعميل")){
+                    service="Mobile Service";
+                }else if(SelectService.getSelectedItem().toString().equals("الصيانة في الورشة")){
                     service="On Site";
-                }else if(SelectService.getSelectedItem().toString().equals("Mobile Service")){
+                }else if(SelectService.getSelectedItem().toString().equals("غسيل في المركز")){
+                    service="On Site";
+                }
+                else if(SelectService.getSelectedItem().toString().equals("Client Visit")){
                     service="Mobile Service";
                 }
                 else if(SelectService.getSelectedItem().toString().equals("On Site")){
                     service="On Site";
+                }
+                else if(SelectService.getSelectedItem().toString().equals("Select")){
+                    service="Select";
+                }
+                else if(SelectService.getSelectedItem().toString().equals("اختار")){
+                    service="Select";
+                }
+                else if(SelectService.getSelectedItem().toString().equals("At Service Center")){
+                    service="Mobile Service";
                 }
 
             }
@@ -181,8 +209,22 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 
     @Override
     public void GetCarModels(final List<CarModel> list) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        ListCarModel = new ArrayAdapter<CarModel>(getApplicationContext(), R.layout.textcolorspinner,list) {
+        list_Car.clear();
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
+        Car_Details car_detail=new Car_Details();
+        car_detail.setId("0");
+        car_detail.setName(view.getResources().getString(R.string.select));
+        list_Car.add(car_detail);
+        for(int i=0;i<list.size();i++){
+            Car_Details car_details=new Car_Details();
+            car_details.setId(String.valueOf(list.get(i).getId()));
+            car_details.setName(String.valueOf(list.get(i).getModels()));
+            list_Car.add(car_details);
+        }
+//        mSwipeRefreshLayout.setRefreshing(false);
+        ListCarModel = new ArrayAdapter<Car_Details>(getApplicationContext(), R.layout.textcolorspinner,list_Car) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 TextView textView = (TextView) super.getDropDownView(position, convertView, parent);
@@ -203,8 +245,12 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                         Car_id=String.valueOf(list.get(i).getId());
                     }
                 }
-                mSwipeRefreshLayout.setRefreshing(true);
-                servicetyb.GetServices(lan, tybe, user,Car_id);
+                if(!CarModel.equals("Select")&&!CarModel.equals("اختار")) {
+//                    mSwipeRefreshLayout.setRefreshing(true);
+                    mShimmerViewContainer.startShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+                    servicetyb.GetServices(lan, tybe, user, Car_id);
+                }
 
 
             }
@@ -229,11 +275,14 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
             @Override
             public void run() {
                 if(networikConntection.isNetworkAvailable(getApplicationContext())) {
-                    mSwipeRefreshLayout.setRefreshing(true);
+//                    mSwipeRefreshLayout.setRefreshing(true);
+                    mShimmerViewContainer.startShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+
                     carsmodel.GetCarModel(lan, user);
 
                 }else {
-                    Snackbar.make(dropFrame,getResources().getString(R.string.internet),1500).show();
+//                    Snackbar.make(dropFrame,getResources().getString(R.string.internet),1500).show();
                 }
                 }
         });
@@ -241,10 +290,16 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     @Override
     public void services(final List<ServicesType> list) {
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
         mSwipeRefreshLayout.setRefreshing(false);
         listcarmaintencnce = new ArrayAdapter<ServicesType>(getApplicationContext(), R.layout.textcolorspinner,list) {
             @Override
@@ -263,8 +318,8 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                 Service= servicespinner.getSelectedItem().toString();
 
                 for(i = 0; i<list.size(); i++){
-                    if(list.get(i).getName().equals(Service)){
-                        Tybe_id=String.valueOf(list.get(i).getId());
+                    if(list.get(i).getServiceName().equals(Service)){
+                        Tybe_id=String.valueOf(list.get(i).getServicesId());
                     }
                 }
 
@@ -281,6 +336,9 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     @Override
     public void ErrorService() {
         mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -295,9 +353,23 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        carsmodel.GetCarModel(lan,user);
+//        mSwipeRefreshLayout.setRefreshing(true);
+        mShimmerViewContainer.startShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
 
+        carsmodel.GetCarModel(lan,user);
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putString("greeting", "Hello");
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        String greeting = (savedInstanceState != null) ? savedInstanceState.getString("greeting") : "null";
 
     }
 }

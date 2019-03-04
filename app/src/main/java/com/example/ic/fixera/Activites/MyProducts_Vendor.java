@@ -4,28 +4,24 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
 import com.example.ic.fixera.Adapter.MyProducts_vendor_Adapter;
-import com.example.ic.fixera.Adapter.MyServices_Vendor_Adapter;
-import com.example.ic.fixera.Adapter.SparParts_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Sparts_Details;
 import com.example.ic.fixera.NetworikConntection;
-import com.example.ic.fixera.Presenter.MyServices_Vendor_Presenter;
-import com.example.ic.fixera.Presenter.Sparts_Prsenter;
+import com.example.ic.fixera.Presenter.SpartsProducts_Prsenter;
 import com.example.ic.fixera.View.Sparts_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.List;
 
 public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,SwipeRefreshLayout.OnRefreshListener{
     String vendor_id,user_token,tybe;
-    Sparts_Prsenter products;
+    SpartsProducts_Prsenter products;
     RecyclerView recyclerView ;
     SwipeRefreshLayout mSwipeRefreshLayout;
     View view;
@@ -38,7 +34,7 @@ public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_my_products__vendor);
         getData();
-        products=new Sparts_Prsenter(MyProducts_Vendor.this,this);
+        products=new SpartsProducts_Prsenter(MyProducts_Vendor.this,this);
         networikConntection=new NetworikConntection(getApplicationContext());
         Recyclview();
         SwipRefresh();
@@ -98,14 +94,14 @@ public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,
     public void ListSparts(List<Sparts_Details> list) {
         categories_adapter=new MyProducts_vendor_Adapter(list,MyProducts_Vendor.this);
 
-     GridLayoutManager  gridLayoutManager=new GridLayoutManager(MyProducts_Vendor.this,2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+//     GridLayoutManager  gridLayoutManager=new GridLayoutManager(MyProducts_Vendor.this,2);
+//        recyclerView.setLayoutManager(gridLayoutManager);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(categories_adapter);
         mSwipeRefreshLayout.setRefreshing(false);
 
@@ -114,5 +110,10 @@ public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,
     @Override
     public void ErrorSparts() {
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void EmptySparts() {
+
     }
 }

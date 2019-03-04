@@ -5,7 +5,15 @@ package com.example.ic.fixera.Model;
  */
 
 public class Spart_Detailss {
-   private String id,title,price,stock,image,description,vendorname,evragerate;
+   private String id,title,price,stock,image,description,vendorname,evragerate,author_id;
+
+    public String getAuthor_id() {
+        return author_id;
+    }
+
+    public void setAuthor_id(String author_id) {
+        this.author_id = author_id;
+    }
 
     public String getVendorname() {
         return vendorname;

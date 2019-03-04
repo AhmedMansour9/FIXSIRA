@@ -17,7 +17,7 @@ import com.example.ic.fixera.Model.Spart_Detailss;
 import com.example.ic.fixera.Model.Sparts_AnotherDetails;
 import com.example.ic.fixera.View.Details_Sparts;
 import com.example.ic.fixera.View.MyOrdersService;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -102,7 +102,7 @@ public class Products_Byid_Adapter extends RecyclerView.Adapter<Products_Byid_Ad
             @Override
             public void onClick(View view) {
                 My_Order_Services myorders=new My_Order_Services();
-                myorders.setId(String.valueOf(filteredList.get(position).getId()));
+                myorders.setId(String.valueOf(filteredList.get(position).getProductsId()));
                 myOrdersService.ReviewOrders(myorders);
 
             }

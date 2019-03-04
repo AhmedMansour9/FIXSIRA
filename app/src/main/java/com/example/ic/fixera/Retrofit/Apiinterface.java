@@ -1,5 +1,6 @@
 package com.example.ic.fixera.Retrofit;
 
+import com.example.ic.fixera.Model.Banner_Response;
 import com.example.ic.fixera.Model.CarWashing_Response;
 import com.example.ic.fixera.Model.CartResponse;
 import com.example.ic.fixera.Model.Cart_Response;
@@ -12,13 +13,18 @@ import com.example.ic.fixera.Model.MyOrders_Service;
 import com.example.ic.fixera.Model.MyOrders_Service_Response;
 import com.example.ic.fixera.Model.MyProducts_byId_Response;
 import com.example.ic.fixera.Model.OrderCart_Response;
+import com.example.ic.fixera.Model.OrderShopUserVendor_Response;
 import com.example.ic.fixera.Model.Order_Service_Response;
+import com.example.ic.fixera.Model.OrdersService_UserVendor_Response;
 import com.example.ic.fixera.Model.Profile_Response;
 import com.example.ic.fixera.Model.Profile_Vendor_Response;
+import com.example.ic.fixera.Model.PullCar_Response;
 import com.example.ic.fixera.Model.RegisterFaceResponse;
 import com.example.ic.fixera.Model.RegisterResponse;
 import com.example.ic.fixera.Model.Review;
 import com.example.ic.fixera.Model.Review_Response;
+import com.example.ic.fixera.Model.Reviewes_Comment_Response;
+import com.example.ic.fixera.Model.Send_Message_Response;
 import com.example.ic.fixera.Model.Service_Response;
 import com.example.ic.fixera.Model.Sparts_Response;
 import com.example.ic.fixera.Model.Spinner_CarMoel_Response;
@@ -42,8 +48,32 @@ public interface Apiinterface {
     @POST("signupMobile")
     Call<RegisterResponse> register(@QueryMap Map<String, String> queryMab);
 
+    @POST("commentServices")
+    Call<Reviewes_Comment_Response> reviewservice(@QueryMap Map<String, String> queryMab);
+
+
+    @POST("commentProduct")
+    Call<Reviewes_Comment_Response> ReviwesProduct(@QueryMap Map<String, String> queryMab);
+
+    @POST("changeStatusServicesOrders")
+    Call<RegisterResponse> changestatues(@QueryMap Map<String, String> queryMab);
+
+    @POST("changeStatusOrders")
+    Call<RegisterResponse> changestat(@QueryMap Map<String, String> queryMab);
+
+
     @POST("login")
     Call<UserLoginResponse> Login(@QueryMap Map<String, String> queryMab);
+
+    @POST("changPassword")
+    Call<UserLoginResponse> changepass(@QueryMap Map<String, String> queryMab);
+
+    @POST("updateProfile")
+    Call<UserLoginResponse> change(@QueryMap Map<String, String> queryMab);
+
+    @POST("banner")
+    Call<Banner_Response> GetBanner(@QueryMap Map<String,String> queryMab);
+
     @POST("signupMobileGoogle")
     Call<UserLoginResponse> RegisterGoogle(@QueryMap Map<String,String> queryMab);
     @POST("signupMobileFacebook")
@@ -53,6 +83,9 @@ public interface Apiinterface {
     @POST("productsList")
     Call<Sparts_Response> Get_Sparts(@QueryMap Map<String,String> queryMab);
 
+    @POST("offersProduct")
+    Call<Sparts_Response> Get_Offers(@QueryMap Map<String,String> queryMab);
+
     @POST("categoryList")
     Call<Categoris_Sparts_Response> GetCategroiesResponse(@QueryMap Map<String,String> queryMab);
 
@@ -61,6 +94,9 @@ public interface Apiinterface {
 
     @POST("locationList")
     Call<CarWashing_Response> GetCars(@QueryMap Map<String,String> queryMab);
+
+    @POST("locationList")
+    Call<PullCar_Response> GetPullCar(@QueryMap Map<String,String> queryMab);
 
     @POST("addToCart")
     Call<Cart_Response> AddCart(@QueryMap Map<String,String> queryMab);
@@ -116,6 +152,16 @@ public interface Apiinterface {
 
     @POST("getDays")
     Call<Hours_Vendor_Response> GetHours(@QueryMap Map<String,String> queryMab);
+
+    @POST("orderServicesUserVendor")
+    Call<OrdersService_UserVendor_Response> GetOrders(@QueryMap Map<String,String> queryMab);
+
+    @POST("orderUserVendor")
+    Call<OrderShopUserVendor_Response> GetOrdersShop(@QueryMap Map<String,String> queryMab);
+
+    @POST("playerIds")
+    Call<Send_Message_Response> SendPlayerid(@QueryMap Map<String, String> queryMab);
+
 
 }
 

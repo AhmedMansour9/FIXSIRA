@@ -34,7 +34,7 @@ import com.example.ic.fixera.Presenter.ShowCart_Presenter;
 import com.example.ic.fixera.View.Cart_View;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.ShowCart_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +69,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     FrameLayout cartframe;
     NetworikConntection networikConntection;
     List<com.example.ic.fixera.Model.Cart> listss;
+    TextView NoProducts;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,20 +77,27 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         view=inflater.inflate(R.layout.fragment_cart, container, false);
         showCart_presenter=new ShowCart_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+        init();
+        Recyclview();
+        SwipRefresh();
+       RequestOrder();
+        return view;
+    }
+
+
+    public void init(){
         listss=new ArrayList<>();
         cartframe=view.findViewById(R.id.cartframe);
+        NoProducts=view.findViewById(R.id.noproduct);
         networikConntection=new NetworikConntection(getApplicationContext());
         requestorder=view.findViewById(R.id.requestorder);
         user=Shared.getString("logggin",null);
         T_Price=view.findViewById(R.id.T_Price);
         TotalPrice=view.findViewById(R.id.Price);
         addCart=new AddCart_Presenter(getContext(),this);
-        TabsLayouts.banner.setVisibility(View.GONE);
+//        TabsLayouts.banner.setVisibility(View.GONE);
         order=view.findViewById(R.id.servicerequest);
-        Recyclview();
-        SwipRefresh();
-       RequestOrder();
-        return view;
+
     }
     public void RequestOrder(){
         requestorder.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +148,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
                             showCart_presenter.ShowCart("en", user);
                         }
                     }else {
-                        Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+//                        Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
                     }
                 }
                 }
@@ -179,11 +187,21 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void NoProduct() {
+        NoProducts.setVisibility(View.VISIBLE);
+        TotalPrice.setVisibility(View.GONE);
+        T_Price.setVisibility(View.GONE);
+        requestorder.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onRefresh() {
-        if(networikConntection.isNetworkAvailable(getApplicationContext())){
+        if(networikConntection .isNetworkAvailable(getApplicationContext())){
         if (user != null) {
             if (Language.isRTL()) {
                 mSwipeRefreshLayout.setRefreshing(true);
@@ -194,7 +212,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
             }
         }
         else {
-            Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
+//            Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();
         }
         }
     }
@@ -203,9 +221,9 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         if(networikConntection.isNetworkAvailable(getApplicationContext())) {
             mSwipeRefreshLayout.setRefreshing(true);
             if (Language.isRTL()) {
-                addCart.Add_toCart("ar", user, id);
+                addCart.Add_toCart("ar", user, id,"2",2);
             } else {
-                addCart.Add_toCart("en", user, id);
+                addCart.Add_toCart("en", user, id,"2",3);
             }
         }else {
             Snackbar.make(cartframe,getResources().getString(R.string.internet),1500).show();

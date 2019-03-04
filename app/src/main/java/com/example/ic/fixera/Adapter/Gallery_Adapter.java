@@ -15,7 +15,7 @@ import com.example.ic.fixera.Model.GalleryImage;
 import com.example.ic.fixera.Model.Spart_Detailss;
 import com.example.ic.fixera.Model.Sparts_AnotherDetails;
 import com.example.ic.fixera.View.Details_Sparts;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

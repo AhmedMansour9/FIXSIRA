@@ -15,7 +15,7 @@ import com.example.ic.fixera.Model.UserRegister;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Register_Presenter;
 import com.example.ic.fixera.View.RegisterView;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 
@@ -30,7 +30,7 @@ public class Register extends Fragment implements RegisterView {
     }
     View view;
    Button Sign_Up;
-    EditText E_FirstName,E_LastName,E_Emai,E_Phone,E_Password;
+    EditText E_FirstName,E_LastName,E_Emai,E_Phone,E_Password,E_CarModel,E_CarYear;
     ProgressBar Progrossregister;
     NetworikConntection checkgbsAndNetwork;
     Register_Presenter register;
@@ -46,6 +46,8 @@ public class Register extends Fragment implements RegisterView {
         E_Emai=view.findViewById(R.id.E_Email);
         E_Phone=view.findViewById(R.id.E_Phone);
         E_Password=view.findViewById(R.id.E_Password);
+        E_CarModel=view.findViewById(R.id.E_CarModel);
+        E_CarYear=view.findViewById(R.id.E_CarYear);
         Sign_Up=view.findViewById(R.id.Sign_Up);
         checkgbsAndNetwork=new NetworikConntection(getActivity());
         GoToLogin();
@@ -58,6 +60,9 @@ public class Register extends Fragment implements RegisterView {
                     FUtilsValidation.isEmpty(E_LastName, getResources().getString(R.string.insertlastname));
                     FUtilsValidation.isEmpty(E_Phone, getResources().getString(R.string.insertphone));
                     FUtilsValidation.isEmpty(E_Password, getResources().getString(R.string.insertpassword));
+
+                    FUtilsValidation.isEmpty(E_CarModel, getResources().getString(R.string.insertcarmodel));
+                    FUtilsValidation.isEmpty(E_CarYear, getResources().getString(R.string.insertcaryear));
 
                     FUtilsValidation.isLengthCorrect(E_Password.getText().toString(), 8, 16);
 
@@ -75,6 +80,8 @@ public class Register extends Fragment implements RegisterView {
                         user.setLastName(E_LastName.getText().toString());
                         user.setPhone(E_Phone.getText().toString());
                         user.setPassword(E_Password.getText().toString());
+                        user.setCarmodel(E_CarModel.getText().toString());
+                        user.setCaryear(E_CarYear.getText().toString());
 
                         Progrossregister.setVisibility(View.VISIBLE);
                         register.register(user);
@@ -94,7 +101,8 @@ public class Register extends Fragment implements RegisterView {
        Sign_Up.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               getFragmentManager().beginTransaction().replace(R.id.flContent,new Login()).commit();
+               getFragmentManager().beginTransaction().replace(R.id.flContent,
+                       new Login()).commit();
            }
        });
    }

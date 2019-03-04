@@ -4,20 +4,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
-import com.example.ic.fixera.Adapter.MyProducts_vendor_Adapter;
 import com.example.ic.fixera.Adapter.Vendor_Hours_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.NetworikConntection;
-import com.example.ic.fixera.Presenter.Sparts_Prsenter;
 import com.example.ic.fixera.Presenter.Vendor_Hours_Presenter;
 import com.example.ic.fixera.View.Vendor_Hours_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.List;
 

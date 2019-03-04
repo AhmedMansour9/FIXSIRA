@@ -22,6 +22,20 @@ public class Profilee {
     @SerializedName("user_photo_url")
     @Expose
     private String userPhotoUrl;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
+    @SerializedName("carModel")
+    @Expose
+    private String carModel;
+    @SerializedName("carYear")
+    @Expose
+    private String carYear;
+
+
 
     public String getDisplayName() {
         return displayName;
@@ -53,5 +67,37 @@ public class Profilee {
 
     public void setUserPhotoUrl(String userPhotoUrl) {
         this.userPhotoUrl = userPhotoUrl;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public String getCarYear() {
+        return carYear;
+    }
+
+    public void setCarYear(String carYear) {
+        this.carYear = carYear;
     }
 }

@@ -19,9 +19,15 @@ public class Sparts_Details {
     @SerializedName("content")
     @Expose
     private String content;
+    @SerializedName("content_ar")
+    @Expose
+    private String contentAr;
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("title_ar")
+    @Expose
+    private String titleAr;
     @SerializedName("slug")
     @Expose
     private String slug;
@@ -61,6 +67,11 @@ public class Sparts_Details {
     @SerializedName("author_name")
     @Expose
     private String authorName;
+
+    @SerializedName("author_phone")
+    @Expose
+    private String authorPhone;
+
     @SerializedName("rate_total")
     @Expose
     private Integer rateTotal;
@@ -92,12 +103,28 @@ public class Sparts_Details {
         this.content = content;
     }
 
+    public String getContentAr() {
+        return contentAr;
+    }
+
+    public void setContentAr(String contentAr) {
+        this.contentAr = contentAr;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitleAr() {
+        return titleAr;
+    }
+
+    public void setTitleAr(String titleAr) {
+        this.titleAr = titleAr;
     }
 
     public String getSlug() {
@@ -218,5 +245,13 @@ public class Sparts_Details {
 
     public void setRateAverage(Integer rateAverage) {
         this.rateAverage = rateAverage;
+    }
+
+    public String getAuthorPhone() {
+        return authorPhone;
+    }
+
+    public void setAuthorPhone(String authorPhone) {
+        this.authorPhone = authorPhone;
     }
 }

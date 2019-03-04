@@ -10,4 +10,5 @@ public interface MyOrdersService {
 
     void OrdersService(My_Order_Services my_order_services);
     void ReviewOrders(My_Order_Services my_order_services);
+    void ChangeStatue(My_Order_Services my_order_services);
 }

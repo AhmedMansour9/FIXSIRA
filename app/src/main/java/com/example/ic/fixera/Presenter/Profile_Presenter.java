@@ -46,7 +46,9 @@ public class Profile_Presenter {
 
                 if (response.isSuccessful()) {
                     if(response.body().getData()!=null) {
-                        profile.getProfile(response.body().getData().getDisplayName(), response.body().getData().getEmail(), response.body().getData().getUserPhotoUrl());
+                        profile.getProfile(response.body().getData().getDisplayName(), response.body().getData().getEmail(),
+                                response.body().getData().getUserPhotoUrl(),response.body().getData().getPhone()
+                        ,response.body().getData().getCarModel(),response.body().getData().getCarYear());
                     }else {
                         profile.Error();
                     }

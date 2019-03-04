@@ -1,9 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bgregister"
     tools:context="com.example.ic.fixera.Fragments.Register">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ProgressBar
         android:id="@+id/progressBarRegister"
         android:layout_width="50dp"
@@ -57,6 +60,7 @@
     android:layout_marginRight="@dimen/_20sdp"
     android:layout_below="@+id/textsignup"
     android:hint="@string/firstname"
+    android:maxLines="1"
     android:id="@+id/E_FirstName"
     />
     <EditText
@@ -67,6 +71,7 @@
         android:layout_marginRight="@dimen/_20sdp"
         android:layout_below="@+id/E_FirstName"
         android:hint="@string/lastname"
+        android:maxLines="1"
         android:id="@+id/E_LastName"
         />
     <EditText
@@ -78,6 +83,7 @@
         android:layout_below="@+id/E_LastName"
         android:hint="@string/email"
         android:id="@+id/E_Email"
+        android:maxLines="1"
         />
     <EditText
         android:layout_width="match_parent"
@@ -88,6 +94,8 @@
         android:layout_below="@+id/E_Email"
         android:hint="@string/Phone"
         android:id="@+id/E_Phone"
+        android:inputType="number"
+        android:maxLines="1"
         />
     <EditText
         android:layout_width="match_parent"
@@ -99,17 +107,42 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:id="@+id/E_Password"
+        android:maxLines="1"
         />
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_below="@+id/E_Password"
+        android:hint="@string/carmodel"
+        android:id="@+id/E_CarModel"
+        android:maxLines="1"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_below="@+id/E_CarModel"
+        android:hint="@string/year"
+        android:inputType="number"
+        android:id="@+id/E_CarYear"
+        android:maxLines="1"
+        />
     <Button
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_50sdp"
-        android:layout_below="@+id/E_Password"
+        android:layout_below="@+id/E_CarYear"
         android:background="#f58020"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:text="@string/signup"
         android:textSize="@dimen/_20sdp"
         android:id="@+id/Sign_Up"
         />
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

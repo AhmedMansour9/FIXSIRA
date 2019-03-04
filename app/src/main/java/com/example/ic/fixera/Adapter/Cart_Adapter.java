@@ -14,7 +14,7 @@ import com.example.ic.fixera.Model.Cart;
 import com.example.ic.fixera.Model.Filter_Places;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.Details_Service;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

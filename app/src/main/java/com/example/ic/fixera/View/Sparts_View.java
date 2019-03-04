@@ -11,4 +11,5 @@ import java.util.List;
 public interface Sparts_View {
     void ListSparts(List<Sparts_Details> list);
     void ErrorSparts();
+    void EmptySparts();
 }

@@ -1,8 +1,10 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,14 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ic.fixera.Activites.TabsLayouts;
+import com.example.ic.fixera.Activites.UserVendor_Orders;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.LoginPresenter;
 import com.example.ic.fixera.Presenter.RegisterFace_Presenter;
 import com.example.ic.fixera.Presenter.RegisterGoogle_Presenter;
 import com.example.ic.fixera.Model.UserRegister;
+import com.example.ic.fixera.Presenter.UpdatePlayer_Presenter;
+import com.example.ic.fixera.SharedPrefManager;
 import com.example.ic.fixera.View.LoginView;
 import com.example.ic.fixera.View.RegisterFaceView;
 import com.example.ic.fixera.View.RegistergoogleView;
+import com.example.ic.fixera.View.UpdatePlayerid_View;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,7 +42,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -52,11 +58,14 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.onesignal.OSPermissionSubscriptionState;
+import com.onesignal.OneSignal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -64,7 +73,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Login extends Fragment implements LoginView,RegisterFaceView,RegistergoogleView {
+public class Login extends Fragment implements LoginView,RegisterFaceView,RegistergoogleView , UpdatePlayerid_View {
 
 
     public Login() {
@@ -94,7 +103,10 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
     String useer;
     String email;
     String useergoogle;
-
+    String user;
+    SharedPreferences shared;
+    TextView guest;
+    UpdatePlayer_Presenter updatePlayer_presenter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,15 +114,18 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         view=inflater.inflate(R.layout.fragment_login, container, false);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE).edit();
         logiin=new LoginPresenter(getActivity(),this);
+        updatePlayer_presenter=new UpdatePlayer_Presenter(getActivity(),this);
+        guest=view.findViewById(R.id.guest);
         loginfac=view.findViewById(R.id.loginfac);
-        google=view.findViewById(R.id.google);
+//        google=view.findViewById(R.id.google);
         regist=new RegisterFace_Presenter(getActivity(),this);
         Registergoogl=new RegisterGoogle_Presenter(getActivity(),this);
         mCallbackManager = CallbackManager.Factory.create();
         mAuth = FirebaseAuth.getInstance();
         logiin=new LoginPresenter(getActivity(),this);
-        GoogleSignOpition();
-        LoginGoogle();
+
+//        GoogleSignOpition();
+//        LoginGoogle();
         LoginFac();
         progressBar=view.findViewById(R.id.progressBarlogin);
         Network=new NetworikConntection(getContext());
@@ -120,18 +135,36 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         E_Password=view.findViewById(R.id.E_Password);
         GotToTabsLayout();
         GoToRegister();
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPrefManager.getInstance(getActivity()).saveRole("role");
+                startActivity(new Intent(getContext(),TabsLayouts.class));
+
+
+            }
+        });
 
 
    return view;
     }
 
+    public void setLanguage(){
+        shared=getActivity().getSharedPreferences("Language",MODE_PRIVATE);
+        String Lan=shared.getString("Lann",null);
+        if(Lan!=null) {
+            Locale locale = new Locale(Lan);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getActivity().getBaseContext().getResources().updateConfiguration(config,
+                    getActivity().getBaseContext().getResources().getDisplayMetrics());
+        }
+    }
     public void GotToTabsLayout(){
         Sign_IN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!ValidateEmail()){
-                    return;
-                }
 
                 if(Network.isNetworkAvailable(getContext())){
                     FUtilsValidation.isEmpty(E_Email,getResources().getString(R.string.insertemail));
@@ -204,21 +237,21 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
             }
         }
     }
-    public void GoogleSignOpition(){
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                } /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
-                .build();
-    }
+//    public void GoogleSignOpition(){
+//        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .requestEmail()
+//                .build();
+//        googleApiClient = new GoogleApiClient.Builder(getActivity())
+//                .enableAutoManage(getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
+//                    @Override
+//                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//
+//                    }
+//                } /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+//                .build();
+//    }
     @Override
     public void onPause() {
         super.onPause();
@@ -262,7 +295,6 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         loginfac.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Network.isNetworkAvailable(getActivity())) {
 
                     LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("email", "public_profile"));
 
@@ -277,17 +309,15 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
 
                                 @Override
                                 public void onCancel() {
-//                                Toast.makeText(loginmain.this, "LoginPresenter Cancel", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "LoginPresenter Cancel", Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
                                 public void onError(FacebookException exception) {
-                                    Toast.makeText(getContext(), getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), exception.toString(), Toast.LENGTH_LONG).show();
                                 }
                             });
-                }else {
-                    Toast.makeText(getContext(),getResources().getString(R.string.internet), Toast.LENGTH_LONG).show();
-                }
+
             }
         });
     }
@@ -312,18 +342,15 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
                                                 String facebook_id = object.getString("id");
                                                 progressBar.setVisibility(View.GONE);
                                                 FirebaseUser user = mAuth.getCurrentUser();
-
-                                                useer=user.getDisplayName();
-                                                final String emaail=user.getEmail();
+                                                useer=object.getString("name");
+                                                final String emaail=object.getString("email");
                                                 final String id=user.getUid();
-
                                                 userface = new UserRegister();
                                                 userface.setFirstName(useer);
                                                 userface.setEmail(emaail);
                                                 userface.setId(facebook_id);
                                                 progressBar.setVisibility(View.VISIBLE);
                                                 regist.RegisterFace(userface);
-
                                             } catch (JSONException e) {
                                                 // TODO Auto-generated catch block
                                             }
@@ -333,8 +360,6 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
                             permission_param.putString("fields", "id,name,email");
                             data_request.setParameters(permission_param);
                             data_request.executeAsync();
-                            data_request.executeAsync();
-
 
                         }
                     }
@@ -344,13 +369,43 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
     public void openMain(String a) {
         Shared.putString("logggin",a);
         Shared.apply();
+        SharedPrefManager.getInstance(getActivity()).saveRole(null);
         progressBar.setVisibility(View.GONE);
+        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
+        String playerid= status.getSubscriptionStatus().getUserId();
+
+        updatePlayer_presenter.SendPlayerId(a,playerid);
+
         startActivity(new Intent(getContext(),TabsLayouts.class));
         getActivity().finish();
     }
 
     @Override
+    public void OpenRole(String usertoken) {
+        Shared.putString("uservendor",usertoken);
+        Shared.apply();
+        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
+//        status.getPermissionStatus().getEnabled();
+//        status.getSubscriptionStatus().getSubscribed();
+//        status.getSubscriptionStatus().getUserSubscriptionSetting();
+        String playerid= status.getSubscriptionStatus().getUserId();
+
+        updatePlayer_presenter.SendPlayerId(usertoken,playerid);
+
+        progressBar.setVisibility(View.GONE);
+        startActivity(new Intent(getContext(),UserVendor_Orders.class));
+        getActivity().finish();
+        SharedPrefManager.getInstance(getActivity()).saveRole(null);
+    }
+
+    @Override
     public void showError(String error) {
+
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void Invalidemail(String password) {
         Toast.makeText(getActivity(), ""+getResources().getString(R.string.invalidemail), Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
     }
@@ -362,6 +417,14 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         progressBar.setVisibility(View.GONE);
         startActivity(new Intent(getContext(),TabsLayouts.class));
         getActivity().finish();
+        SharedPrefManager.getInstance(getActivity()).saveRole(null);
+        OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
+//        status.getPermissionStatus().getEnabled();
+//        status.getSubscriptionStatus().getSubscribed();
+//        status.getSubscriptionStatus().getUserSubscriptionSetting();
+        String playerid= status.getSubscriptionStatus().getUserId();
+
+        updatePlayer_presenter.SendPlayerId(a,playerid);
 
     }
 
@@ -378,6 +441,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         progressBar.setVisibility(View.GONE);
         startActivity(new Intent(getContext(),TabsLayouts.class));
         getActivity().finish();
+        SharedPrefManager.getInstance(getActivity()).saveRole(null);
 
     }
 
@@ -385,6 +449,28 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
     public void showErrorGoogle(String error) {
         Toast.makeText(getActivity(), ""+getResources().getString(R.string.invalidemail), Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        setLanguage();
+    }
+
+    @Override
+    public void playerid() {
+
+    }
+
+    @Override
+    public void Error() {
+
     }
 }
 

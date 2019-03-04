@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ic.fixera.Fragments.language;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.Locale;
 
@@ -32,13 +32,18 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         String logi=sha.getString("logggin",null);
-        if(logi!=null){
-            startActivity(new Intent(MainActivity.this,TabsLayouts.class));
+        String uservendor=sha.getString("uservendor",null);
+        if(uservendor!=null){
+            startActivity(new Intent(MainActivity.this,UserVendor_Orders.class));
             finish();
         }else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new language()).commit();
+            if (logi != null) {
+                startActivity(new Intent(MainActivity.this, TabsLayouts.class));
+                finish();
+            } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new language()).commit();
+            }
         }
-
     }
 
     @Override

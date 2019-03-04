@@ -1,6 +1,7 @@
 package com.example.ic.fixera.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Spart_Detailss;
 import com.example.ic.fixera.Model.Sparts_AnotherDetails;
 import com.example.ic.fixera.View.Details_Sparts;
-import com.fixe.fixera.R;
+import com.example.ic.fixera.View.phone_view;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -34,13 +38,15 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
     View itemView;
     Context con;
     Details_Sparts details_sparts;
+    phone_view phoneView;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView Text_Spare,Text_Price,Text_Details,textRate,T_rates,T_Vendor,Text_RegularPrice;
         private Button Callnow,Details;
-        private ImageView img_Spare;
+        private ImageView img_Spare,call;
         private ProgressBar ProgrossSpare;
         private ImageView person_image,Starone,Startwo,StarThree,StarFour,StarFive;
+        RelativeLayout relaa;
 
         public MyViewHolder(View view) {
             super(view);
@@ -48,7 +54,8 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
             Text_Spare=view.findViewById(R.id.Text_Spare);
             Text_Price=view.findViewById(R.id.Text_Price);
             ProgrossSpare=view.findViewById(R.id.ProgrossSpare);
-            textRate=view.findViewById(R.id.textRate);
+            textRate=view.findViewById(R.id.T_Rates);
+            Starone=view.findViewById(R.id.Starone);
             Startwo=view.findViewById(R.id.Startwo);
             StarThree=view.findViewById(R.id.Starthree);
             StarFour=view.findViewById(R.id.StarFour);
@@ -56,6 +63,8 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
             T_rates=view.findViewById(R.id.T_Rates);
             T_Vendor=view.findViewById(R.id.Text_Vendor);
             Text_RegularPrice=view.findViewById(R.id.Text_RegularPrice);
+            call=view.findViewById(R.id.call);
+            relaa=view.findViewById(R.id.relaa);
         }
 
     }
@@ -68,8 +77,9 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
         this.filteredList=list;
 
     }
-    public void setClickListener(Details_Sparts details_sparts) {
+    public void setClickListener(Details_Sparts details_sparts,phone_view phone) {
         this.details_sparts = details_sparts;
+        this.phoneView=phone;
     }
 
     @Override
@@ -81,46 +91,53 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
 
     @Override
     public void onBindViewHolder(final SparParts_Adapter.MyViewHolder holder, final int position) {
-      holder.Text_Spare.setText(filteredList.get(position).getTitle());
-      holder.Text_Price.setText(String.valueOf(filteredList.get(position).getSalePrice()));
-      holder.Text_RegularPrice.setText(String.valueOf(filteredList.get(position).getRegularPrice()));
-        holder.Text_RegularPrice.setPaintFlags(holder.Text_RegularPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+      if(Language.isRTL()){
+          holder.Text_Spare.setText(filteredList.get(position).getTitlear());
+      }  else {
+          holder.Text_Spare.setText(filteredList.get(position).getTitle());
+      }
+          holder.Text_Price.setText(String.valueOf(filteredList.get(position).getSalePrice()));
+          if (Double.parseDouble(filteredList.get(position).getRegularPrice()) != 0) {
+              holder.Text_RegularPrice.setText(String.valueOf(filteredList.get(position).getRegularPrice()));
+              holder.Text_RegularPrice.setPaintFlags(holder.Text_RegularPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+          }
+          holder.T_Vendor.setText(filteredList.get(position).getVendorname());
+          if (filteredList.get(position).getVendor_Phone() == null) {
+              holder.call.setVisibility(View.GONE);
+          }
 
-        holder.T_Vendor.setText(filteredList.get(position).getVendorname());
-
-        if(Integer.parseInt(filteredList.get(position).getAverage_total())!=0) {
-            holder.T_rates.setText(filteredList.get(position).getAverage_total() + "");
-        }else {
-            holder.T_rates.setText(con.getResources().getString(R.string.norate) + "");
-        }
-        if(Integer.parseInt(filteredList.get(position).getAverage())==1){
-            holder.Starone.setVisibility(View.VISIBLE);
-        }else if(Integer.parseInt(filteredList.get(position).getAverage())==2){
-            holder.Starone.setVisibility(View.VISIBLE);
-            holder.Startwo.setVisibility(View.VISIBLE);
-        }else if(Integer.parseInt(filteredList.get(position).getAverage())==3){
-            holder.Starone.setVisibility(View.VISIBLE);
-            holder.Startwo.setVisibility(View.VISIBLE);
-            holder.StarThree.setVisibility(View.VISIBLE);
-        }else if(Integer.parseInt(filteredList.get(position).getAverage())==4){
-            holder.Starone.setVisibility(View.VISIBLE);
-            holder.Startwo.setVisibility(View.VISIBLE);
-            holder.StarThree.setVisibility(View.VISIBLE);
-            holder.StarFour.setVisibility(View.VISIBLE);
-        }else if(Integer.parseInt(filteredList.get(position).getAverage())==5){
-            holder.Starone.setVisibility(View.VISIBLE);
-            holder.Startwo.setVisibility(View.VISIBLE);
-            holder.StarThree.setVisibility(View.VISIBLE);
-            holder.StarFour.setVisibility(View.VISIBLE);
-            holder.StarFive.setVisibility(View.VISIBLE);
-        }
-
+          if (Integer.parseInt(filteredList.get(position).getAverage_total()) != 0) {
+              holder.T_rates.setText(filteredList.get(position).getAverage_total() + "");
+          } else {
+              holder.relaa.setVisibility(View.VISIBLE);
+          }
+          if (filteredList.get(position).getAverage() == 1) {
+              holder.Starone.setVisibility(View.VISIBLE);
+          } else if (filteredList.get(position).getAverage() == 2) {
+              holder.Starone.setVisibility(View.VISIBLE);
+              holder.Startwo.setVisibility(View.VISIBLE);
+          } else if (filteredList.get(position).getAverage() == 3) {
+              holder.Starone.setVisibility(View.VISIBLE);
+              holder.Startwo.setVisibility(View.VISIBLE);
+              holder.StarThree.setVisibility(View.VISIBLE);
+          } else if (filteredList.get(position).getAverage() == 4) {
+              holder.Starone.setVisibility(View.VISIBLE);
+              holder.Startwo.setVisibility(View.VISIBLE);
+              holder.StarThree.setVisibility(View.VISIBLE);
+              holder.StarFour.setVisibility(View.VISIBLE);
+          } else if (filteredList.get(position).getAverage() == 5) {
+              holder.Starone.setVisibility(View.VISIBLE);
+              holder.Startwo.setVisibility(View.VISIBLE);
+              holder.StarThree.setVisibility(View.VISIBLE);
+              holder.StarFour.setVisibility(View.VISIBLE);
+              holder.StarFive.setVisibility(View.VISIBLE);
+          }
 
         String i = filteredList.get(position).getImageUrl();
         Uri u = Uri.parse(i);
         holder.ProgrossSpare.setVisibility(View.VISIBLE);
         Picasso.with(getApplicationContext())
-                .load("http://fixsira.com/"+u)
+                .load("http://emarketingbakers.com/"+u)
                 .into(holder.img_Spare, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -144,10 +161,17 @@ public class SparParts_Adapter  extends RecyclerView.Adapter<SparParts_Adapter.M
                spoar.setStock(String.valueOf(filteredList.get(position).getStockAvailability()));
                spoar.setVendorname(String.valueOf(filteredList.get(position).getVendorname()));
                spoar.setEvragerate(String.valueOf(filteredList.get(position).getAverage()));
+               spoar.setAuthor_id(filteredList.get(position).getAuthorId());
                details_sparts.Listdetails(spoar);
            }
        });
 
+       holder.call.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+           phoneView.phone(filteredList.get(position).getVendor_Phone());
+           }
+       });
     }
 
     @Override

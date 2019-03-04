@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface Profile_View {
 
-    void getProfile(String user,String Email,String userphoto);
+    void getProfile(String user,String Email,String userphoto,String phone,String carmodel,String caryear);
     void Error();
 }

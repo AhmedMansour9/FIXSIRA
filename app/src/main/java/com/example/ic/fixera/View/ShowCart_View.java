@@ -12,4 +12,5 @@ public interface ShowCart_View {
     void ShowCart(List<Cart> list);
     void ShowTotalprice(String price);
     void Error();
+    void NoProduct();
 }

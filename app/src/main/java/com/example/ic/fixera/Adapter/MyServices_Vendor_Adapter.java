@@ -14,7 +14,7 @@ import com.example.ic.fixera.Model.MyOrders_Service;
 import com.example.ic.fixera.Model.Vendor_Services;
 import com.example.ic.fixera.View.Category_id;
 import com.example.ic.fixera.View.MyOrdersService;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;

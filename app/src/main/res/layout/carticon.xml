@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_25sdp"
         android:id="@+id/cart"
+        android:layout_marginTop="@dimen/_5sdp"
         android:src="@drawable/cart"
-        android:layout_gravity="center_horizontal" />
+        android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:textSize="@dimen/_8sdp"
+        android:layout_below="@+id/cart"
         android:text="@string/cart"
+        android:id="@+id/textt"
         android:textColor="#000"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         />
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="#000"
+        android:layout_below="@+id/cart"
+        android:layout_toRightOf="@+id/textt"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/cartt"
+        />
+</RelativeLayout>

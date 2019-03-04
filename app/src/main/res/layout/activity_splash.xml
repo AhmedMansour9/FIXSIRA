@@ -11,8 +11,16 @@
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_140sdp"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo"
+        android:src="@drawable/lastlogo"
         android:id="@+id/logofix"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="Developed by e-bakers"
         />
 
 </RelativeLayout>

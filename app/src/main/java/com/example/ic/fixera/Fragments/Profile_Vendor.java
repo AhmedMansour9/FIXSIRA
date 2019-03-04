@@ -34,7 +34,8 @@ import com.example.ic.fixera.Model.Location_Vendor;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Profilevendor_Presenter;
 import com.example.ic.fixera.View.Profilevendor_View;
-import com.fixe.fixera.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.fixsira.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -67,7 +68,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRefreshListener,Profilevendor_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        Profilevendor_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
 
     public Profile_Vendor() {
@@ -96,7 +98,9 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
     String Car_id,Service_id;
     private ImageView Starone,Startwo,StarThree,StarFour,StarFive;
    private String vendor_id;
-   public String Tybe_Service;
+   public String Tybe_Service,services_id;
+    private ShimmerFrameLayout mShimmerViewContainer;
+    TextView allreviwes;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,6 +108,8 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
         view=inflater.inflate(R.layout.profile_vendor, container, false);
         profilevendor=new Profilevendor_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+        mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
+        allreviwes=view.findViewById(R.id.reviews);
         networikConntection=new NetworikConntection(getActivity());
         btn_ShowService=view.findViewById(R.id.showservices);
         user=Shared.getString("logggin",null);
@@ -133,7 +139,28 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
         Open_Reserve();
         ShowProducts();
         ShowHours();
+        openReviewes();
         return view;
+    }
+    public void openReviewes(){
+        allreviwes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                All_Reviwes fragmen = new All_Reviwes();
+                Bundle args = new Bundle();
+                args.putString("tybe_id",Service_id);
+                args.putString("tybeservice",tybe);
+                args.putString("id",null);
+
+                fragmen.setArguments(args);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.MenuFrame, fragmen )
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
+
+            }
+        });
     }
     public void ShowHours(){
         btn_ShowHours.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +199,7 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
             Car_id=args.getString("car_id");
             Service_id=args.getString("tybe_id");
             Rate=args.getString("rate");
+            services_id=args.getString("service_id");
             Total_rate=args.getString("Total_rate");
             Tybe_Service=args.getString("tybeservice");
 //            vendor_id=args.getString("vendor_id");
@@ -202,7 +230,7 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
 
 
             Picasso.with(getApplicationContext())
-                    .load("http://fixsira.com/site/"+photo)
+                    .load("http://fixsira.com/"+photo)
                     .placeholder(R.drawable.profile)
                     .into(person_image, new Callback() {
                         @Override
@@ -260,6 +288,7 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
                 args.putString("car_id",Car_id);
                 args.putString("tybe_id",Service_id);
                 args.putString("tybeservice",Tybe_Service);
+                args.putString("services_id",services_id);
                 fragmen.setArguments(args);
                 getFragmentManager().beginTransaction()
                         .replace(R.id.MenuFrame, fragmen )
@@ -302,29 +331,8 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new android.app.AlertDialog.Builder(getContext())
-                        .setTitle("info")
-                        .setMessage("Enable gbs")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        REQUEST_LOCATION_CODE);
-                            }
-                        })
-                        .create()
-                        .show();
-
 
             } else {
                 // No explanation needed, we can request the permission.
@@ -341,6 +349,9 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void getprofile(List<Location_Vendor> list) {
         mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
         if(list!=null) {
             Address=list.get(0).getAddress();
             vendorname.setText(""+list.get(0).getName());
@@ -360,6 +371,9 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false);
+        mShimmerViewContainer.stopShimmerAnimation();
+        mShimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -447,7 +461,10 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void run() {
                 if(networikConntection.isNetworkAvailable(getContext())) {
-                    mSwipeRefreshLayout.setRefreshing(true);
+//                    mSwipeRefreshLayout.setRefreshing(true);
+                    mShimmerViewContainer.startShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+
                     profilevendor.profilevendor(user, lan, id);
                 }else {
                     Snackbar.make(profileFrame,getResources().getString(R.string.internet),1500).show();
@@ -460,11 +477,22 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh() {
         if(networikConntection.isNetworkAvailable(getContext())) {
-            mSwipeRefreshLayout.setRefreshing(true);
+//            mSwipeRefreshLayout.setRefreshing(true);
+
+            mShimmerViewContainer.startShimmerAnimation();
+            mShimmerViewContainer.setVisibility(View.VISIBLE);
             profilevendor.profilevendor(user, lan, id);
         }else {
             Snackbar.make(profileFrame,getResources().getString(R.string.internet),1500).show();
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 }

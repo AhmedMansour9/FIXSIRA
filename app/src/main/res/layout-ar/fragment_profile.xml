@@ -1,10 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/Frame_Profile"
     android:background="#fff"
     tools:context="com.example.ic.fixera.Fragments.Profile">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
     <ImageView
@@ -15,8 +23,19 @@
         android:layout_marginTop="20dp"
         android:src="@drawable/profile"
         />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:text="@string/editprof"
+            android:textColor="#000"
+           android:id="@+id/Edit_Prof"
+            />
 
-    <TextView
+
+        <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,58 +51,125 @@
         android:id="@+id/T_Name"
         android:layout_width="129dp"
         android:layout_height="23dp"
-        android:layout_toLeftOf="@+id/name"
+        android:layout_toLeftOf="@+id/Email"
         android:layout_below="@+id/imageView"
         android:layout_marginTop="@dimen/_20sdp"
-        android:textSize="18sp"
-        android:layout_marginRight="@dimen/_20sdp"
+        android:textSize="16sp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:textColor="#000"
         android:maxLines="1"
 
         />
 
-    <TextView
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:layout_below="@+id/name"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        />
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_below="@+id/name"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            />
 
-    <TextView
-        android:id="@+id/E_Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:layout_toLeftOf="@+id/Email"
-        android:layout_below="@+id/name"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        />
+        <TextView
+            android:id="@+id/E_Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/Email"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            />
+        <TextView
+            android:id="@+id/ModileNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mobile"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_below="@+id/Email"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            />
 
-    <ProgressBar
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:id="@+id/progrossprofile"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:id="@+id/view"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@+id/E_Email"
-        android:background="#afafaf"/>
+        <TextView
+            android:id="@+id/T_ModileNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/Email"
+            android:layout_below="@+id/Email"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            />
+        <TextView
+            android:id="@+id/CarModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carmodel"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_below="@+id/T_ModileNumber"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            />
 
-    <TextView
+        <TextView
+            android:id="@+id/T_CarModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/Email"
+            android:layout_below="@+id/T_ModileNumber"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            />
+        <TextView
+            android:id="@+id/CarYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/year"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_below="@+id/CarModel"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            />
+
+        <TextView
+            android:id="@+id/T_CarYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_toLeftOf="@+id/Email"
+            android:layout_below="@+id/CarModel"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            />
+        <ProgressBar
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:id="@+id/progrossprofile"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="3dp"
+            android:id="@+id/view"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_below="@+id/CarYear"
+            android:background="#afafaf"/>
+
+
+        <TextView
         android:id="@+id/language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,7 +214,20 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_below="@+id/btn_English"
         android:background="#afafaf"/>
-
+        <Button
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/changepassword"
+            android:textAllCaps="false"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="#fff"
+            android:background="@drawable/languagge"
+            android:id="@+id/btn_changepassword"
+            android:layout_below="@+id/view2"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            />
     <Button
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
@@ -138,7 +237,23 @@
         android:textColor="#fff"
         android:background="@drawable/languagge"
         android:id="@+id/btn_logout"
-        android:layout_below="@+id/view2"
+        android:layout_below="@+id/btn_changepassword"
         android:layout_marginTop="@dimen/_20sdp"
         />
-</RelativeLayout>
+        <Button
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/signin"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/_16sdp"
+            android:visibility="gone"
+            android:textColor="#fff"
+            android:background="@drawable/languagge"
+            android:id="@+id/btn_login"
+            android:layout_below="@+id/btn_changepassword"
+            android:layout_marginTop="@dimen/_20sdp"
+            />
+    </RelativeLayout>
+    </ScrollView>
+
+</FrameLayout>

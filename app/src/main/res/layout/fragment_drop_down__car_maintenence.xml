@@ -1,8 +1,10 @@
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e1e1e1"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
     android:id="@+id/dropFrame"
     android:clickable="true"
     tools:context="com.example.ic.fixera.Fragments.DropDown">
@@ -23,7 +25,7 @@
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:textColor="#a09e9e"
+           android:textColor="#000"
            android:id="@+id/selectservice"
            android:textStyle="bold"
            android:layout_gravity="center"
@@ -37,6 +39,8 @@
            android:layout_height="@dimen/_40sdp"
            android:layout_marginTop="14dp"
            android:layout_gravity="center"
+           android:gravity="center"
+           android:spinnerMode="dialog"
            android:paddingRight="@dimen/_10sdp"
            android:background="@drawable/bcdropdown"
            android:paddingLeft="@dimen/_10sdp" />
@@ -45,13 +49,14 @@
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="@string/carmodel"
-           android:textColor="#a09e9e"
+           android:text="@string/carmodels"
+           android:textColor="#000"
            android:id="@+id/selectcartybe"
            android:textStyle="bold"
            android:layout_marginTop="@dimen/_20sdp"
            android:layout_gravity="center"
            android:textSize="@dimen/_16sdp"
+
            />
 
        <Spinner
@@ -62,6 +67,7 @@
            android:layout_gravity="center"
            android:paddingRight="@dimen/_10sdp"
            android:background="@drawable/bcdropdown"
+           android:gravity="center"
            android:paddingLeft="@dimen/_10sdp"
            android:textColor="#000" />
 
@@ -69,7 +75,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="@string/maintenencetybe"
-           android:textColor="#a09e9e"
+           android:textColor="#000"
            android:id="@+id/selectphone"
            android:textStyle="bold"
            android:layout_marginTop="@dimen/_20sdp"
@@ -86,6 +92,7 @@
            android:layout_gravity="center"
            android:background="@drawable/bcdropdown"
            android:paddingLeft="@dimen/_10sdp"
+           android:gravity="center"
            android:textColor="#000" />
 
        <Button
@@ -105,6 +112,33 @@
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="#fff"
+
+        shimmer:duration="800">
+
+        <!-- Adding 3 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/recipe_placeholder_item" />
+
+            <include layout="@layout/recipe_placeholder_item" />
+
+            <include layout="@layout/recipe_placeholder_item" />
+            <include layout="@layout/recipe_placeholder_item" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </RelativeLayout>
 

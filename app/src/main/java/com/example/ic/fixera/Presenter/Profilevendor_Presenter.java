@@ -34,7 +34,11 @@ public class Profilevendor_Presenter {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("api_token", "100");
         queryMap.put("lang", lan);
-        queryMap.put("user_token",user);
+        if(user!=null) {
+            queryMap.put("user_token", user);
+        }else {
+            queryMap.put("user_token", "");
+        }
         queryMap.put("location_id",id);
 
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);

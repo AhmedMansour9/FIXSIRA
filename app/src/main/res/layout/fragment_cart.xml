@@ -16,7 +16,8 @@
            android:text="@string/noproducts"
            android:textColor="#000"
            android:textSize="@dimen/_20sdp"
-
+           android:visibility="gone"
+           android:id="@+id/noproduct"
            />
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Cart"
@@ -37,7 +38,7 @@
            android:layout_toLeftOf="@+id/T_Price"
            android:textColor="#000"
            android:text="@string/totalprice"
-           android:visibility="visible"
+           android:visibility="invisible"
            android:gravity="center"
            android:layout_above="@+id/requestorder"
            android:id="@+id/Price"
@@ -48,8 +49,7 @@
          android:background="#ededed"
          android:layout_centerHorizontal="true"
          android:textColor="#000"
-         android:text="ahmedm"
-         android:visibility="visible"
+         android:visibility="invisible"
          android:gravity="center"
          android:layout_above="@+id/requestorder"
          android:id="@+id/T_Price"

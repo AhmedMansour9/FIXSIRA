@@ -28,6 +28,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ import com.example.ic.fixera.Model.Couter;
 import com.example.ic.fixera.Presenter.Get_Counter_Presenter;
 import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.Counter_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -64,7 +65,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static double latitude, longitude=0;
     private Toolbar toolbar;
@@ -76,7 +77,6 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     Location lastlocation;
     LocationRequest locationReques;
     public static TextView T_Service;
-    TextView textcounter;
     Get_Counter_Presenter counter_presenter;
     public TabsLayouts() {
         // Required empty public constructor
@@ -87,6 +87,9 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     SharedPreferences Shared;
     String user;
     SharedPreferences shared;
+    View view3;
+    TextView textcounter;
+    ViewPagerAdapter adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,13 +104,15 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
                     getBaseContext().getResources().getDisplayMetrics());
         }
         setContentView(R.layout.fragment_tabs_layouts);
-        T_Service=findViewById(R.id.T_Service);
-        banner=findViewById(R.id.banner);
+         view3 = getLayoutInflater().inflate(R.layout.carticon, null);
+        textcounter=view3.findViewById(R.id.cartt);
+//        T_Service=findViewById(R.id.T_Service);
+//        banner=findViewById(R.id.banner);
         // Inflate the layout for this fragment
         toolbar = findViewById(R.id.toolbar);
         viewPager =findViewById(R.id.viewpager);
         tabLayout =findViewById(R.id.tabs);
-        View view1 = getLayoutInflater().inflate(R.layout.carticon, null);
+
 
         counter_presenter=new Get_Counter_Presenter(getApplicationContext(),this);
         Shared=getSharedPreferences("login",MODE_PRIVATE);
@@ -115,17 +120,16 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
 
        setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.MAP);
+        mapFragment.getMapAsync(this);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
-        checkLocationPermission();
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.MAP);
-        mapFragment.getMapAsync(this);
 
         checkLocationPermission();
         setupTabIcons();
@@ -142,6 +146,14 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+                FragmentManager fm = getSupportFragmentManager(); // or 'getSupportFragmentManager();'
+                int count = fm.getBackStackEntryCount();
+                if(count!=0) {
+                    for (int i = 0; i < count; ++i) {
+                        fm.popBackStack();
+                    }
+                }
 //                switch(tab.getPosition()) {
                     viewPager.setCurrentItem(tab.getPosition());
 
@@ -161,50 +173,16 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                FragmentManager fm = getSupportFragmentManager(); // or 'getSupportFragmentManager();'
+                int count = fm.getBackStackEntryCount();
+                if(count!=0) {
+                    for (int i = 0; i < count; ++i) {
+                        fm.popBackStack();
+                    }
+                }
             }
         });
     }
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new android.app.AlertDialog.Builder(this)
-                        .setTitle("info")
-                        .setMessage("Enable gbs")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(TabsLayouts.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        REQUEST_LOCATION_CODE);
-                            }
-                        })
-                        .create()
-                        .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_LOCATION_CODE);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
 
     private void setupTabIcons() {
         View view1 = getLayoutInflater().inflate(R.layout.iconprofile, null);
@@ -224,7 +202,7 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
         }
     }
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(Language.isRTL()){
             adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
             adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
@@ -248,9 +226,6 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         buildGoogleapiclint();
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
 
                         break;
                     case Activity.RESULT_CANCELED:
@@ -269,30 +244,32 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
         locationReques.setSmallestDisplacement(10);
         locationReques.setFastestInterval(10000);
         locationReques.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationReques, this);
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationReques);
-            SettingsClient client = LocationServices.getSettingsClient(this);
-            Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-            task.addOnFailureListener(this, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    if (e instanceof ResolvableApiException) {
-                        try {
-                            ResolvableApiException resolvable = (ResolvableApiException) e;
-                            resolvable.startResolutionForResult(TabsLayouts.this,
-                                    REQUEST_LOCATION_CODE);
-                        } catch (IntentSender.SendIntentException sendEx) {
-                        }
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationReques, this);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationReques);
+
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    try {
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(TabsLayouts.this,
+                                REQUEST_LOCATION_CODE);
+                    } catch (IntentSender.SendIntentException sendEx) {
                     }
                 }
-            });
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        }
-
+            }
+        });
     }
 
     @Override
@@ -331,6 +308,18 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
 
     @Override
     public void Counter(String counter) {
+        if(Language.isRTL()){
+            TabLayout.Tab tab = tabLayout.getTabAt(1); // fourth tab
+            View tabView = tab.getCustomView();
+            TextView textView = tabView.findViewById(R.id.cartt);
+            textView.setText("  (" + counter + ")");
+
+        }else {
+            TabLayout.Tab tab = tabLayout.getTabAt(2); // fourth tab
+            View tabView = tab.getCustomView();
+            TextView textView = tabView.findViewById(R.id.cartt);
+            textView.setText("  (" + counter + ")");
+        }
     }
 
     @Override
@@ -363,6 +352,11 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
             return mFragmentTitleList.get(position);
         }
 
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            // TODO Auto-generated method stub
+        }
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -379,7 +373,8 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         buildGoogleapiclint();
-                        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationReques, this);                    }
+
+                    }
 
                 } else {
                 }
@@ -392,14 +387,45 @@ public class TabsLayouts extends AppCompatActivity implements Counter_View,OnMap
     @Override
     public void onStop() {
         super.onStop();
-//        finish();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        finish();
+//        finish();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_LOCATION_CODE);
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_LOCATION_CODE);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 

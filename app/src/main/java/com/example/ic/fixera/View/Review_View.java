@@ -7,4 +7,8 @@ package com.example.ic.fixera.View;
 public interface Review_View {
     void review();
     void Error();
+
+    void reviewProduct();
+    void reviewed();
+    void ErrorProduct();
 }

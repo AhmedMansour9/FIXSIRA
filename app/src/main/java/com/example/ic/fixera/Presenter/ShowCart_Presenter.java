@@ -47,7 +47,7 @@ public class ShowCart_Presenter {
                         getService.ShowCart(response.body().getData().getProducts());
                         getService.ShowTotalprice(String.valueOf(response.body().getData().getTotalPrice()));
                     }else {
-                        getService.Error();
+                        getService.NoProduct();
                     }
                 }
                 else {

@@ -75,14 +75,18 @@ public class Review_Presenter {
             public void onResponse(Call<Review_Response> call, Response<Review_Response> response) {
 
                 if (response.isSuccessful()) {
-                    review.review();
+                    if(response.body().getData().getMessage().equals("review success")){
+                    review.reviewProduct();
+                    }else {
+                        review.reviewed();
+                    }
                 } else {
-                    review.Error();
+                    review.ErrorProduct();
                 }
             }
             @Override
             public void onFailure(Call<Review_Response> call, Throwable t) {
-                review.Error();
+                review.ErrorProduct();
 
             }
         });

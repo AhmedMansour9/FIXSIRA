@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ic.fixera.Activites.MainActivity;
 import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Adapter.Gallery_Adapter;
 import com.example.ic.fixera.Language;
@@ -27,7 +28,7 @@ import com.example.ic.fixera.Presenter.AddCart_Presenter;
 import com.example.ic.fixera.Presenter.Gallery_Image_Presenter;
 import com.example.ic.fixera.View.Cart_View;
 import com.example.ic.fixera.View.Gallery_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -61,24 +62,24 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
     SharedPreferences Shared;
     String user;
     FrameLayout spartFrame;
+    String vendor_id;
+    ImageView plus,minus;
+    TextView T_Count;
+    Button reviews;
+    int current;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_spart_details, container, false);
         gallery_image=new Gallery_Image_Presenter(getContext(),this);
-        Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
-        user=Shared.getString("logggin",null);
-        ProgrossSpare=view.findViewById(R.id.ProgrossSpare);
-        Add_Cart=view.findViewById(R.id.Add_Cart);
-        spartFrame=view.findViewById(R.id.spartFrame);
-        T_Vendorname=view.findViewById(R.id.T_Vendorname);
-        addCart=new AddCart_Presenter(getContext(),this);
         init();
         GetData();
         Recyclview();
         Add_To_Cart();
-
+        Plus();
+        minus();
+      openReviwes();
         if(Language.isRTL()){
             gallery_image.GetImages("ar",id);
         }else {
@@ -88,19 +89,68 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
 
         return view;
     }
+    public void openReviwes(){
+        reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                All_Reviwes fragmen = new All_Reviwes();
+                Bundle args = new Bundle();
+                args.putString("id",id);
+
+
+                fragmen.setArguments(args);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.MenuFrame, fragmen )
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss();
+
+            }
+        });
+    }
     public void Recyclview(){
         recyclerView = view.findViewById(R.id.recycler_SparImagesDetails);
         recyclerView.setHasFixedSize(true);
+    }
+    public void Plus(){
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 current = Integer.valueOf(T_Count.getText().toString());
+                 current++;
+                T_Count.setText(current+"");
+
+            }
+        });
+    }
+    public void minus(){
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 current = Integer.valueOf(T_Count.getText().toString());
+                if(current>1) {
+                    current--;
+                    T_Count.setText(current + "");
+                }
+            }
+        });
     }
     public void Add_To_Cart(){
         Add_Cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProgrossSpare.setVisibility(View.VISIBLE);
-                if(Language.isRTL()){
-                    addCart.Add_toCart("ar",user,id);
+                if(user!=null) {
+                    ProgrossSpare.setVisibility(View.VISIBLE);
+                    if (Language.isRTL()) {
+                        addCart.Add_toCart("ar", user, id, vendor_id, Integer.parseInt(T_Count.getText().toString()));
+                    } else {
+                        addCart.Add_toCart("en", user, id, vendor_id, Integer.parseInt(T_Count.getText().toString()));
+                    }
                 }else {
-                    addCart.Add_toCart("en",user,id);
+                    Toast.makeText(getActivity(), ""+getResources().getString(R.string.pleaseloginfirst)
+                            , Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+
                 }
 
             }
@@ -117,6 +167,7 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
            price=args.getString("price");
            stock=args.getString("stock");
            image=args.getString("image");
+           vendor_id=args.getString("vendor_id");
            description=args.getString("description");
            vendorname=args.getString("vendorname");
            evragerate=args.getString("evragerate");
@@ -126,7 +177,7 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
            Text_Stock.setText(stock);
            Text_Descrption.setText(description);
            Picasso.with(getApplicationContext())
-                   .load("http://fixsira.com/site/"+image)
+                   .load("http://fixsira.com/"+image)
                    .into(imgspart, new Callback() {
                        @Override
                        public void onSuccess() {
@@ -139,18 +190,28 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
        }
    }
   public void init(){
+      Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+      user=Shared.getString("logggin",null);
+      ProgrossSpare=view.findViewById(R.id.ProgrossSpare);
+
+      Add_Cart=view.findViewById(R.id.Add_Cart);
+      spartFrame=view.findViewById(R.id.spartFrame);
+      T_Vendorname=view.findViewById(R.id.T_Vendorname);
+      T_Count=view.findViewById(R.id.T_qount);
+      plus=view.findViewById(R.id.plus);
+      minus=view.findViewById(R.id.minus);
+      addCart=new AddCart_Presenter(getContext(),this);
       T_Name=view.findViewById(R.id.T_Name);
       Text_Price=view.findViewById(R.id.Text_Price);
       Text_Stock=view.findViewById(R.id.Text_Stock);
       Text_Descrption=view.findViewById(R.id.Text_Descrption);
       imgspart=view.findViewById(R.id.Image_Caetgory);
-
+      reviews=view.findViewById(R.id.reviews);
   }
 
     @Override
     public void listimages(List<GalleryImage> images) {
         gallery_adapter = new Gallery_Adapter(images,getContext());
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);

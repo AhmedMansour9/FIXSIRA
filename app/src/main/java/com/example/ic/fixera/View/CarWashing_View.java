@@ -11,5 +11,6 @@ import java.util.List;
 public interface CarWashing_View {
     void GetAccessories(List<com.example.ic.fixera.Model.CarWashing> list);
     void ErrorAccessories();
+    void EmptyBranches();
 
 }

@@ -35,7 +35,7 @@ import com.example.ic.fixera.Presenter.Review_Presenter;
 import com.example.ic.fixera.View.MyOrdersService;
 import com.example.ic.fixera.View.ProductsById_View;
 import com.example.ic.fixera.View.Review_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 import java.util.List;
@@ -145,16 +145,34 @@ public class MyProducts_Byid extends Fragment implements Review_View,MyOrdersSer
 
     @Override
     public void review() {
-        dialogFragment.cancel();
-        Toast.makeText(getActivity(), "Thanks For Your Rating", Toast.LENGTH_SHORT).show();
-        progrossRating.setVisibility(View.GONE);
-
     }
 
     @Override
     public void Error() {
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void reviewProduct() {
+        dialogFragment.cancel();
+        Toast.makeText(getActivity(),getResources().getString(R.string.ratedsuccess), Toast.LENGTH_SHORT).show();
         progrossRating.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void reviewed() {
+        dialogFragment.cancel();
+        Toast.makeText(getActivity(),getResources().getString(R.string.rated), Toast.LENGTH_SHORT).show();
+        progrossRating.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void ErrorProduct() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        progrossRating.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -206,6 +224,11 @@ public class MyProducts_Byid extends Fragment implements Review_View,MyOrdersSer
         });
         dialogFragment.show();
 
+
+    }
+
+    @Override
+    public void ChangeStatue(My_Order_Services my_order_services) {
 
     }
 }

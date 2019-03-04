@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fixe.fixera">
+    package="com.fixsira">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+        android:name="com.example.ic.fixera.Activites.OneSignal"
         android:allowBackup="true"
-        android:icon="@mipmap/iconfixera"
+        android:icon="@mipmap/iconfix"
         android:label="@string/app_name"
-        android:name="com.example.ic.fixera.App"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name="com.example.ic.fixera.Activites.Splash">
@@ -23,12 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.ic.fixera.Activites.MainActivity"></activity>
-        <activity android:name="com.example.ic.fixera.Activites.TabsLayouts"/>
+        <activity android:name="com.example.ic.fixera.Activites.MainActivity"/>
+
+        <activity android:name="com.example.ic.fixera.Activites.TabsLayouts" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
             tools:replace="android:value" />
+
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -43,9 +48,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBXb1fnY5_z2jRw2uPh0eBpJCbs7Q8hDXo" />
+            android:value="AIzaSyCaf2jejQzVtF7myO4R-P2mEFmGoiom1Pc" />
 
         <activity
             android:name="com.example.ic.fixera.Activites.MyServices_vendor"
@@ -53,9 +59,15 @@
         <activity
             android:name="com.example.ic.fixera.Activites.MyProducts_Vendor"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name="com.example.ic.fixera.Activites.Hours_Vendor"
-            android:theme="@style/Theme.AppCompat.Dialog"></activity>
-    </application>
+        <activity
+            android:name="com.example.ic.fixera.Activites.Hours_Vendor"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name="com.example.ic.fixera.Activites.UserVendor_Orders">
 
+        </activity>
+        <activity android:name="com.example.ic.fixera.Activites.Change_statues"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            ></activity>
+    </application>
 
 </manifest>

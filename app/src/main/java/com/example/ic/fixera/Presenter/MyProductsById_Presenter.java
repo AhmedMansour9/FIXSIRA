@@ -35,7 +35,7 @@ public class MyProductsById_Presenter {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("lang", lan);
         queryMap.put("api_token","100");
-        queryMap.put("user_token", user);
+//        queryMap.put("user_token", user);
         queryMap.put("order_id", id);
 
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);

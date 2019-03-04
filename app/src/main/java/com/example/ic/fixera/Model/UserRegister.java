@@ -6,7 +6,47 @@ package com.example.ic.fixera.Model;
 
 public class UserRegister {
 
-    private String FirstName,LastName,Phone,Email,password,ConFirmpassword,Gender,id;
+    private String FirstName,LastName,Phone,Email,password,ConFirmpassword,Gender,id,carmodel,caryear,oldpassword,newpassword,user_token;
+
+    public String getUser_token() {
+        return user_token;
+    }
+
+    public void setUser_token(String user_token) {
+        this.user_token = user_token;
+    }
+
+    public String getOldpassword() {
+        return oldpassword;
+    }
+
+    public void setOldpassword(String oldpassword) {
+        this.oldpassword = oldpassword;
+    }
+
+    public String getNewpassword() {
+        return newpassword;
+    }
+
+    public void setNewpassword(String newpassword) {
+        this.newpassword = newpassword;
+    }
+
+    public String getCarmodel() {
+        return carmodel;
+    }
+
+    public void setCarmodel(String carmodel) {
+        this.carmodel = carmodel;
+    }
+
+    public String getCaryear() {
+        return caryear;
+    }
+
+    public void setCaryear(String caryear) {
+        this.caryear = caryear;
+    }
 
     public String getId() {
         return id;

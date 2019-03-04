@@ -17,7 +17,7 @@ import com.example.ic.fixera.Presenter.OrderCart_Presenter;
 import com.example.ic.fixera.Presenter.Profile_Presenter;
 import com.example.ic.fixera.View.OrderCart_View;
 import com.example.ic.fixera.View.Profile_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 
 import java.text.SimpleDateFormat;
@@ -78,9 +78,7 @@ public class Order_Cart extends Fragment implements OrderCart_View,Profile_View 
                 if (!T_Email.getText().toString().equals("") && !T_Name.getText().toString().equals("") && !T_Phone.getText().toString().equals("")&& !T_Address.getText().toString().equals("")) {
                     progressBar.setVisibility(View.VISIBLE);
                     orderCart_presenter.Order_Service(lan,user,T_Note.getText().toString(),T_Name.getText().toString(),T_Email.getText().toString(),T_Phone.getText().toString(),T_Address.getText().toString());
-
                 }
-
                 }
         });
 
@@ -120,10 +118,11 @@ public class Order_Cart extends Fragment implements OrderCart_View,Profile_View 
     }
 
     @Override
-    public void getProfile(String user, String Email, String userphoto) {
+    public void getProfile(String user, String Email, String userphoto,String phone,String carmodel,String caryear) {
         progressBar.setVisibility(View.GONE);
         T_Name.setText(user);
         T_Email.setText(Email);
+        T_Phone.setText(phone);
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.Presenter.MyServices_Vendor_Presenter;
 import com.example.ic.fixera.View.MyServices_Vendor_View;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 
 import java.util.List;
 

@@ -5,7 +5,31 @@ package com.example.ic.fixera.Model;
  */
 
 public class My_Order_Services {
-    private String id,vendorid,servicetybe,carname,carmodel,price,img,date,status;
+    private String id,vendorid,servicetybe,carname,carmodel,price,img,date,status,lat,lon,orderid;
+
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
 
     public String getId() {
         return id;

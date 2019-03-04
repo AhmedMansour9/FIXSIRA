@@ -25,7 +25,6 @@ import retrofit2.Response;
 
 public class CarWashing_presenter {
     CarWashing_View getCars;
-
     public CarWashing_presenter(Context context, CarWashing_View getAccessories)
     {
         this.getCars=getAccessories;
@@ -40,7 +39,7 @@ public class CarWashing_presenter {
         if(!Car_id.equals("")) {
             queryMap.put("car_model_id", Car_id);
             queryMap.put("type_id", service_id);
-            queryMap.put("type_vist", service);
+                queryMap.put("type_vist", service);
         }
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);
 
@@ -53,7 +52,7 @@ public class CarWashing_presenter {
                     if(response.body().getData()!=null) {
                         getCars.GetAccessories((List<CarWashing>) response.body().getData());
                     }else {
-                        getCars.ErrorAccessories();
+                        getCars.EmptyBranches();
                     }
                 } else {
                     getCars.ErrorAccessories();

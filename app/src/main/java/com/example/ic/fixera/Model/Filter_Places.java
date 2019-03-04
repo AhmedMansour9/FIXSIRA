@@ -25,6 +25,15 @@ public class Filter_Places {
     private String Total_Rates;
     private String vendor_id;
     private String Total_Price;
+    private String Service_id;
+
+    public String getService_id() {
+        return Service_id;
+    }
+
+    public void setService_id(String service_id) {
+        Service_id = service_id;
+    }
 
     public String getTotal_Price() {
         return Total_Price;

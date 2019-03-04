@@ -2,21 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#e1e1e1"
+    android:clickable="true"
     android:id="@+id/spartFrame"
     android:layout_height="match_parent"
     tools:context="com.example.ic.fixera.Fragments.Spart_Details">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_margin="@dimen/_10sdp"
         android:background="#fff"
         android:layout_height="match_parent">
-        <ProgressBar
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:id="@+id/ProgrossSpare"
-            />
+
 
 
         <ImageView
@@ -27,11 +25,12 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:scaleType="fitXY" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_15sdp"
             android:layout_toRightOf="@+id/Image_Caetgory"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/T_Vendorname"
             android:maxLines="1"
             android:textColor="#ffa200"
@@ -62,7 +61,7 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:id="@+id/Text_Price"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:maxLines="1"
             android:textColor="#000"
             android:layout_toRightOf="@+id/Image_Caetgory"
@@ -75,7 +74,7 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:id="@+id/Text_Stock"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:maxLines="1"
             android:textColor="#000"
             android:layout_toRightOf="@+id/Image_Caetgory"
@@ -104,7 +103,7 @@
             android:id="@+id/Text_Descrption"
             android:layout_toRightOf="@+id/Descrption"
             android:layout_marginTop="@dimen/_20sdp"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textColor="#000"
             android:textSize="@dimen/_12sdp"
             android:layout_below="@+id/Image_Caetgory"
@@ -121,16 +120,70 @@
             android:textSize="@dimen/_20sdp"
             android:id="@+id/Add_Cart"
             />
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_toLeftOf="@+id/T_qount"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_below="@+id/Add_Cart"
+            android:src="@drawable/minus"
+            android:id="@+id/minus"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f58020"
+            android:layout_marginTop="@dimen/_28sdp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_below="@+id/Add_Cart"
+            android:id="@+id/T_qount"
+            android:text="1"
+            />
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_below="@+id/Add_Cart"
+            android:layout_toRightOf="@+id/T_qount"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:src="@drawable/plus"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/plus"
+            />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_SparImagesDetails"
             android:scrollbars="horizontal"
             android:layout_marginBottom="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_below="@+id/Add_Cart"
+            android:layout_below="@+id/plus"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"/>
+            android:layout_height="@dimen/_120sdp"/>
+        <Button
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_below="@+id/recycler_SparImagesDetails"
+            android:background="#f58020"
+            android:textAllCaps="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/allreviwes"
+            android:textSize="@dimen/_16sdp"
+            android:id="@+id/reviews"
+            android:layout_marginBottom="@dimen/_10sdp"
+            />
+
+        <ProgressBar
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:id="@+id/ProgrossSpare"
+            />
 
     </RelativeLayout>
-
+    </ScrollView>
 </FrameLayout>

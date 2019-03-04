@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,7 @@ import com.example.ic.fixera.Model.CarWashing;
 import com.example.ic.fixera.Model.Filter_Places;
 import com.example.ic.fixera.View.Category_id;
 import com.example.ic.fixera.View.Details_Service;
-import com.fixe.fixera.R;
+import com.fixsira.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +41,7 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
         private TextView VendorName,placeName,Address,Phone,telephone,textRate,Destance,T_rates,T_Price;
         private Button Callnow,Details;
         private ImageView person_image,Starone,Startwo,StarThree,StarFour,StarFive;
+        RelativeLayout relaa;
         public MyViewHolder(View view) {
             super(view);
             Callnow = view.findViewById(R.id.callnow);
@@ -49,7 +51,7 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
             placeName=view.findViewById(R.id.placeName);
             Starone=view.findViewById(R.id.Starone);
             Address=view.findViewById(R.id.Address);
-            textRate=view.findViewById(R.id.textRate);
+            textRate=view.findViewById(R.id.T_Rates);
             Startwo=view.findViewById(R.id.Startwo);
             StarThree=view.findViewById(R.id.Starthree);
             StarFour=view.findViewById(R.id.StarFour);
@@ -57,6 +59,7 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
             Destance=view.findViewById(R.id.Distance);
             T_rates=view.findViewById(R.id.T_Rates);
             T_Price=view.findViewById(R.id.T_Price);
+            relaa=view.findViewById(R.id.relaa);
         }
     }
     public void setClickListener(Details_Service itemClickListener) {
@@ -86,16 +89,30 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
             String str =String.valueOf(filteredList.get(position).getDistance());
             String kept = str.substring( 0, str.indexOf("."));
             holder.Destance.setText(kept + "M");
+        }if(distance==0){
+            holder.Destance.setVisibility(View.GONE);
         }
         if(Integer.parseInt(filteredList.get(position).getTotal_Rates())!=0) {
             holder.T_rates.setText(filteredList.get(position).getTotal_Rates() + "");
         }else {
-            holder.T_rates.setText(con.getResources().getString(R.string.norate) + "");
+            holder.relaa.setVisibility(View.VISIBLE);
         }
         if(CarMaintenence.Service == "Mobile Service") {
-            holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
+            if(filteredList.get(position).getTotal_Price()!=null) {
+                if (filteredList.get(position).getTotal_Price().equals("0")) {
+                    holder.T_Price.setVisibility(View.GONE);
+                } else {
+                    holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
+                }
+            }
         }else {
-            holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
+            if(filteredList.get(position).getTotal_Price()!=null) {
+                if (filteredList.get(position).getTotal_Price().equals("0")) {
+                    holder.T_Price.setVisibility(View.GONE);
+                } else {
+                    holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
+                }
+            }
         }
 
 
@@ -121,44 +138,52 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
             holder.StarFour.setVisibility(View.VISIBLE);
             holder.StarFive.setVisibility(View.VISIBLE);
         }
-        String i = filteredList.get(position).getUserPhotoUrl();
-        Uri u = Uri.parse(i);
+        if(filteredList.get(position).getUserPhotoUrl()!=null) {
+            String i = filteredList.get(position).getUserPhotoUrl();
+            Uri u = Uri.parse(i);
 //        holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(getApplicationContext())
-                .load("http://fixsira.com/"+u)
-                .placeholder(R.drawable.profile)
-                .fit()
-                .centerCrop()
-                .into(holder.person_image, new Callback() {
-                    @Override
-                    public void onSuccess() {
+            Picasso.with(getApplicationContext())
+                    .load("http://fixsira.com/" + u)
+                    .placeholder(R.drawable.profile)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.person_image, new Callback() {
+                        @Override
+                        public void onSuccess() {
 //                        holder.progressBar.setVisibility(View.GONE);
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
+                        @Override
+                        public void onError() {
 //                        holder.progressBar.setVisibility(View.GONE);
-                    }
-                });
+                        }
+                    });
+        }
    holder.itemView.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View view) {
            com.example.ic.fixera.Model.Details_Service filter_places=new com.example.ic.fixera.Model.Details_Service();
            filter_places.setAddress(filteredList.get(position).getAddress());
-           filter_places.setId(filteredList.get(position).getId());
+           filter_places.setId(String.valueOf(filteredList.get(position).getId()));
            filter_places.setVendorName(filteredList.get(position).getVendorName());
            filter_places.setDescription(filteredList.get(position).getDescription());
            filter_places.setUserPhotoUrl(filteredList.get(position).getUserPhotoUrl());
            filter_places.setPhone(filteredList.get(position).getPhone());
-           filter_places.setRate(filteredList.get(position).getRate());
+           filter_places.setRate(String.valueOf(filteredList.get(position).getRate()));
            filter_places.setLat(filteredList.get(position).getLat());
            filter_places.setLng(filteredList.get(position).getLng());
            filter_places.setTelephone(filteredList.get(position).getTelephone());
            filter_places.setName(filteredList.get(position).getName());
-           filter_places.setPrice(filteredList.get(position).getPrice());
+           filter_places.setServices_id(filteredList.get(position).getService_id());
            filter_places.setVendor_id(filteredList.get(position).getVendor_id());
            filter_places.setEvragerate(String.valueOf(filteredList.get(position).getRate()));
            filter_places.setTotal_rate(filteredList.get(position).getTotal_Rates());
+           if(CarMaintenence.Service == "Mobile Service") {
+               filter_places.setPrice(filteredList.get(position).getTotal_Price());
+           }else {
+               filter_places.setPrice(filteredList.get(position).getPrice());
+           }
+
            filter_places.setTybe("car_maintenance");
            details_service.listsevice(filter_places);
 

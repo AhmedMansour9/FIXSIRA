@@ -33,13 +33,14 @@ public class AddCart_Presenter {
 
     }
 
-    public void Add_toCart(String lang,String user,String product_id) {
+    public void Add_toCart(String lang,String user,String product_id,String vendor_id,int county) {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("lang", lang);
         queryMap.put("api_token", "100");
         queryMap.put("user_token", user);
         queryMap.put("products_id", product_id);
-        queryMap.put("quantity", "1");
+        queryMap.put("quantity", String.valueOf(county));
+        queryMap.put("vendor_id",vendor_id);
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);
 
         Call<Cart_Response> call = apiInterface.AddCart(queryMap);

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bgregister"
     tools:context="com.example.ic.fixera.Fragments.Login">
     <ProgressBar
@@ -37,7 +38,7 @@
         android:layout_below="@+id/toolbar"
         android:id="@+id/logo"
         android:layout_marginTop="@dimen/_20sdp"
-        android:src="@drawable/logo"
+        android:src="@drawable/lastlogo"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -61,31 +62,73 @@
         android:layout_below="@+id/textwelcome"
         android:layout_marginTop="@dimen/_10sdp"
         />
-    <EditText
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
+        android:id="@+id/login_email_input_layout"
         android:layout_below="@+id/textsignin"
-        android:hint="@string/email"
-        android:id="@+id/E_Email"
-        />
-    <EditText
+
+        >
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:textColorHint="#706e6f"
+            app:hintTextAppearance="@style/AppTheme"
+            >
+
+            <EditText
+                android:id="@+id/E_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="#706e6f"
+                android:textColorHint="#706e6f"
+                />
+        </android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
-        android:layout_below="@+id/E_Email"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:id="@+id/E_Password"
-        />
+        android:id="@+id/login_text_input_layout"
+        android:layout_below="@+id/login_email_input_layout"
+
+        >
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            android:hint="@string/password"
+            android:textColorHint="#706e6f"
+            android:textColor="#706e6f"
+            app:hintTextAppearance="@style/AppTheme"
+
+            >
+
+            <EditText
+                android:id="@+id/E_Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:textColorHint="#706e6f"
+                android:textColor="#706e6f"
+                />
+        </android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
     <Button
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_50sdp"
-        android:layout_below="@+id/E_Password"
+        android:layout_below="@+id/login_text_input_layout"
         android:background="#f58020"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
@@ -105,23 +148,23 @@
             android:layout_height="@dimen/_40sdp"
             android:src="@drawable/facebook"
             android:id="@+id/loginfac"
-            android:layout_alignParentLeft="true"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/Or"
-            android:textSize="@dimen/_20sdp"
             />
-        <ImageView
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/google"
-            android:id="@+id/google"
-            android:layout_alignParentRight="true"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="@dimen/_10sdp"-->
+            <!--android:text="@string/Or"-->
+            <!--android:textSize="@dimen/_20sdp"-->
+            <!--/>-->
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/_40sdp"-->
+            <!--android:layout_height="@dimen/_40sdp"-->
+            <!--android:src="@drawable/google"-->
+            <!--android:id="@+id/google"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--/>-->
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
@@ -133,5 +176,19 @@
         android:id="@+id/textsignup"
         android:layout_below="@+id/Relat"
         android:layout_marginTop="@dimen/_10sdp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/guest"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/_18sdp"
+        android:gravity="end"
+        android:textColor="#fff"
+        android:id="@+id/guest"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         />
 </RelativeLayout>
