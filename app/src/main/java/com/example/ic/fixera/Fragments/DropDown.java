@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.CarModel;
 import com.example.ic.fixera.Model.Car_Details;
@@ -33,6 +34,8 @@ import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -159,6 +162,7 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         }else {
             categories.add(getResources().getString(R.string.mobileservice));
             categories.add(getResources().getString(R.string.onside));
+
         }
         ListServices = new ArrayAdapter<String>(getApplicationContext(), R.layout.textcolorspinner, categories) {
             @Override
@@ -212,18 +216,16 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         list_Car.clear();
         mShimmerViewContainer.stopShimmerAnimation();
         mShimmerViewContainer.setVisibility(View.GONE);
-
         Car_Details car_detail=new Car_Details();
         car_detail.setId("0");
         car_detail.setName(view.getResources().getString(R.string.select));
         list_Car.add(car_detail);
         for(int i=0;i<list.size();i++){
             Car_Details car_details=new Car_Details();
-            car_details.setId(String.valueOf(list.get(i).getId()));
-            car_details.setName(String.valueOf(list.get(i).getModels()));
+            car_details.setId(String.valueOf(list.get(i).getManufacturerId()));
+            car_details.setName(String.valueOf(list.get(i).getManufacturer()));
             list_Car.add(car_details);
         }
-//        mSwipeRefreshLayout.setRefreshing(false);
         ListCarModel = new ArrayAdapter<Car_Details>(getApplicationContext(), R.layout.textcolorspinner,list_Car) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -241,8 +243,8 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                 CarModel= carspinner.getSelectedItem().toString();
 
                 for(i = 0; i<list.size(); i++){
-                    if(list.get(i).getModels().equals(CarModel)){
-                        Car_id=String.valueOf(list.get(i).getId());
+                    if(list.get(i).getManufacturer().equals(CarModel)){
+                        Car_id=String.valueOf(list.get(i).getManufacturerId());
                     }
                 }
                 if(!CarModel.equals("Select")&&!CarModel.equals("اختار")) {
@@ -371,5 +373,11 @@ public class DropDown extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         super.onViewStateRestored(savedInstanceState);
         String greeting = (savedInstanceState != null) ? savedInstanceState.getString("greeting") : "null";
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Fabric.with(getContext(), new Crashlytics());
     }
 }

@@ -1,9 +1,14 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Presenter.OrderCart_Presenter;
 import com.example.ic.fixera.Presenter.Profile_Presenter;
@@ -47,6 +53,8 @@ public class Order_Cart extends Fragment implements OrderCart_View,Profile_View 
     TextView T_Note;
     ProgressBar progressBar;
     Profile_Presenter profile_presenter;
+    Toolbar toolbars;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +63,7 @@ public class Order_Cart extends Fragment implements OrderCart_View,Profile_View 
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
         user=Shared.getString("logggin",null);
         progressBar=view.findViewById(R.id.prgrosss);
+        toolbars=view.findViewById(R.id.toolbar);
         orderCart_presenter=new OrderCart_Presenter(getContext(),this);
 
         if(Language.isRTL()){
@@ -99,8 +108,39 @@ public class Order_Cart extends Fragment implements OrderCart_View,Profile_View 
         T_Address=view.findViewById(R.id.T_Address);
         servicerequest=view.findViewById(R.id.servicerequest);
         T_Note=view.findViewById(R.id.T_Note);
+
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
+
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = false;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = true;
+    }
     @Override
     public void order(String orderid) {
         progressBar.setVisibility(View.GONE);

@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,13 +6,70 @@
     android:background="#fff"
     android:clickable="true"
     android:id="@+id/carRelative"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.ic.fixera.Fragments.PullCar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/apppar"
+            android:theme="@style/AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#4e4e4e"
+                app:popupTheme="@style/PopupOverlay">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:src="@drawable/search"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/Img_Search"
+                        />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="@dimen/_200sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:hint="@string/look"
+                        android:visibility="invisible"
+                        android:maxLines="1"
+                        android:layout_centerVertical="true"
+                        android:textStyle="bold"
+                        android:layout_toRightOf="@+id/Img_Search"
+                        android:textSize="@dimen/_16sdp"
+                        android:id="@+id/E_Search"
+                        />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_banner2"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/apppar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:id="@+id/linear"
+        android:layout_below="@+id/recycler_banner2"
         android:weightSum="2"
-        android:layout_height="@dimen/_50sdp">
+        android:layout_height="@dimen/_40sdp">
 
         <Button
             android:layout_width="0dp"
@@ -38,6 +95,7 @@
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_below="@+id/linear"
         android:layout_height="match_parent">
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +109,6 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Maintenence"
-        android:layout_marginTop="@dimen/_50sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -70,13 +127,13 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background="#fff"
+        android:visibility="gone"
         shimmer:duration="800">
 
         <!-- Adding 3 rows of placeholders -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:orientation="vertical">
 
             <include layout="@layout/recipe_placeholder_item" />
@@ -91,4 +148,6 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>
-</RelativeLayout>
+
+    </RelativeLayout>
+</FrameLayout>

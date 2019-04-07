@@ -2,38 +2,45 @@ package com.example.ic.fixera.Fragments;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
-import com.example.ic.fixera.Adapter.CarWash_Adapter;
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
+import com.example.ic.fixera.Adapter.Banner_Adapter;
 import com.example.ic.fixera.Adapter.PullCar_Adapter;
 import com.example.ic.fixera.Language;
-import com.example.ic.fixera.Model.CarWashing;
+import com.example.ic.fixera.Model.Banner_details;
 import com.example.ic.fixera.Model.Filter_Places;
 import com.example.ic.fixera.NetworikConntection;
-import com.example.ic.fixera.Presenter.CarWashing_presenter;
+import com.example.ic.fixera.Presenter.BannerPresenter;
 import com.example.ic.fixera.Presenter.PullCar_Presenter;
-import com.example.ic.fixera.View.CarWashing_View;
+import com.example.ic.fixera.View.BannerView;
 import com.example.ic.fixera.View.Details_Service;
 import com.example.ic.fixera.View.PullCar_View;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -43,11 +50,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout.OnRefreshListener,Details_Service {
+public class PullCar extends Fragment implements BannerView,PullCar_View,SwipeRefreshLayout.OnRefreshListener,Details_Service {
 
 
     public PullCar() {
@@ -67,17 +78,64 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
     NetworikConntection networikConntection;
     Button sortRate,sortDistance;
     private ShimmerFrameLayout mShimmerViewContainer;
+    Toolbar toolbars;
+    ImageView Img_Search;
+    EditText E_Search;
+    BannerPresenter baner;
+    private RecyclerView rv_autoScroll;
+    LinearLayoutManager linearLayoutManager;
+    List<Banner_details> banne=new ArrayList<>();
+    Banner_Adapter banerAdapter;
+    int position;
+    Boolean end;
+    Timer timer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_pull_car, container, false);
         cars=new PullCar_Presenter(getContext(),this);
         mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
+        toolbars=view.findViewById(R.id.toolbar);
+        Img_Search=view.findViewById(R.id.Img_Search);
+        E_Search=view.findViewById(R.id.E_Search);
+        baner=new BannerPresenter(getContext(),this);
+        baner.GetBanner("ar");
+
+        Img_Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                E_Search.setVisibility(View.VISIBLE);
+            }
+        });
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+
+//        Navigation.toggle.setDrawerIndicatorEnabled(false);
+//        toolbars.setNavigationIcon(R.drawable. navigat);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
        init();
         SwipRefresh();
         setSortRate();
         setDistance();
-
+        RecycleviewSerach();
         return view;
     }
      public void init(){
@@ -87,6 +145,8 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
          FramePullcar=view.findViewById(R.id.Frame_PullCar);
          sortRate=view.findViewById(R.id.sortrate);
          sortDistance=view.findViewById(R.id.sortdestance);
+         rv_autoScroll = view.findViewById(R.id.recycler_banner2);
+         rv_autoScroll.setHasFixedSize(true);
          adapter = new PullCar_Adapter(filterPlaces,getContext());
          adapter.setClickListener(this);
          LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -147,20 +207,11 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_LOCATION_CODE);
-
-
-
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),
@@ -186,6 +237,7 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
                 if(checknetwork.isNetworkAvailable(getActivity())){
                     mSwipeRefreshLayout.setRefreshing(true);
                     mSwipeRefreshLayout.setEnabled(true);
+                    baner.GetBanner("ar");
                     if(Language.isRTL()) {
 //                        mSwipeRefreshLayout.setRefreshing(true);
                         mShimmerViewContainer.startShimmerAnimation();
@@ -211,7 +263,7 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
         if(checknetwork.isNetworkAvailable(getActivity())){
             mShimmerViewContainer.startShimmerAnimation();
             mShimmerViewContainer.setVisibility(View.VISIBLE);
-
+            baner.GetBanner("ar");
 //            mSwipeRefreshLayout.setRefreshing(true);
             mSwipeRefreshLayout.setEnabled(true);
             if(Language.isRTL()) {
@@ -238,7 +290,7 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
         args.putString("phone",list.getPhone());
         fragmen.setArguments(args);
         getFragmentManager().beginTransaction()
-                .replace(R.id.MenuFrame, fragmen )
+                .add(R.id.Frame_PullCar, fragmen )
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
 
@@ -346,5 +398,72 @@ public class PullCar extends Fragment implements PullCar_View,SwipeRefreshLayout
         mSwipeRefreshLayout.setRefreshing(false);
         mShimmerViewContainer.stopShimmerAnimation();
         mShimmerViewContainer.setVisibility(View.GONE);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = true;
+        Navigation.toolbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = false;
+    }
+    public void RecycleviewSerach(){
+        E_Search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence);
+                adapter.notifyDataSetChanged();
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+    @Override
+    public void getBanner(List<Banner_details> banners) {
+
+        banne=banners;
+        banerAdapter = new Banner_Adapter(banners,getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv_autoScroll.setLayoutManager(linearLayoutManager);
+        rv_autoScroll.setAdapter(banerAdapter);
+        if(banners.size()>0) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new AutoScrollTask(), 2500, 8000);
+        }
+    }
+
+    @Override
+    public void Errorbaner() {
+    }
+    private class AutoScrollTask extends TimerTask {
+        @Override
+        public void run() {
+            if(position == banne.size()){
+                end = true;
+            }
+            else if (position == 0) {
+                end = false;
+            }
+            if(!end){
+                position++;
+            } else {
+                position--;
+            }
+            rv_autoScroll.smoothScrollToPosition(position);
+        }
     }
 }

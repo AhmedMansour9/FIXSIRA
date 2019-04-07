@@ -12,32 +12,13 @@
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#f68423"
-        android:id="@+id/toolbar">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/signin"
-                android:layout_centerInParent="true"
-                android:textSize="@dimen/_20sdp"
-                android:textColor="#fff"
-                />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
     <ImageView
         android:layout_width="@dimen/_80sdp"
         android:layout_height="@dimen/_70sdp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/toolbar"
         android:id="@+id/logo"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:src="@drawable/lastlogo"
         />
     <TextView
@@ -64,7 +45,7 @@
         />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
@@ -77,24 +58,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:textColorHint="#706e6f"
-            app:hintTextAppearance="@style/AppTheme"
+            android:textColor="#ce8227"
+            android:textColorHint="#ce8227"
             >
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/E_Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="#706e6f"
-                android:textColorHint="#706e6f"
+                android:textColor="#fff"
+                android:textColorHint="#ce8227"
+                android:drawableRight="@drawable/email"
+                android:padding="@dimen/_10sdp"
+                android:textStyle="bold"
+                app:backgroundTint="#ce8227"
+
                 />
         </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
@@ -108,25 +94,28 @@
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
             android:hint="@string/password"
-            android:textColorHint="#706e6f"
-            android:textColor="#706e6f"
-            app:hintTextAppearance="@style/AppTheme"
+            android:textColor="#ce8227"
+            android:textColorHint="#ce8227"
+            app:passwordToggleTint="#ce8227"
 
             >
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/E_Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:inputType="textPassword"
-                android:textColorHint="#706e6f"
-                android:textColor="#706e6f"
+                android:textColor="#fff"
+                android:textColorHint="#ce8227"
+                android:drawableRight="@drawable/password"
+                app:backgroundTint="#ce8227"
+
                 />
         </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
     <Button
-        android:layout_width="@dimen/_200sdp"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_50sdp"
         android:layout_below="@+id/login_text_input_layout"
         android:background="#f58020"
@@ -144,9 +133,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp">
     <ImageView
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:src="@drawable/facebook"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/loginfac"
+        android:padding="@dimen/_10sdp"
         android:layout_centerHorizontal="true"
         android:id="@+id/loginfac"
         />

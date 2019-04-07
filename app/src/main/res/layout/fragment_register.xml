@@ -1,9 +1,16 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bgregister"
     tools:context="com.example.ic.fixera.Fragments.Register">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,26 +20,8 @@
         android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:visibility="gone" />
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#f68423"
-        android:id="@+id/toolbar">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/signup"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/_20sdp"
-            android:textColor="#fff"
-            />
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-<ImageView
+  <ImageView
     android:layout_width="@dimen/_80sdp"
     android:layout_height="@dimen/_60sdp"
     android:layout_centerHorizontal="true"
@@ -47,12 +36,13 @@
         android:text="@string/create"
         android:layout_centerInParent="true"
         android:textSize="@dimen/_15sdp"
-        android:textColor="#fff"
+        android:textColor="#ce8227"
+        android:textStyle="bold"
         android:id="@+id/textsignup"
         android:layout_below="@+id/logo"
         android:layout_marginTop="@dimen/_10sdp"
         />
-<EditText
+<android.support.v7.widget.AppCompatEditText
     android:layout_width="match_parent"
     android:layout_height="@dimen/_40sdp"
     android:layout_marginTop="@dimen/_10sdp"
@@ -61,9 +51,17 @@
     android:layout_below="@+id/textsignup"
     android:hint="@string/firstname"
     android:maxLines="1"
+    android:textColor="#fff"
+    android:textColorHint="#ce8227"
     android:id="@+id/E_FirstName"
+    android:drawableRight="@drawable/name"
+    android:padding="@dimen/_10sdp"
+    android:textStyle="bold"
+    app:backgroundTint="#ce8227"
+    android:drawablePadding="@dimen/_10sdp"
+
     />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -73,8 +71,16 @@
         android:hint="@string/lastname"
         android:maxLines="1"
         android:id="@+id/E_LastName"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
+        android:drawableRight="@drawable/name"
+        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+        android:drawablePadding="@dimen/_10sdp"
+
         />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -84,8 +90,15 @@
         android:hint="@string/email"
         android:id="@+id/E_Email"
         android:maxLines="1"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
+        android:drawableRight="@drawable/email"
+        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+
         />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -95,9 +108,15 @@
         android:hint="@string/Phone"
         android:id="@+id/E_Phone"
         android:inputType="number"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+        android:drawablePadding="@dimen/_10sdp"
+
         android:maxLines="1"
         />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -108,8 +127,16 @@
         android:inputType="textPassword"
         android:id="@+id/E_Password"
         android:maxLines="1"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
+       android:drawableRight="@drawable/password"
+        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+        android:drawablePadding="@dimen/_10sdp"
+
         />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -118,9 +145,17 @@
         android:layout_below="@+id/E_Password"
         android:hint="@string/carmodel"
         android:id="@+id/E_CarModel"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
         android:maxLines="1"
+        android:drawableRight="@drawable/modelcar"
+        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+        android:drawablePadding="@dimen/_10sdp"
+
         />
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -131,10 +166,18 @@
         android:inputType="number"
         android:id="@+id/E_CarYear"
         android:maxLines="1"
+        android:textColor="#fff"
+        android:textColorHint="#ce8227"
+        android:drawableRight="@drawable/year"
+        android:padding="@dimen/_10sdp"
+        android:textStyle="bold"
+        app:backgroundTint="#ce8227"
+        android:drawablePadding="@dimen/_10sdp"
+
         />
     <Button
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_below="@+id/E_CarYear"
         android:background="#f58020"
         android:layout_centerHorizontal="true"
@@ -145,4 +188,6 @@
         android:id="@+id/Sign_Up"
         />
     </RelativeLayout>
-</ScrollView>
+
+    </ScrollView>
+</RelativeLayout>

@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
 import com.example.ic.fixera.Adapter.Banner_Adapter;
 import com.example.ic.fixera.Model.Banner_details;
 import com.example.ic.fixera.Presenter.BannerPresenter;
@@ -210,5 +209,9 @@ public class Menu extends Fragment implements BannerView{
         if(timer!=null) {
             timer.cancel();
         }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

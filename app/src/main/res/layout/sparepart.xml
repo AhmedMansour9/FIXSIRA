@@ -8,16 +8,16 @@
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_5sdp"
-        android:id="@+id/menu"
-        android:src="@drawable/menu"
+        android:id="@+id/profile"
+        android:src="@drawable/sparepart"
         android:layout_gravity="center_horizontal" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="@string/menu"
+        android:text="@string/spartpart"
         android:textSize="@dimen/_8sdp"
-        android:textColor="#000"
+        android:textColor="#f89827"
         android:layout_gravity="center_horizontal"
         />
 </LinearLayout>

@@ -6,17 +6,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Model.UserRegister;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Register_Presenter;
 import com.example.ic.fixera.View.RegisterView;
 import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
+
+import io.fabric.sdk.android.Fabric;
 
 
 /**
@@ -39,6 +43,9 @@ public class Register extends Fragment implements RegisterView {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_register, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         register=new Register_Presenter(getContext(),this);
         E_FirstName=view.findViewById(R.id.E_FirstName);
         E_LastName=view.findViewById(R.id.E_LastName);
@@ -118,5 +125,11 @@ public class Register extends Fragment implements RegisterView {
     public void showError(String error) {
         Progrossregister.setVisibility(View.GONE);
         Toast.makeText(getActivity(), getResources().getString(R.string.emailfailed), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 }

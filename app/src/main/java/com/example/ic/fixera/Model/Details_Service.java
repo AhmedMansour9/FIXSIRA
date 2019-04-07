@@ -23,7 +23,15 @@ public class Details_Service {
     private String Total_rate;
     private String vendor_id;
    private String services_id;
+   private String TotalPrice;
 
+    public String getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        TotalPrice = totalPrice;
+    }
 
     public String getServices_id() {
         return services_id;

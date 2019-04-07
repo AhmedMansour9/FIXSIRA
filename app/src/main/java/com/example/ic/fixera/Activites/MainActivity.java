@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.ic.fixera.Fragments.TabsLayouts;
 import com.example.ic.fixera.Fragments.language;
 import com.fixsira.R;
 
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             getBaseContext().getResources().updateConfiguration(config,
                     getBaseContext().getResources().getDisplayMetrics());
         }
-
         setContentView(R.layout.activity_main);
         String logi=sha.getString("logggin",null);
         String uservendor=sha.getString("uservendor",null);
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else {
             if (logi != null) {
-                startActivity(new Intent(MainActivity.this, TabsLayouts.class));
+                startActivity(new Intent(MainActivity.this, Navigation.class));
                 finish();
             } else {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new language()).commit();

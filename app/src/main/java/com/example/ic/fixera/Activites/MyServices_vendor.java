@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Adapter.Categories_Sparts_Adapter;
 import com.example.ic.fixera.Adapter.MyServices_Vendor_Adapter;
 import com.example.ic.fixera.Language;
@@ -23,6 +24,8 @@ import com.example.ic.fixera.View.MyServices_Vendor_View;
 import com.fixsira.R;
 
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MyServices_vendor extends AppCompatActivity implements MyServices_Vendor_View,SwipeRefreshLayout.OnRefreshListener{
     String vendor_id,user_token,tybe;
@@ -37,6 +40,7 @@ public class MyServices_vendor extends AppCompatActivity implements MyServices_V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_my_services_vendor);
         getData();
         categories=new MyServices_Vendor_Presenter(MyServices_vendor.this,this);

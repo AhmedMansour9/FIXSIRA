@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Presenter.Review_Presenter;
 import com.example.ic.fixera.View.Review_View;
@@ -23,6 +24,8 @@ import com.fixsira.R;
 import com.fourhcode.forhutils.FUtilsValidation;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -61,7 +64,6 @@ public class Rating_Service extends Fragment implements Review_View{
         progrossRating=view.findViewById(R.id.progrossRating);
         views=view.findViewById(R.id.view);
         user=Shared.getString("logggin",null);
-
         img_Service=view.findViewById(R.id.img_Service);
         T_Name=view.findViewById(R.id.T_Name);
         T_Price=view.findViewById(R.id.T_Price);
@@ -76,9 +78,7 @@ public class Rating_Service extends Fragment implements Review_View{
         }else {
             lan="en";
         }
-
-
-        getData();
+      getData();
       SendReview();
 
         return view;
@@ -161,6 +161,12 @@ public class Rating_Service extends Fragment implements Review_View{
 
     @Override
     public void ErrorProduct() {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
     }
 }

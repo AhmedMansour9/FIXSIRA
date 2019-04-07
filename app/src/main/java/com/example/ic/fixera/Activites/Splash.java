@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.fixsira.R;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class Splash extends AppCompatActivity {
@@ -13,6 +16,7 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_splash);
 
         // OneSignal Initialization
@@ -22,14 +26,12 @@ public class Splash extends AppCompatActivity {
 //                .init();
 
 
-        final ImageView logo =  findViewById(R.id.logofix);
-
         Thread timer=new Thread(){
             @Override
             public void run() {
                 super.run();
                 try {
-                    sleep(2000);
+                    sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

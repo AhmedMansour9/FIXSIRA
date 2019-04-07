@@ -17,7 +17,7 @@
     <string name="Profile">Profile</string>
     <string name="menu">Home</string>
     <string name="cart">Cart</string>
-    <string name="setting">Order</string>
+    <string name="setting">My Orders</string>
     <string name="internet">Turn on Internet</string>
     <string name="invalidemail">Invalid Email Or password</string>
     <string name="insertemail">please insert Mail</string>
@@ -79,7 +79,7 @@
     <string name="logout">Log out</string>
     <string name="cartybe">Vehicle Type</string>
     <string name="maintenencetybe">Service Type</string>
-    <string name="fullname">Full Name</string>
+    <string name="fullname">Full Name</string>outside
     <string name="mob">Client Visit</string>
     <string name="onside">On Site</string>
     <string name="selectservice">Select Service</string>
@@ -145,4 +145,17 @@
     <string name="placename">Place Name</string>
     <string name="distance">Distance</string>
     <string name="carmodels">Vehicle Model</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="contactus">Contact Us</string>
+    <string name="newoffer">New Offers</string>
+    <string name="currency">LE</string>
+
 </resources>

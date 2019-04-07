@@ -2,15 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#e1e1e1"
     tools:context="com.example.ic.fixera.Fragments.PullCar">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/apppar"
+        android:theme="@style/AppBarOverlay">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#4e4e4e"
+            app:popupTheme="@style/PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:text="@string/app_name"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16sdp"
+                    />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
     <EditText
         android:id="@+id/searchh"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_30sdp"
         android:hint="@string/search"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:textColor="#706a6a"
         android:background="@drawable/bsearch"
@@ -28,7 +59,7 @@
         android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginLeft="@dimen/_10sdp"
         android:textAllCaps="false"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:text="@string/search"
         android:textSize="@dimen/_18sdp"
         android:id="@+id/Btn_Search"
@@ -38,7 +69,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Sparts"
         android:layout_width="match_parent"
-        android:layout_below="@+id/Btn_Search"
+        android:layout_below="@+id/searchh"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="match_parent">
 

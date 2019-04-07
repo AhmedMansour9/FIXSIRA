@@ -5,12 +5,45 @@
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:background="#e1e1e1"
     android:id="@+id/ServiceFrame"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     tools:context="com.example.ic.fixera.Fragments.Services">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/apppar"
+        android:theme="@style/AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#4e4e4e"
+            app:popupTheme="@style/PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_40sdp"
+                    android:text="@string/app_name"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16sdp"
+                    />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_Service"
         android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_height="match_parent">
 
 
@@ -25,6 +58,7 @@
         android:id="@+id/shimmer_view_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:background="#fff"
@@ -40,6 +74,7 @@
 
             <include layout="@layout/recipe_placeholder_item" />
 
+            <include layout="@layout/recipe_placeholder_item" />
             <include layout="@layout/recipe_placeholder_item" />
 
         </LinearLayout>

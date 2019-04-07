@@ -3,38 +3,50 @@ package com.example.ic.fixera.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
+import com.example.ic.fixera.Adapter.Banner_Adapter;
 import com.example.ic.fixera.Adapter.CarMaintenence_Adapter;
 import com.example.ic.fixera.Language;
+import com.example.ic.fixera.Model.Banner_details;
 import com.example.ic.fixera.Model.CarWashing;
 import com.example.ic.fixera.Model.Filter_Places;
-import com.example.ic.fixera.Model.Profile_Verndor;
 import com.example.ic.fixera.NetworikConntection;
+import com.example.ic.fixera.Presenter.BannerPresenter;
 import com.example.ic.fixera.Presenter.CarWashing_presenter;
+import com.example.ic.fixera.View.BannerView;
 import com.example.ic.fixera.View.CarWashing_View;
 import com.example.ic.fixera.View.Details_Service;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -56,11 +68,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks,CarWashing_View,SwipeRefreshLayout.OnRefreshListener,Details_Service{
+public class CarMaintenence extends Fragment implements BannerView,GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks,CarWashing_View,SwipeRefreshLayout.OnRefreshListener,Details_Service{
 
 
     public CarMaintenence() {
@@ -74,7 +90,7 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
     SwipeRefreshLayout mSwipeRefreshLayout;
     List<Filter_Places> filterPlaces=new ArrayList<>();
     NetworikConntection networikConntection;
-    RelativeLayout carRelative;
+    FrameLayout carRelative;
     String Car_id,Service_id;
     public static String Service;
     Button sortRate,sortDistance;
@@ -83,6 +99,17 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
     LocationRequest locationReques;
     final int REQUEST_LOCATION_CODE = 99;
     TextView No_Branch;
+    ImageView Img_Search;
+    EditText E_Search;
+    Toolbar toolbars;
+    BannerPresenter baner;
+    private RecyclerView rv_autoScroll;
+    LinearLayoutManager linearLayoutManager;
+    List<Banner_details> banne=new ArrayList<>();
+    Banner_Adapter banerAdapter;
+    int position;
+    Boolean end;
+    Timer timer;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,14 +117,46 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
         cars=new CarWashing_presenter(getContext(),this);
         networikConntection=new NetworikConntection(getActivity());
         carRelative=view.findViewById(R.id.carRelative);
+        baner=new BannerPresenter(getContext(),this);
+
         mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
         No_Branch=view.findViewById(R.id.No_Branch);
+        toolbars=view.findViewById(R.id.toolbar);
+        Img_Search=view.findViewById(R.id.Img_Search);
+        E_Search=view.findViewById(R.id.E_Search);
+        Img_Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                E_Search.setVisibility(View.VISIBLE);
+            }
+        });
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
+
         getdata();
         Recyclview();
         SwipRefresh();
         setSortRate();
         setDistance();
-
+        RecycleviewSerach();
         return view;
     }
     public void Recyclview(){
@@ -105,6 +164,8 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
         recyclerView.setHasFixedSize(true);
         sortRate=view.findViewById(R.id.sortrate);
         sortDistance=view.findViewById(R.id.sortdestance);
+        rv_autoScroll = view.findViewById(R.id.recycler_banner2);
+        rv_autoScroll.setHasFixedSize(true);
         CARS = new CarMaintenence_Adapter(filterPlaces,getContext());
         CARS.setClickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -187,12 +248,14 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
                   mShimmerViewContainer.startShimmerAnimation();
                   mShimmerViewContainer.setVisibility(View.VISIBLE);
                   cars.GetCarWashong("ar", "car_maintenance",Car_id,Service_id,Service);
+                  baner.GetBanner("ar");
               } else {
 //                  mSwipeRefreshLayout.setRefreshing(true);
                   mShimmerViewContainer.startShimmerAnimation();
                   mShimmerViewContainer.setVisibility(View.VISIBLE);
 
                   cars.GetCarWashong("en", "car_maintenance",Car_id,Service_id,Service);
+                  baner.GetBanner("ar");
               }
           }else {
 //              Snackbar.make(carRelative,getResources().getString(R.string.internet),1500).show();
@@ -373,6 +436,7 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
 
            filterPlaces.clear();
            CARS.notifyDataSetChanged();
+           baner.GetBanner("ar");
            if (Language.isRTL()) {
 //               mSwipeRefreshLayout.setRefreshing(true);
                cars.GetCarWashong("ar", "car_maintenance",Car_id,Service_id,Service);
@@ -403,9 +467,10 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
         args.putString("tybe_id",Service_id);
         args.putString("vendor_id",list.getVendor_id());
         args.putString("tybeservice",Service);
+        args.putString("totalprice",String.valueOf(list.getTotalPrice()));
         fragmen.setArguments(args);
         getFragmentManager().beginTransaction()
-                .replace(R.id.MenuFrame, fragmen )
+                .add(R.id.carRelative, fragmen )
                 .addToBackStack(null)
                 .commit();
     }
@@ -485,6 +550,75 @@ public class CarMaintenence extends Fragment implements GoogleApiClient.OnConnec
                 break;
         }
 
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = true;
+        Navigation.toolbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = false;
+    }
+    public void RecycleviewSerach(){
+        E_Search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                CARS.getFilter().filter(charSequence);
+                CARS.notifyDataSetChanged();
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+
+    @Override
+    public void getBanner(List<Banner_details> banners) {
+
+        banne=banners;
+        banerAdapter = new Banner_Adapter(banners,getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv_autoScroll.setLayoutManager(linearLayoutManager);
+        rv_autoScroll.setAdapter(banerAdapter);
+        if(banners.size()>0) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new AutoScrollTask(), 2500, 8000);
+        }
+    }
+
+    @Override
+    public void Errorbaner() {
+    }
+    private class AutoScrollTask extends TimerTask {
+        @Override
+        public void run() {
+            if(position == banne.size()){
+                end = true;
+            }
+            else if (position == 0) {
+                end = false;
+            }
+            if(!end){
+                position++;
+            } else {
+                position--;
+            }
+            rv_autoScroll.smoothScrollToPosition(position);
+        }
     }
 }
 

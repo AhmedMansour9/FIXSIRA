@@ -36,11 +36,11 @@ public class CarWashing_presenter {
         queryMap.put("lang", lang);
         queryMap.put("api_token", "100");
         queryMap.put("type", car);
-        if(!Car_id.equals("")) {
-            queryMap.put("car_model_id", Car_id);
-            queryMap.put("type_id", service_id);
-                queryMap.put("type_vist", service);
-        }
+//        if(!Car_id.equals("")) {
+//            queryMap.put("car_model_id", Car_id);
+//            queryMap.put("type_id", service_id);
+//                queryMap.put("type_vist", service);
+//        }
         Apiinterface apiInterface = ApiCLint.getClient().create(Apiinterface.class);
 
         Call<CarWashing_Response> call = apiInterface.GetCars(queryMap);

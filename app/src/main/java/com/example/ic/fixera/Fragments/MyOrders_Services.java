@@ -1,6 +1,7 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.Categories_Sparts_Adapter;
 import com.example.ic.fixera.Adapter.MyOrders_Service_Adapter;
 import com.example.ic.fixera.Language;
@@ -66,6 +68,13 @@ public class MyOrders_Services extends Fragment implements MyOrdersService_View,
         SwipRefresh();
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.toolbar.setVisibility(View.VISIBLE);
+        Navigation.Visablty=true;
     }
 
     @Override

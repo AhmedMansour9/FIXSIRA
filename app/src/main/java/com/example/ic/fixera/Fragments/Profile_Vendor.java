@@ -3,12 +3,14 @@ package com.example.ic.fixera.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -17,7 +19,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +34,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Activites.Hours_Vendor;
 import com.example.ic.fixera.Activites.MyProducts_Vendor;
 import com.example.ic.fixera.Activites.MyServices_vendor;
+import com.example.ic.fixera.Activites.Navigation;
+import com.example.ic.fixera.Adapter.Vendor_Hours_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Location_Vendor;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.Profilevendor_Presenter;
+import com.example.ic.fixera.Presenter.Vendor_Hours_Presenter;
 import com.example.ic.fixera.View.Profilevendor_View;
+import com.example.ic.fixera.View.Vendor_Hours_View;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.fixsira.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -61,6 +74,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -68,7 +82,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Vendor_Hours_View,
         Profilevendor_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
 
@@ -101,23 +115,22 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
    public String Tybe_Service,services_id;
     private ShimmerFrameLayout mShimmerViewContainer;
     TextView allreviwes;
+    Vendor_Hours_Presenter products;
+    RecyclerView recyclerView ;
+    Vendor_Hours_Adapter categories_adapter;
+    TextView T_hours;
+    String TotalPrice;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.profile_vendor, container, false);
-        profilevendor=new Profilevendor_Presenter(getContext(),this);
-        Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
-        mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
-        allreviwes=view.findViewById(R.id.reviews);
-        networikConntection=new NetworikConntection(getActivity());
-        btn_ShowService=view.findViewById(R.id.showservices);
-        user=Shared.getString("logggin",null);
-        profileFrame=view.findViewById(R.id.profileFrame);
+        toolbars=view.findViewById(R.id.toolbar);
         init();
         getData();
         SwipRefresh();
-        ShowServices();
+//        ShowServices();
 
         if(Language.isRTL()){
             lan="ar";
@@ -137,11 +150,18 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
             mapFragment.getMapAsync(this);
         }
         Open_Reserve();
-        ShowProducts();
-        ShowHours();
-        openReviewes();
+//        ShowProducts();
+//        ShowHours();
+//        openReviewes();
         return view;
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = false;
+//        Navigation.toolbar.setVisibility(View.VISIBLE);
+    }
+
     public void openReviewes(){
         allreviwes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +222,11 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
             services_id=args.getString("service_id");
             Total_rate=args.getString("Total_rate");
             Tybe_Service=args.getString("tybeservice");
-//            vendor_id=args.getString("vendor_id");
+            Address=args.getString("address");
+            TotalPrice=args.getString("totalprice");
+//            vendor_id=args.getString("vendor_id");z
+            vendorname.setText(Name);
+            vendoraddress.setText(Address);
             double rates=Double.parseDouble(Rate);
             if(rates==1.0){
                 Starone.setVisibility(View.VISIBLE);
@@ -244,6 +268,18 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
         }
     }
    public void init(){
+       profilevendor=new Profilevendor_Presenter(getContext(),this);
+       Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+       mShimmerViewContainer =view.findViewById(R.id.shimmer_view_container);
+       allreviwes=view.findViewById(R.id.reviews);
+       networikConntection=new NetworikConntection(getActivity());
+       T_hours=view.findViewById(R.id.T_hours);
+//       btn_ShowService=view.findViewById(R.id.showservices);
+       user=Shared.getString("logggin",null);
+       profileFrame=view.findViewById(R.id.profileFrame);
+       products=new Vendor_Hours_Presenter(getContext(),this);
+       recyclerView =view.findViewById(R.id.recycler_Hours);
+       recyclerView.setHasFixedSize(true);
        person_image=view.findViewById(R.id.person_image);
        btnReserve=view.findViewById(R.id.Reserves);
        vendorname=view.findViewById(R.id.vendorname);
@@ -254,8 +290,27 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
        StarThree=view.findViewById(R.id.Starthree);
        StarFour=view.findViewById(R.id.StarFour);
        StarFive=view.findViewById(R.id.StarFive);
-       show_service=view.findViewById(R.id.show_service);
+//       show_service=view.findViewById(R.id.show_service);
        btn_ShowHours=view.findViewById(R.id.show_hours);
+       Navigation.toolbar.setVisibility(View.GONE);
+       Navigation.toggle = new ActionBarDrawerToggle(
+               getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+       Navigation.drawer.addDrawerListener(Navigation.toggle);
+       Navigation.toggle.syncState();
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+           toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+               @Override
+               public void onClick(View v) {
+                   if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                       Navigation.drawer.closeDrawer(GravityCompat.START);
+                   } else {
+                       Navigation.drawer.openDrawer(GravityCompat.START);
+                   }
+               }
+           });
+       }
    }
 
    public void ShowProducts(){
@@ -275,25 +330,29 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
         btnReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Details_Services_fragment fragmen = new Details_Services_fragment();
-                Bundle args = new Bundle();
-                args.putString("id",id);
-                args.putString("tybe",tybe);
-                args.putString("phone",phone);
-                args.putString("discription",Discrption);
-                args.putString("image",photo);
-                args.putString("placeName",Name);
-                args.putString("address",Address);
-                args.putString("price",price);
-                args.putString("car_id",Car_id);
-                args.putString("tybe_id",Service_id);
-                args.putString("tybeservice",Tybe_Service);
-                args.putString("services_id",services_id);
-                fragmen.setArguments(args);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.MenuFrame, fragmen )
-                        .addToBackStack(null)
-                        .commitAllowingStateLoss();
+
+                    Details_Services_fragment fragmen = new Details_Services_fragment();
+                    Bundle args = new Bundle();
+                    args.putString("id",id);
+                    args.putString("tybe",tybe);
+                    args.putString("phone",phone);
+                    args.putString("discription",Discrption);
+                    args.putString("image",photo);
+                    args.putString("placeName",Name);
+                    args.putString("address",Address);
+                    args.putString("price",price);
+                    args.putString("car_id",Car_id);
+                    args.putString("tybe_id",Service_id);
+                    args.putString("tybeservice",Tybe_Service);
+                    args.putString("services_id",services_id);
+                    args.putString("totalprice",TotalPrice);
+                    fragmen.setArguments(args);
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.Home_tabs, fragmen )
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
+
+
             }
         });
     }
@@ -366,6 +425,26 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
             latitude=Double.parseDouble(list.get(0).getLat());
             longetude=Double.parseDouble(list.get(0).getLng());
         }
+    }
+
+    @Override
+    public void GetHours(List<com.example.ic.fixera.Model.Hours_Vendor> list) {
+        recyclerView.setVisibility(View.VISIBLE);
+        T_hours.setVisibility(View.VISIBLE);
+        categories_adapter=new Vendor_Hours_Adapter(list,getContext());
+
+
+//        GridLayoutManager gridLayoutManager=new GridLayoutManager(Hours_Vendor.this,2);
+//        recyclerView.setLayoutManager(gridLayoutManager);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(categories_adapter);
+        mSwipeRefreshLayout.setRefreshing(false);
+
+
     }
 
     @Override
@@ -464,7 +543,7 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
 //                    mSwipeRefreshLayout.setRefreshing(true);
                     mShimmerViewContainer.startShimmerAnimation();
                     mShimmerViewContainer.setVisibility(View.VISIBLE);
-
+                    products.VendorHours("ar",id,user);
                     profilevendor.profilevendor(user, lan, id);
                 }else {
                     Snackbar.make(profileFrame,getResources().getString(R.string.internet),1500).show();
@@ -491,8 +570,21 @@ public class Profile_Vendor extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onStop() {
         super.onStop();
+        Navigation.Visablty = true;
+
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        Navigation.toolbar.setVisibility(View.GONE);
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Adapter.MyProducts_vendor_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Sparts_Details;
@@ -18,6 +19,8 @@ import com.example.ic.fixera.View.Sparts_View;
 import com.fixsira.R;
 
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,SwipeRefreshLayout.OnRefreshListener{
     String vendor_id,user_token,tybe;
@@ -32,6 +35,7 @@ public class MyProducts_Vendor extends AppCompatActivity implements Sparts_View,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_my_products__vendor);
         getData();
         products=new SpartsProducts_Prsenter(MyProducts_Vendor.this,this);

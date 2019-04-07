@@ -1,20 +1,26 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.Service_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Filter_Places;
@@ -57,6 +63,7 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     NetworikConntection networikConntection;
     FrameLayout ServiceFrame;
     private ShimmerFrameLayout mShimmerViewContainer;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +75,27 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         user=Shared.getString("logggin",null);
         networikConntection=new NetworikConntection(getApplicationContext());
         ServiceFrame=view.findViewById(R.id.ServiceFrame);
+        toolbars=view.findViewById(R.id.toolbar);
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
+
         GetData();
         Recyclview();
         SwipRefresh();
@@ -160,6 +188,18 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         mShimmerViewContainer.setVisibility(View.GONE);
 
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = false;
+        Navigation.toolbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = true;
+    }
 
     @Override
     public void listsevice(com.example.ic.fixera.Model.Details_Service list) {
@@ -180,10 +220,16 @@ public class Services extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 
         fragmen.setArguments(args);
         getFragmentManager().beginTransaction()
-                .replace(R.id.MenuFrame, fragmen )
+                .replace(R.id.Frame_PullCar, fragmen )
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
 
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        Navigation.toolbar.setVisibility(View.GONE);
     }
 }

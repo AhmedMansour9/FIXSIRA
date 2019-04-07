@@ -1,12 +1,16 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.Categories_Sparts_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.Sparts_Category;
@@ -25,6 +30,8 @@ import com.example.ic.fixera.View.Category_id;
 import com.fixsira.R;
 
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -46,6 +53,7 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
     FrameLayout Categories;
     Button Btn_Search;
     EditText E_Search;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,12 +62,31 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
         categories=new Caetgoris_Sparts_Presenter(getContext(),this);
         Btn_Search=view.findViewById(R.id.Btn_Search);
         E_Search=view.findViewById(R.id.searchh);
-//        TabsLayouts.banner.setVisibility(View.GONE);
+        toolbars=view.findViewById(R.id.toolbar);
         Categories=view.findViewById(R.id.Categories);
        networikConntection=new NetworikConntection(getApplicationContext());
         Recyclview();
         SwipRefresh();
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
         Btn_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +96,7 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
                     args.putString("search", E_Search.getText().toString());
                     fragmentB.setArguments(args);
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.MenuFrame, fragmentB)
+                            .replace(R.id.Categories, fragmentB)
                             .addToBackStack(null)
                             .commit();
                 }
@@ -155,9 +182,27 @@ public class Categories_SparParts extends Fragment implements Category_id,Caetgo
         args.putString("offer",null);
         fragmentB .setArguments(args);
         getFragmentManager().beginTransaction()
-                .replace(R.id.MenuFrame, fragmentB )
+                .replace(R.id.Categories, fragmentB )
                 .addToBackStack(null)
                 .commit();
 
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = true;
+        Navigation.toolbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = false;
     }
 }

@@ -9,12 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class CarModel {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("models")
-    @Expose
-    private String models;
     @SerializedName("manufacturer")
     @Expose
     private String manufacturer;
@@ -22,21 +16,6 @@ public class CarModel {
     @Expose
     private Integer manufacturerId;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getModels() {
-        return models;
-    }
-
-    public void setModels(String models) {
-        this.models = models;
-    }
 
     public String getManufacturer() {
         return manufacturer;
@@ -56,6 +35,6 @@ public class CarModel {
 
     @Override
     public String toString() {
-        return models;
+        return manufacturer;
     }
 }

@@ -21,8 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
-import com.example.ic.fixera.Activites.UserVendor_Orders;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.LoginPresenter;
 import com.example.ic.fixera.Presenter.RegisterFace_Presenter;
@@ -48,7 +47,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -139,16 +137,12 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
             @Override
             public void onClick(View view) {
                 SharedPrefManager.getInstance(getActivity()).saveRole("role");
-                startActivity(new Intent(getContext(),TabsLayouts.class));
-
-
+                startActivity(new Intent(getContext(),Navigation.class));
             }
         });
 
-
-   return view;
+         return view;
     }
-
     public void setLanguage(){
         shared=getActivity().getSharedPreferences("Language",MODE_PRIVATE);
         String Lan=shared.getString("Lann",null);
@@ -376,7 +370,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
 
         updatePlayer_presenter.SendPlayerId(a,playerid);
 
-        startActivity(new Intent(getContext(),TabsLayouts.class));
+        startActivity(new Intent(getContext(),  Navigation.class));
         getActivity().finish();
     }
 
@@ -393,7 +387,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         updatePlayer_presenter.SendPlayerId(usertoken,playerid);
 
         progressBar.setVisibility(View.GONE);
-        startActivity(new Intent(getContext(),UserVendor_Orders.class));
+        startActivity(new Intent(getContext(),Navigation.class));
         getActivity().finish();
         SharedPrefManager.getInstance(getActivity()).saveRole(null);
     }
@@ -415,7 +409,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         Shared.putString("logggin",a);
         Shared.apply();
         progressBar.setVisibility(View.GONE);
-        startActivity(new Intent(getContext(),TabsLayouts.class));
+        startActivity(new Intent(getContext(),Navigation.class));
         getActivity().finish();
         SharedPrefManager.getInstance(getActivity()).saveRole(null);
         OSPermissionSubscriptionState status = OneSignal.getPermissionSubscriptionState();
@@ -439,7 +433,7 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
         Shared.putString("logggin",y);
         Shared.apply();
         progressBar.setVisibility(View.GONE);
-        startActivity(new Intent(getContext(),TabsLayouts.class));
+        startActivity(new Intent(getContext(), Navigation.class));
         getActivity().finish();
         SharedPrefManager.getInstance(getActivity()).saveRole(null);
 
@@ -449,12 +443,6 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
     public void showErrorGoogle(String error) {
         Toast.makeText(getActivity(), ""+getResources().getString(R.string.invalidemail), Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
     }
 
     @Override
@@ -470,7 +458,14 @@ public class Login extends Fragment implements LoginView,RegisterFaceView,Regist
 
     @Override
     public void Error() {
+        progressBar.setVisibility(View.GONE);
 
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }
 

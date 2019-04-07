@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -30,13 +32,16 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by ic on 9/30/2018.
  */
 
-public class PullCar_Adapter extends RecyclerView.Adapter<PullCar_Adapter.MyViewHolder>{
+public class PullCar_Adapter extends RecyclerView.Adapter<PullCar_Adapter.MyViewHolder> implements Filterable {
 
     private List<Filter_Places> filteredList=new ArrayList<>();
 
     View itemView;
     Context con;
     Details_Service details_service;
+    private List<Filter_Places> mArrayList;
+    public static List<Filter_Places> filtered = new ArrayList<>();
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView VendorName,placeName,Address,Phone,telephone,textRate,Destance,T_rates,T_Price,price,distance;
         private Button Callnow,Details;
@@ -68,6 +73,7 @@ public class PullCar_Adapter extends RecyclerView.Adapter<PullCar_Adapter.MyView
     public PullCar_Adapter(List<Filter_Places> list, Context context){
         this.filteredList=list;
         this.con=context;
+        mArrayList=list;
     }
     public void setClickListener(Details_Service itemClickListener) {
         this.details_service = itemClickListener;
@@ -179,6 +185,7 @@ public class PullCar_Adapter extends RecyclerView.Adapter<PullCar_Adapter.MyView
                 filter_places.setEvragerate(String.valueOf(filteredList.get(position).getRate()));
                 filter_places.setTotal_rate(filteredList.get(position).getTotal_Rates());
                     filter_places.setPrice(filteredList.get(position).getPrice());
+                filter_places.setTotalPrice(filteredList.get(position).getTotal_Price());
                 filter_places.setTybe("pull_washing");
                 details_service.listsevice(filter_places);
 
@@ -202,4 +209,32 @@ public class PullCar_Adapter extends RecyclerView.Adapter<PullCar_Adapter.MyView
         return position;
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                filtered.clear();
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredList = mArrayList;
+                } else {
+                    for (Filter_Places androidVersion : mArrayList) {
+                        if (androidVersion.getVendorName().toLowerCase().contains(charString)||androidVersion.getName().toLowerCase().contains(charString)) {
+                            filtered.add(androidVersion);}}
+                    filteredList = filtered;}
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (List<Filter_Places>) filterResults.values;
+
+                notifyDataSetChanged();
+            }
+        };
+
+    }
 }

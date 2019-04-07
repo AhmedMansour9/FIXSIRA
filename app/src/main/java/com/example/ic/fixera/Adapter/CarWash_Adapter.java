@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,12 +32,14 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by ic on 9/30/2018.
  */
 
-public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyViewHolder>{
+public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyViewHolder> implements Filterable {
 
     public static List<Filter_Places> filteredList=new ArrayList<>();
     View itemView;
     Context con;
     Details_Service  details_service;
+    private List<Filter_Places> mArrayList;
+    public static List<Filter_Places> filtered = new ArrayList<>();
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView VendorName,placeName,Address,Phone,telephone,textRate,Destance,T_rates,T_Price;
         private Button Callnow,Details;
@@ -65,6 +69,7 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
     public CarWash_Adapter(List<Filter_Places> list, Context context){
         this.filteredList=list;
         this.con=context;
+        mArrayList=list;
     }
     public void setClickListener(Details_Service itemClickListener) {
         this.details_service = itemClickListener;
@@ -99,23 +104,13 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
             holder.relaa.setVisibility(View.VISIBLE);
         }
 
-        if(Carwash.Service == "Mobile Service") {
-            if(filteredList.get(position).getTotal_Price()!=null) {
-                if (filteredList.get(position).getTotal_Price().equals("0")) {
-                    holder.T_Price.setVisibility(View.GONE);
-                } else {
-                    holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
-                }
-            }
-        }else {
-            if(filteredList.get(position).getTotal_Price()!=null) {
-                if (filteredList.get(position).getTotal_Price().equals("0")) {
+
+                if (filteredList.get(position).getPrice().equals("0")) {
                     holder.T_Price.setVisibility(View.GONE);
                 } else {
                     holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
                 }
-            }
-        }
+
         if(filteredList.get(position).getRate()==1){
             holder.Starone.setVisibility(View.VISIBLE);
         }else if(filteredList.get(position).getRate()==2){
@@ -180,11 +175,8 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
                 filter_places.setEvragerate(String.valueOf(filteredList.get(position).getRate()));
                 filter_places.setTotal_rate(filteredList.get(position).getTotal_Rates());
                 filter_places.setServices_id(filteredList.get(position).getService_id());
-                if(Carwash.Service == "Mobile Service") {
-                    filter_places.setPrice(filteredList.get(position).getTotal_Price());
-                }else {
+                filter_places.setTotalPrice(filteredList.get(position).getTotal_Price());
                     filter_places.setPrice(filteredList.get(position).getPrice());
-                }
                 filter_places.setTybe("car_washing");
                 details_service.listsevice(filter_places);
 
@@ -206,5 +198,32 @@ public class CarWash_Adapter extends RecyclerView.Adapter<CarWash_Adapter.MyView
     public int getItemViewType(int position) {
         return position;
     }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
 
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                filtered.clear();
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredList = mArrayList;
+                } else {
+                    for (Filter_Places androidVersion : mArrayList) {
+                        if (androidVersion.getVendorName().toLowerCase().contains(charString)||androidVersion.getName().toLowerCase().contains(charString)) {
+                            filtered.add(androidVersion);}}
+                    filteredList = filtered;}
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (List<Filter_Places>) filterResults.values;
+
+                notifyDataSetChanged();
+            }
+        };
+
+    }
 }

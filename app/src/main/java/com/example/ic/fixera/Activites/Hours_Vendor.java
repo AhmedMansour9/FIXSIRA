@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Adapter.Vendor_Hours_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.NetworikConntection;
@@ -17,6 +18,8 @@ import com.example.ic.fixera.View.Vendor_Hours_View;
 import com.fixsira.R;
 
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class Hours_Vendor extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,Vendor_Hours_View{
     String vendor_id,user_token,tybe;
@@ -31,6 +34,7 @@ public class Hours_Vendor extends AppCompatActivity implements SwipeRefreshLayou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_hours__vendor);
         getData();
         products=new Vendor_Hours_Presenter(Hours_Vendor.this,this);

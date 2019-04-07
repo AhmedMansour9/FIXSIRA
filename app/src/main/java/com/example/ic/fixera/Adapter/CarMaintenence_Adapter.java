@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,11 +33,14 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by ic on 9/30/2018.
  */
 
-public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence_Adapter.MyViewHolder>{
+public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence_Adapter.MyViewHolder>implements Filterable {
 
     private List<Filter_Places> filteredList=new ArrayList<>();
     View itemView;
     Context con;
+    private List<Filter_Places> mArrayList;
+    public static List<Filter_Places> filtered = new ArrayList<>();
+
     Details_Service  details_service;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView VendorName,placeName,Address,Phone,telephone,textRate,Destance,T_rates,T_Price;
@@ -60,6 +65,7 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
             T_rates=view.findViewById(R.id.T_Rates);
             T_Price=view.findViewById(R.id.T_Price);
             relaa=view.findViewById(R.id.relaa);
+
         }
     }
     public void setClickListener(Details_Service itemClickListener) {
@@ -68,6 +74,7 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
     public CarMaintenence_Adapter(List<Filter_Places> list, Context context){
         this.filteredList=list;
         this.con=context;
+        mArrayList=list;
     }
     @Override
     public CarMaintenence_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -97,23 +104,13 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
         }else {
             holder.relaa.setVisibility(View.VISIBLE);
         }
-        if(CarMaintenence.Service == "Mobile Service") {
-            if(filteredList.get(position).getTotal_Price()!=null) {
-                if (filteredList.get(position).getTotal_Price().equals("0")) {
-                    holder.T_Price.setVisibility(View.GONE);
-                } else {
-                    holder.T_Price.setText(filteredList.get(position).getTotal_Price() + " LE");
-                }
-            }
-        }else {
-            if(filteredList.get(position).getTotal_Price()!=null) {
-                if (filteredList.get(position).getTotal_Price().equals("0")) {
+
+                if (filteredList.get(position).getPrice().equals("0")) {
                     holder.T_Price.setVisibility(View.GONE);
                 } else {
                     holder.T_Price.setText(filteredList.get(position).getPrice() + " LE");
                 }
-            }
-        }
+
 
 
 
@@ -178,11 +175,11 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
            filter_places.setVendor_id(filteredList.get(position).getVendor_id());
            filter_places.setEvragerate(String.valueOf(filteredList.get(position).getRate()));
            filter_places.setTotal_rate(filteredList.get(position).getTotal_Rates());
-           if(CarMaintenence.Service == "Mobile Service") {
-               filter_places.setPrice(filteredList.get(position).getTotal_Price());
-           }else {
+//           if(CarMaintenence.Service == "Mobile Service") {
+               filter_places.setTotalPrice(filteredList.get(position).getTotal_Price());
+//           }else {
                filter_places.setPrice(filteredList.get(position).getPrice());
-           }
+//           }
 
            filter_places.setTybe("car_maintenance");
            details_service.listsevice(filter_places);
@@ -206,5 +203,32 @@ public class CarMaintenence_Adapter  extends RecyclerView.Adapter<CarMaintenence
     public int getItemViewType(int position) {
         return position;
     }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
 
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                filtered.clear();
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredList = mArrayList;
+                } else {
+                    for (Filter_Places androidVersion : mArrayList) {
+                        if (androidVersion.getVendorName().toLowerCase().contains(charString)||androidVersion.getName().toLowerCase().contains(charString)) {
+                            filtered.add(androidVersion);}}
+                    filteredList = filtered;}
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredList = (List<Filter_Places>) filterResults.values;
+
+                notifyDataSetChanged();
+            }
+        };
+
+    }
 }

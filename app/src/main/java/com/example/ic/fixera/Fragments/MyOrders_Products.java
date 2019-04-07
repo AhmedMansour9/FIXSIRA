@@ -2,6 +2,7 @@ package com.example.ic.fixera.Fragments;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.MyOrders_Products_Adapter;
 import com.example.ic.fixera.Adapter.MyOrders_Service_Adapter;
 import com.example.ic.fixera.Language;
@@ -121,6 +123,12 @@ public class MyOrders_Products extends Fragment implements Review_View,SwipeRefr
           }
             }
         });
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.toolbar.setVisibility(View.VISIBLE);
+        Navigation.Visablty=true;
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

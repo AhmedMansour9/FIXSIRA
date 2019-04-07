@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 
+import com.crashlytics.android.Crashlytics;
 import com.fixsira.R;
 
 import java.util.Locale;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -79,5 +82,9 @@ public class language extends Fragment {
 
         return view;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
 
+    }
 }

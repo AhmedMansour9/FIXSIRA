@@ -14,16 +14,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Language;
 import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +45,7 @@ public class Orders extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     MyReceiver r;
-
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,9 +53,28 @@ public class Orders extends Fragment {
         view=inflater.inflate(R.layout.fragment_tabs_orders, container, false);
         viewPager = view.findViewById(R.id.viewpa);
         setupViewPager(viewPager);
-
+        toolbars=view.findViewById(R.id.toolbar);
         tabLayout = view.findViewById(R.id.tas);
         tabLayout.setupWithViewPager(viewPager);
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
 
         tabLayout.setTabTextColors(
                 ColorStateList.valueOf(Color.BLACK));
@@ -64,6 +90,21 @@ public class Orders extends Fragment {
 
 
         return view;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        Navigation.toolbar.setVisibility(View.VISIBLE);
+        Navigation.Visablty=true;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        Navigation.toolbar.setVisibility(View.GONE);
+//        Navigation.Visablty=false;
+
+
     }
 //    @Override
 //    public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -118,6 +159,7 @@ public class Orders extends Fragment {
             // TODO Auto-generated method stub
         }
 
+
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
@@ -145,5 +187,10 @@ public class Orders extends Fragment {
         public void onReceive(Context context, Intent intent) {
             Orders.this.refresh();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

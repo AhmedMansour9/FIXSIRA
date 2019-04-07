@@ -9,15 +9,17 @@
         android:layout_height="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:id="@+id/setting"
-        android:src="@drawable/myorder"
+        android:src="@drawable/maintanince"
         android:layout_gravity="center_horizontal" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="@string/setting"
-        android:textColor="#000"
+        android:text="@string/maintaince"
+        android:textColor="#f89827"
         android:textSize="@dimen/_8sdp"
         android:layout_gravity="center_horizontal"
         />
+
+
 </LinearLayout>

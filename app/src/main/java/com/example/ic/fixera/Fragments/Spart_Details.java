@@ -3,12 +3,15 @@ package com.example.ic.fixera.Fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.ic.fixera.Activites.MainActivity;
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.Gallery_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.Model.GalleryImage;
@@ -33,6 +37,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -67,12 +73,15 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
     TextView T_Count;
     Button reviews;
     int current;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_spart_details, container, false);
         gallery_image=new Gallery_Image_Presenter(getContext(),this);
+        toolbars=view.findViewById(R.id.toolbar);
+
         init();
         GetData();
         Recyclview();
@@ -100,7 +109,7 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
 
                 fragmen.setArguments(args);
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.MenuFrame, fragmen )
+                        .replace(R.id.flContentss, fragmen )
                         .addToBackStack(null)
                         .commitAllowingStateLoss();
 
@@ -207,6 +216,27 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
       Text_Descrption=view.findViewById(R.id.Text_Descrption);
       imgspart=view.findViewById(R.id.Image_Caetgory);
       reviews=view.findViewById(R.id.reviews);
+
+      Navigation.toolbar.setVisibility(View.GONE);
+      Navigation.toggle = new ActionBarDrawerToggle(
+              getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+      Navigation.drawer.addDrawerListener(Navigation.toggle);
+      Navigation.toggle.syncState();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+          toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+              @Override
+              public void onClick(View v) {
+                  if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                      Navigation.drawer.closeDrawer(GravityCompat.START);
+                  } else {
+                      Navigation.drawer.openDrawer(GravityCompat.START);
+                  }
+              }
+          });
+      }
+
   }
 
     @Override
@@ -234,7 +264,7 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
     public void Success() {
         Toast.makeText(getContext(),getResources().getString(R.string.cartsuccesfull), Toast.LENGTH_SHORT).show();
 
-         startActivity(new Intent(getContext(), TabsLayouts.class));
+         startActivity(new Intent(getContext(), Navigation.class));
         getActivity().finish();
 //        getFragmentManager().beginTransaction().replace(R.id.MenuFrame,new Menu()).commit();
         ProgrossSpare.setVisibility(View.INVISIBLE);
@@ -249,5 +279,10 @@ public class Spart_Details extends Fragment implements Gallery_View,Cart_View{
     public void onPause() {
         super.onPause();
 //        getActivity().finish();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 }

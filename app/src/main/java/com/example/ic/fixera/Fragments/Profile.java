@@ -6,28 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.ic.fixera.Activites.MainActivity;
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Language;
-import com.example.ic.fixera.Model.Profilee;
 import com.example.ic.fixera.Presenter.Profile_Presenter;
 import com.example.ic.fixera.SharedPrefManager;
 import com.example.ic.fixera.View.Profile_View;
 import com.fixsira.R;
-
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -55,7 +54,7 @@ public class Profile extends Fragment implements Profile_View{
     TextView Edit_Profil;
     String Name,CarModel,CarYear,phone;
     String role;
-
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,17 +63,21 @@ public class Profile extends Fragment implements Profile_View{
         String greeting = (savedInstanceState != null) ? savedInstanceState.getString("greeting") : "null";
          role= SharedPrefManager.getInstance(getActivity()).getRole();
         btn_login=view.findViewById(R.id.btn_login);
+        toolbars=view.findViewById(R.id.toolbar);
         init();
-        visablty();
-        Lan_Arabic();
-        Lan_English();
+
         Log_out();
         Change_password();
         EditProfile();
         progressProfile=view.findViewById(R.id.progrossprofile);
         profile_presenter=new Profile_Presenter(getContext(),this);
         progressProfile.setVisibility(View.VISIBLE);
-        profile_presenter.register(user,lang);
+        if(Language.isRTL()){
+            profile_presenter.register(user,"ar");
+        }else {
+            profile_presenter.register(user,"en");
+        }
+
 
 
 
@@ -111,6 +114,21 @@ public class Profile extends Fragment implements Profile_View{
             }
         });
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty=true;
+//        Navigation.toolbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        Navigation.Visablty=false;
+//        Navigation.toolbar.setVisibility(View.GONE);
+    }
+
     public void Change_password(){
         Btn_ChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +145,7 @@ public class Profile extends Fragment implements Profile_View{
             public void onClick(View view) {
                 share.putString("Lann","ar");
                 share.commit();
-                startActivity(new Intent(getContext(),TabsLayouts.class));
+                startActivity(new Intent(getContext(), Navigation.class));
                 getActivity().finish();
 
 
@@ -164,8 +182,6 @@ public class Profile extends Fragment implements Profile_View{
          Sha=getActivity().getSharedPreferences("login",MODE_PRIVATE).edit();
          share=getActivity().getSharedPreferences("Language",MODE_PRIVATE).edit();
          user=Shared.getString("logggin",null);
-         btn_Arabic=view.findViewById(R.id.btn_Arabic);
-         Btn_English=view.findViewById(R.id.btn_English);
          Btn_logout=view.findViewById(R.id.btn_logout);
          Btn_ChangePassword=view.findViewById(R.id.btn_changepassword);
          E_Name=view.findViewById(R.id.T_Name);
@@ -187,18 +203,29 @@ public class Profile extends Fragment implements Profile_View{
                  }
              });
          }
-     }
-     public void visablty(){
-         if(Language.isRTL()){
-             btn_Arabic.setVisibility(View.INVISIBLE);
-             Btn_English.setVisibility(View.VISIBLE);
-             lang="ar";
-         }else {
-             Btn_English.setVisibility(View.INVISIBLE);
-             btn_Arabic.setVisibility(View.VISIBLE);
-             lang="en";
+
+         Navigation.toolbar.setVisibility(View.GONE);
+         Navigation.toggle = new ActionBarDrawerToggle(
+                 getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+         Navigation.drawer.addDrawerListener(Navigation.toggle);
+         Navigation.toggle.syncState();
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+             toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                 @Override
+                 public void onClick(View v) {
+                     if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                         Navigation.drawer.closeDrawer(GravityCompat.START);
+                     } else {
+                         Navigation.drawer.openDrawer(GravityCompat.START);
+                     }
+                 }
+             });
          }
+
      }
+
     @Override
     public void getProfile(String user,String email,String photo,String phones,String carymodel,String caryear) {
         E_Name.setText(user);
@@ -239,6 +266,11 @@ public class Profile extends Fragment implements Profile_View{
         public void onReceive(Context context, Intent intent) {
             Profile.this.refresh();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 }

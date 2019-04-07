@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +26,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.Cart_Adapter;
-import com.example.ic.fixera.Adapter.Categories_Sparts_Adapter;
 import com.example.ic.fixera.Language;
 import com.example.ic.fixera.NetworikConntection;
 import com.example.ic.fixera.Presenter.AddCart_Presenter;
-import com.example.ic.fixera.Presenter.Caetgoris_Sparts_Presenter;
 import com.example.ic.fixera.Presenter.ShowCart_Presenter;
 import com.example.ic.fixera.View.Cart_View;
 import com.example.ic.fixera.View.Count_View;
@@ -38,6 +40,8 @@ import com.fixsira.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -70,6 +74,7 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
     NetworikConntection networikConntection;
     List<com.example.ic.fixera.Model.Cart> listss;
     TextView NoProducts;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,13 +82,27 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         view=inflater.inflate(R.layout.fragment_cart, container, false);
         showCart_presenter=new ShowCart_Presenter(getContext(),this);
         Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
+
+
         init();
         Recyclview();
         SwipRefresh();
        RequestOrder();
         return view;
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        Navigation.toolbar.setVisibility(View.VISIBLE);
+        Navigation.Visablty=true;
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.Visablty=false;
+    }
 
     public void init(){
         listss=new ArrayList<>();
@@ -97,6 +116,27 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         addCart=new AddCart_Presenter(getContext(),this);
 //        TabsLayouts.banner.setVisibility(View.GONE);
         order=view.findViewById(R.id.servicerequest);
+        toolbars=view.findViewById(R.id.toolbar);
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
+        }
+
 
     }
     public void RequestOrder(){
@@ -283,5 +323,9 @@ public class Cart extends Fragment implements ShowCart_View ,SwipeRefreshLayout.
         public void onReceive(Context context, Intent intent) {
             Cart.this.refresh();
         }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

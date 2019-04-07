@@ -1,15 +1,20 @@
 package com.example.ic.fixera.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +22,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.ic.fixera.Activites.TabsLayouts;
+import com.crashlytics.android.Crashlytics;
+import com.example.ic.fixera.Activites.Navigation;
 import com.example.ic.fixera.Adapter.SparParts_Adapter;
 import com.example.ic.fixera.EndlessRecyclerViewScrollListener;
 import com.example.ic.fixera.Language;
@@ -35,10 +40,13 @@ import com.fixsira.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SparParts_Products extends Fragment implements phone_view,Details_Sparts,Sparts_View,SwipeRefreshLayout.OnRefreshListener{
+public class SparParts_Products extends Fragment implements phone_view,Details_Sparts,Sparts_View,
+        SwipeRefreshLayout.OnRefreshListener{
 
 
     public SparParts_Products() {
@@ -47,11 +55,11 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
 
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
-   GridLayoutManager gridLayoutManager;
-   SpartsProducts_Prsenter sparts_prsenter;
+    GridLayoutManager gridLayoutManager;
+    SpartsProducts_Prsenter sparts_prsenter;
     View view;
     SwipeRefreshLayout mSwipeRefreshLayout;
-   SparParts_Adapter adapter;
+    SparParts_Adapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
      int PAGE=1;
      List<Sparts_AnotherDetails> listSparts;
@@ -64,16 +72,29 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
      ImageView noproduct;
      TextView noproducts;
      Boolean recycle=true;
+    Toolbar toolbars;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_spar_parts, container, false);
+        Bundle args = getArguments();
+        if (args != null) {
+            offer=args.getString("offer");
+            id=args.getString("id");
+            Search=args.getString("search");
+            if(offer!=null){
+                view = inflater.inflate(R.layout.fragment_newoffers, container, false);
+            }else {
+                view = inflater.inflate(R.layout.fragment_spar_parts, container, false);
+                E_Search=view.findViewById(R.id.searchh);
+                Btn_Search=view.findViewById(R.id.Btn_Search);
+                Serach();
+            }
+
+        }
         recyclerView = view.findViewById(R.id.recycler_SparParts);
+        toolbars=view.findViewById(R.id.toolbar);
         noproducts=view.findViewById(R.id.noproducts);
         listSparts=new ArrayList<>();
-        E_Search=view.findViewById(R.id.searchh);
-        Btn_Search=view.findViewById(R.id.Btn_Search);
         sparts_anotherDetails=new Sparts_AnotherDetails();
         sparts_prsenter=new SpartsProducts_Prsenter(getContext(),this);
         adapter=new SparParts_Adapter(listSparts,getContext());
@@ -83,20 +104,37 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        Bundle args = getArguments();
-        if (args != null) {
-            offer=args.getString("offer");
-            if(offer!=null){
-                Btn_Search.setVisibility(View.GONE);
-                E_Search.setVisibility(View.GONE);
-            }
-            id=args.getString("id");
-            Search=args.getString("search");
+//        Bundle argss = getArguments();
+//        if (args != null) {
+//            offer=args.getString("offer");
+//            if(offer!=null){
+//                Btn_Search.setVisibility(View.INVISIBLE);
+//                E_Search.setVisibility(View.INVISIBLE);
+//            }
+//        }
+        Navigation.toolbar.setVisibility(View.GONE);
+        Navigation.toggle = new ActionBarDrawerToggle(
+                getActivity(), Navigation.drawer, toolbars,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        Navigation.drawer.addDrawerListener(Navigation.toggle);
+        Navigation.toggle.syncState();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbars.setNavigationOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (Navigation.drawer.isDrawerOpen(GravityCompat.START)) {
+                        Navigation.drawer.closeDrawer(GravityCompat.START);
+                    } else {
+                        Navigation.drawer.openDrawer(GravityCompat.START);
+                    }
+                }
+            });
         }
+
 
         SwipRefresh();
         onScroll();
-        Serach();
+
 
         return view;
     }
@@ -122,6 +160,17 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
            }
        });
    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Navigation.Visablty = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Navigation.Visablty = true;
+    }
    public void onScroll(){
        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -236,6 +285,7 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
 
     @Override
     public void Listdetails(Spart_Detailss list) {
+
         Spart_Details fragmen = new Spart_Details();
         Bundle args = new Bundle();
         args.putString("id",list.getId());
@@ -247,11 +297,21 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
         args.putString("description",list.getDescription());
         args.putString("vendorname",list.getVendorname());
         args.putString("evragerate",list.getEvragerate());
-        fragmen.setArguments(args);
-        getFragmentManager().beginTransaction()
-                .replace(R.id.MenuFrame, fragmen )
-                .addToBackStack(null)
-                .commit();
+        if(offer!=null){
+            fragmen.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.Sparts_Products, fragmen )
+                    .addToBackStack(null)
+                    .commit();
+
+        }else {
+            fragmen.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.Categories, fragmen )
+                    .addToBackStack(null)
+                    .commit();
+        }
+
     }
 
     @Override
@@ -259,7 +319,11 @@ public class SparParts_Products extends Fragment implements phone_view,Details_S
         Intent intent = new Intent(Intent.ACTION_DIAL,
                 Uri.fromParts("tel",phone, null));
         startActivity(intent);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
     }
 }

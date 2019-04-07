@@ -1,16 +1,12 @@
-package com.example.ic.fixera.Activites;
+package com.example.ic.fixera.Fragments;
 
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,23 +21,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.ic.fixera.Fragments.Cart;
-import com.example.ic.fixera.Fragments.Menu;
-import com.example.ic.fixera.Fragments.Orders;
-import com.example.ic.fixera.Fragments.Profile;
 import com.example.ic.fixera.Language;
-import com.example.ic.fixera.Model.Couter;
 import com.example.ic.fixera.Presenter.Get_Counter_Presenter;
-import com.example.ic.fixera.View.Count_View;
 import com.example.ic.fixera.View.Counter_View;
 import com.fixsira.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -53,23 +41,24 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class  TabsLayouts extends Fragment implements Counter_View,OnMapReadyCallback, com.google.android.gms.location.LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static double latitude, longitude=0;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
+    public static TabLayout tabLayout;
     private ViewPager viewPager;
     final int REQUEST_LOCATION_CODE = 99;
     private GoogleMap googleMap;
@@ -81,47 +70,38 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
     public TabsLayouts() {
         // Required empty public constructor
     }
-
     View view;
     public static ImageView banner;
     SharedPreferences Shared;
     String user;
     SharedPreferences shared;
-    View view3;
+//    View view3;
     TextView textcounter;
     ViewPagerAdapter adapter;
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        shared=getSharedPreferences("Language",MODE_PRIVATE);
-        String Lan=shared.getString("Lann",null);
-        if(Lan!=null) {
-            Locale locale = new Locale(Lan);
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
-        }
-        setContentView(R.layout.fragment_tabs_layouts);
-         view3 = getLayoutInflater().inflate(R.layout.carticon, null);
-        textcounter=view3.findViewById(R.id.cartt);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view=inflater.inflate(R.layout.fragment_tabs_layouts, container, false);
+//        Fabric.with(getContext(), new Crashlytics());
+//         view3 = getLayoutInflater().inflate(R.layout.iconwashingcar, null);
+//        textcounter=view3.findViewById(R.id.cartt);
 //        T_Service=findViewById(R.id.T_Service);
 //        banner=findViewById(R.id.banner);
         // Inflate the layout for this fragment
-        toolbar = findViewById(R.id.toolbar);
-        viewPager =findViewById(R.id.viewpager);
-        tabLayout =findViewById(R.id.tabs);
+        toolbar = view.findViewById(R.id.toolbar);
+        viewPager =view.findViewById(R.id.viewpager);
+        tabLayout =view.findViewById(R.id.tabs);
 
 
-        counter_presenter=new Get_Counter_Presenter(getApplicationContext(),this);
-        Shared=getSharedPreferences("login",MODE_PRIVATE);
+        counter_presenter=new Get_Counter_Presenter(getContext(),this);
+        Shared=getActivity().getSharedPreferences("login",MODE_PRIVATE);
         user=Shared.getString("logggin",null);
 
        setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.MAP);
         mapFragment.getMapAsync(this);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
@@ -130,7 +110,6 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
         checkLocationPermission();
         setupTabIcons();
         if(Language.isRTL()){
@@ -140,6 +119,7 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
             counter_presenter.GetCounter(user,"en");
             tabLayout.getTabAt(1).select();
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         }
@@ -147,7 +127,7 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                FragmentManager fm = getSupportFragmentManager(); // or 'getSupportFragmentManager();'
+                FragmentManager fm = getChildFragmentManager(); // or 'getSupportFragmentManager();'
                 int count = fm.getBackStackEntryCount();
                 if(count!=0) {
                     for (int i = 0; i < count; ++i) {
@@ -157,13 +137,6 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 //                switch(tab.getPosition()) {
                     viewPager.setCurrentItem(tab.getPosition());
 
-
-                    if (tab.getPosition() == 0) {
-                        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getBaseContext());
-                        Intent i = new Intent("TAG_REFRESH");
-                        lbm.sendBroadcast(i);
-
-                    }
             }
 
             @Override
@@ -173,22 +146,18 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                FragmentManager fm = getSupportFragmentManager(); // or 'getSupportFragmentManager();'
-                int count = fm.getBackStackEntryCount();
-                if(count!=0) {
-                    for (int i = 0; i < count; ++i) {
-                        fm.popBackStack();
-                    }
-                }
+
             }
         });
+
+    return view;
     }
 
     private void setupTabIcons() {
-        View view1 = getLayoutInflater().inflate(R.layout.iconprofile, null);
-        View view2 = getLayoutInflater().inflate(R.layout.menuicon, null);
-        View view3 = getLayoutInflater().inflate(R.layout.carticon, null);
-        View view4 = getLayoutInflater().inflate(R.layout.setting, null);
+        View view1 = getLayoutInflater().inflate(R.layout.sparepart, null);
+        View view2 = getLayoutInflater().inflate(R.layout.pullcar, null);
+        View view3 = getLayoutInflater().inflate(R.layout.iconwashingcar, null);
+        View view4 = getLayoutInflater().inflate(R.layout.iconmaintenence, null);
         if(Language.isRTL()){
             tabLayout.getTabAt(0).setCustomView(view4);
             tabLayout.getTabAt(1).setCustomView(view3);
@@ -202,19 +171,17 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
         }
     }
     private void setupViewPager(ViewPager viewPager) {
-         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+         adapter = new ViewPagerAdapter(getFragmentManager());
         if(Language.isRTL()){
-            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
-            adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
-            adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
-            adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
-
+            adapter.addFrag(new CarMaintenence(), getResources().getString(R.string.Profile));
+            adapter.addFrag(new Carwash(), getResources().getString(R.string.cart));
+            adapter.addFrag(new PullCar(), getResources().getString(R.string.menu));
+            adapter.addFrag(new Categories_SparParts(), getResources().getString(R.string.setting));
         }else {
-            adapter.addFrag(new Profile(), getResources().getString(R.string.Profile));
-            adapter.addFrag(new Menu(), getResources().getString(R.string.menu));
-            adapter.addFrag(new Cart(), getResources().getString(R.string.cart));
-            adapter.addFrag(new Orders(), getResources().getString(R.string.setting));
-
+            adapter.addFrag(new Categories_SparParts(), getResources().getString(R.string.setting));
+            adapter.addFrag(new PullCar(), getResources().getString(R.string.menu));
+            adapter.addFrag(new Carwash(), getResources().getString(R.string.cart));
+            adapter.addFrag(new CarMaintenence(), getResources().getString(R.string.Profile));
         }
         viewPager.setAdapter(adapter);
     }
@@ -246,7 +213,9 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
         locationReques.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationReques, this);
@@ -254,16 +223,16 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
                 .addLocationRequest(locationReques);
 
 
-        SettingsClient client = LocationServices.getSettingsClient(this);
+        SettingsClient client = LocationServices.getSettingsClient(getActivity());
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
 
-        task.addOnFailureListener(this, new OnFailureListener() {
+        task.addOnFailureListener(getActivity(), new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof ResolvableApiException) {
                     try {
                         ResolvableApiException resolvable = (ResolvableApiException) e;
-                        resolvable.startResolutionForResult(TabsLayouts.this,
+                        resolvable.startResolutionForResult(getActivity(),
                                 REQUEST_LOCATION_CODE);
                     } catch (IntentSender.SendIntentException sendEx) {
                     }
@@ -282,7 +251,7 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 
     }
     private synchronized void buildGoogleapiclint() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -299,7 +268,8 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
     @Override
     public void onMapReady(GoogleMap googleMaps) {
         googleMap = googleMaps;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         buildGoogleapiclint();
@@ -308,18 +278,18 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 
     @Override
     public void Counter(String counter) {
-        if(Language.isRTL()){
-            TabLayout.Tab tab = tabLayout.getTabAt(1); // fourth tab
-            View tabView = tab.getCustomView();
-            TextView textView = tabView.findViewById(R.id.cartt);
-            textView.setText("  (" + counter + ")");
-
-        }else {
-            TabLayout.Tab tab = tabLayout.getTabAt(2); // fourth tab
-            View tabView = tab.getCustomView();
-            TextView textView = tabView.findViewById(R.id.cartt);
-            textView.setText("  (" + counter + ")");
-        }
+//        if(Language.isRTL()){
+//            TabLayout.Tab tab = tabLayout.getTabAt(1); // fourth tab
+//            View tabView = tab.getCustomView();
+//            TextView textView = tabView.findViewById(R.id.cartt);
+//            textView.setText("  (" + counter + ")");
+//
+//        }else {
+//            TabLayout.Tab tab = tabLayout.getTabAt(2); // fourth tab
+//            View tabView = tab.getCustomView();
+//            TextView textView = tabView.findViewById(R.id.cartt);
+//            textView.setText("  (" + counter + ")");
+//        }
     }
 
     @Override
@@ -369,7 +339,7 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 
                     // permission was granted, yay! Do the
                     // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    if (ContextCompat.checkSelfPermission(getContext(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         buildGoogleapiclint();
@@ -396,29 +366,26 @@ public class  TabsLayouts extends AppCompatActivity implements Counter_View,OnMa
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
 
     public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_LOCATION_CODE);
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_LOCATION_CODE);
             }
